@@ -1,0 +1,19 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="{{STATIC_URL}}blog.css" rel="stylesheet" type="text/css">
+    </head> 
+    <body>
+        {% if error %}
+                <p style="color: red;">imput error.</p>
+        {% endif %}
+        <form method="post" action="">{% csrf_token %}
+            <p>Name: <input type="text" name="user_name" /></p>
+            <p>Email: <input type="text" name="user_email" /></p>
+            <p>Location: <input type="text" name="user_location"/></p>
+            <input type="submit" value="Submit" />
+        </form>
+
+    </body>
+<html>

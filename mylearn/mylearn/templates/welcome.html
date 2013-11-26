@@ -1,0 +1,25 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="{{STATIC_URL}}blog.css" rel="stylesheet" type="text/css">
+    </head> 
+    <body>
+
+        Welcome ! 
+        <br/>
+        <br/>
+        {% if errors %}
+            <p> <font color=red> <strong> {{ errors }} </strong> </font> </p>
+        {% endif %}
+
+        {% if user_info %}
+            <p>your name: {{ user_info.user_name }} </p>
+            <p>your email: {{ user_info.user_email }} </p>
+            <p>your location: {{ user_info.user_location }} </p>
+        {% else %}
+            <p>you are guest.</p>
+        {% endif %}
+
+    </body>
+<html>
