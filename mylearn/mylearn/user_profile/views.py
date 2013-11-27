@@ -40,7 +40,7 @@ def register_(request):
             #return HttpResponseRedirect('login.html')
 
 
-def login(request):
+def login1(request):
     if request.method == 'GET':
         return render_to_response('login.html', context_instance=RequestContext(request))
     else:
@@ -53,4 +53,21 @@ def login(request):
             context = {'user_info': user}
         #return HttpResponseRedirect('welcome.html', context)
         return render_to_response('welcome.html', context)
+
+
+def login(request):
+    if request.method == 'GET':
+        return render_to_response('login.html', context_instance=RequestContext(request))
+    else:
+        user_email= request.POST.get('user_email')
+        print 'email:', user_email
+        user = user_db.get_user(user_email)
+        if not user:
+            context = { 'errors': '%s is not exist' % user_email}
+        else:
+            #context = {'user_info': user}
+            context = {'userPersonalProfile': user.get('userPersonalProfile', {})}
+        #return HttpResponseRedirect('welcome.html', context)
+        return render_to_response('userProfile.html',  context)
+
 
