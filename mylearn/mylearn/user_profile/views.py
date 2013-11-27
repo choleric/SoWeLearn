@@ -5,11 +5,11 @@ from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
 
-import models
+from models import *
 
 # Create your views here.
 
-user_db = models.User()
+#user_db = models.User()
 
 def test(request):
     return HttpResponse("hello world")
@@ -55,7 +55,7 @@ def login1(request):
         return render_to_response('welcome.html', context)
 
 
-def login(request):
+def login_old(request):
     if request.method == 'GET':
         return render_to_response('login.html', context_instance=RequestContext(request))
     else:
@@ -67,6 +67,22 @@ def login(request):
         else:
             #context = {'user_info': user}
             context = {'userPersonalProfile': user.get('userPersonalProfile', {})}
+        #return HttpResponseRedirect('welcome.html', context)
+        return render_to_response('userProfile.html',  context)
+
+def login(request):
+    if request.method == 'GET':
+        return render_to_response('login.html', context_instance=RequestContext(request))
+    else:
+        user_email= request.POST.get('user_email')
+        print 'email:', user_email
+        user=User.objects(user_email=user_email).first()
+        print user
+        if not user:
+            context = { 'errors': '%s is not exist' % user_email}
+        else:
+            #context = {'user_info': user}
+            context = {'userPersonalProfile': user.userPersonalProfile}
         #return HttpResponseRedirect('welcome.html', context)
         return render_to_response('userProfile.html',  context)
 

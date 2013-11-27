@@ -1,9 +1,21 @@
 from django.db import models
 import pymongo
+from mongoengine import *
 
 # Create your models here.
 
-class User():
+class userPersonalProfile(EmbeddedDocument):
+    aboutUserQuote = StringField(max_length=120)
+    userEducationCredentials = StringField(max_length=120)
+    userWorkCredentials = StringField(max_length=120)
+    userLocation = StringField(max_length=120)
+
+class User(Document):
+    user_email = StringField(max_length=120, required=True)
+    user_name = StringField(max_length=50)
+    userPersonalProfile=EmbeddedDocumentField(userPersonalProfile)
+
+class UserOld():
     def get_user(self, user_email):
         client = pymongo.MongoClient("localhost", 27017)
         mydb = client.user
@@ -17,5 +29,4 @@ class User():
         mydb.user_profile.save(kwargs)
         client.close()
         return True
-
 

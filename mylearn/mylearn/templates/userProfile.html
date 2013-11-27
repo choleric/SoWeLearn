@@ -1,8 +1,8 @@
 #userProfile.html
 {% load i18n %}
 <ul>
-    <li>{% trans "About myself" %}: {{ aboutUserQuote }}</li>
-    <li>{% trans "Education" %}: {{ userEducationCredentials }}</li>
-    <li>{% trans "Work" %}: {{ userWorkCredentials }}</li>
-    <li>{% trans "Location" %}: {{ userLocation }}</li>
+    <li>{% trans "About myself" %}: {{ userPersonalProfile.aboutUserQuote }}</li>
+    <li>{% trans "Education" %}: {{ userPersonalProfile.userEducationCredentials }}</li>
+    <li>{% trans "Work" %}: {{ userPersonalProfile.userWorkCredentials }}</li>
+    <li>{% trans "Location" %}: {{ userPersonalProfile.userLocation }}</li>
 </ul>
