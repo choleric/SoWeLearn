@@ -63,13 +63,14 @@ WSGI_APPLICATION = 'mylearn.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-import mongoengine
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.dummy',
     }
 }
-mongoengine.connect('user','localhost:27017')
+from mongoengine import *
+
+connect('user', host='localhost', port=27017)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

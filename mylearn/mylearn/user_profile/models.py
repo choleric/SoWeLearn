@@ -1,6 +1,7 @@
 from django.db import models
 import pymongo
 from mongoengine import *
+#connect('user')
 
 # Create your models here.
 
@@ -10,7 +11,7 @@ class userPersonalProfile(EmbeddedDocument):
     userWorkCredentials = StringField(max_length=120)
     userLocation = StringField(max_length=120)
 
-class User(Document):
+class user(Document):
     user_email = StringField(max_length=120, required=True)
     user_name = StringField(max_length=50)
     userPersonalProfile=EmbeddedDocumentField(userPersonalProfile)
