@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="734bb4a6-8c7a-4198-a878-530affb175eb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/initDBUserForTest.sh" afterPath="$PROJECT_DIR$/initDBUserForTest.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mylearn/mylearn/user_profile/models.py" afterPath="$PROJECT_DIR$/mylearn/mylearn/user_profile/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mylearn/mylearn/settings.py" afterPath="$PROJECT_DIR$/mylearn/mylearn/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mylearn/mylearn/user_profile/views.py" afterPath="$PROJECT_DIR$/mylearn/mylearn/user_profile/views.py" />
     </list>
     <ignored path="SoWeLearn.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,10 +28,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mylearn/mylearn/user_profile/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="12" selection-start="1324" selection-end="1324" vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1485">
+            <state line="80" column="29" selection-start="2963" selection-end="2963" vertical-scroll-proportion="0.3384224" vertical-offset="1067" max-vertical-offset="1485">
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -60,10 +57,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="initDBUserForTest.sh" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="initDBUserForTest.sh" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/initDBUserForTest.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="7" selection-start="502" selection-end="502" vertical-scroll-proportion="0.25925925" vertical-offset="0" max-vertical-offset="405">
+            <state line="7" column="7" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
               <folding />
             </state>
           </provider>
@@ -72,7 +69,7 @@
       <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mylearn/mylearn/user_profile/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="1" selection-start="71" selection-end="71" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+            <state line="2" column="25" selection-start="69" selection-end="69" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -457,7 +454,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="33" y="29" width="1260" height="760" extended-state="0" />
+    <frame x="33" y="29" width="1260" height="760" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -465,11 +462,11 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.6706767" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25947282" sideWeight="0.6578125" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32932332" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3421875" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -492,13 +489,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mylearn/mylearn/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="0" selection-start="1918" selection-end="1918" vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="1470">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mylearn/mylearn/templates/userProfile.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="39" selection-start="78" selection-end="78" vertical-scroll-proportion="-1.875" vertical-offset="0" max-vertical-offset="195">
@@ -506,9 +496,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/initDBUserForTest.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="7" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mylearn/mylearn/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="0" selection-start="1918" selection-end="1918" vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="1470">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mylearn/mylearn/user_profile/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="1" selection-start="71" selection-end="71" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+        <state line="2" column="25" selection-start="69" selection-end="69" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -517,17 +521,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mylearn/mylearn/user_profile/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="12" selection-start="1324" selection-end="1324" vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1485">
+        <state line="80" column="29" selection-start="2963" selection-end="2963" vertical-scroll-proportion="0.3384224" vertical-offset="1067" max-vertical-offset="1485">
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/initDBUserForTest.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="7" selection-start="502" selection-end="502" vertical-scroll-proportion="0.25925925" vertical-offset="0" max-vertical-offset="405">
-          <folding />
         </state>
       </provider>
     </entry>

@@ -1,7 +1,6 @@
 from django.db import models
 import pymongo
 from mongoengine import *
-#connect('user')
 
 # Create your models here.
 
