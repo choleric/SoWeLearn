@@ -2,7 +2,11 @@
 {% load i18n %}
 <ul>
     <li>{% trans "About myself" %}: {{ userPersonalProfile.aboutUserQuote }}</li>
-    <li>{% trans "Education" %}: {{ userPersonalProfile.userEducationCredentials }}</li>
-    <li>{% trans "Work" %}: {{ userPersonalProfile.userWorkCredentials }}</li>
+    {% for education in userPersonalProfile.userEducationCredential %}
+    <li>{% trans "Education" %}: {{education.userEducationInfo }}</li>
+    {% endfor %}
+    {% for work in userPersonalProfile.UserWorkCredential %}
+    <li>{% trans "Work" %}: {{ work.userWorkInfo }}</li>
+    {% endfor %}
     <li>{% trans "Location" %}: {{ userPersonalProfile.userLocation }}</li>
 </ul>

@@ -10,42 +10,40 @@ class userPersonalProfile(EmbeddedDocument):
     userLocation = StringField(max_length=120)
 
 class user(Document):
-    user_email = StringField(max_length=120, required=True)
-    user_name = StringField(max_length=50)
-    userPersonalProfile=EmbeddedDocumentField(userPersonalProfile)
-
-
-class userVerified(EmbeddedDocument):
+    userEmail = StringField(max_length=120, required=True,unique=True)
+    userName = StringField(max_length=50)
+    #userPersonalProfile=EmbeddedDocumentField(userPersonalProfile)
+#
+class UserVerified(EmbeddedDocument):
     IsVerified = BooleanField(default=False)
     verifiedTimeStamp = LongField()
-    verifiedStaffId = ObjectIdField()
+    verifiedStaffId = LongField()
 
     meta = {'allow_inheritance': True}
 
-class UserEducationCredential(userVerified):
+class UserEducationCredential(UserVerified):
     userEducationInfo = StringField()
 
-class UserWorkCredential(userVerified):
+class UserWorkCredential(UserVerified):
     userWorkInfo = StringField()
 
-class userPersonalProfile(Document):
+class UserPersonalProfile(Document):
+    userEmail = StringField(unique=True)
     userSkypeID = StringField()
     aboutUserQuote = StringField()
-    userEducationCredential = ListField(EmbeddedDocumentField(UserEducationCredential))
+    userEducationCredential = ListField(
+                                EmbeddedDocumentField(UserEducationCredential))
     userWorkCredential = ListField(EmbeddedDocumentField(UserWorkCredential))
     userLocation = StringField()
 
-class userTeachingProfile(Document):
+class UserTeachingProfile(Document):
     tutorTuitionTopics = StringField()
     tutorTuitionAverageHourlyRateMiddleSchool = LongField()
     tutorTuitionAverageHourlyRateHighSchool = LongField()
     tutorTuitionAverageHourlyRateCollege = LongField()
 
-
-
-
 class TopicoursesReview(EmbeddedDocument):
-    topicoursesReviewTimeStamp = LongField()
+    topicoursesReviewCreatedTimeStamp = LongField()
     topicoursesReviewCreatorUserID = ObjectIdField()
     topicoursesReviewContent = StringField()
 
@@ -55,27 +53,82 @@ class Topiquiz(EmbeddedDocument):
     topiquizOption = ListField(StringField())
     topiquizAnswer = StringField()
     topiquizExplanation = StringField()
+    topiquizCreatedTimeStamp = LongField()
+    topiquizCreatorUserID = LongField()
+    topiquizErrorFlag = BooleanField()
+    topiquizErrorFlagUserID = ObjectIdField()
+    topiquizErrorFlagTimeStamp = LongField()
 
+class UserReview(Document):
+    reviewedSubjectID = ObjectIdField()
+    reviewedSubjectType = StringField() #topicourse, topiquit, discussion
+    reviewCreatorUserID = ObjectIdField()
+    reviewVote = IntField()
+    reviewContent = StringField()
 
 class Topicourses(Document):
     topicourseUploadTimeStamp = LongField()
-    topicourseCreatorUserID = ObjectIdField()
+    topicourseCreatorUserID = LongField()
+    topicoursesTitle = StringField()
     #
     #topicoursesReview = ListField(EmbeddedDocumentField(TopicoursesReview))
-    # topiquiz =
+    topiquiz = ListField(EmbeddedDocumentField(Topiquiz))
 
 class TopicoursesDiscussionThread(Document):
     topicoursesID = ObjectIdField()
-    topicoursesDiscussionTimeStamp = LongField()
+    topicoursesDiscussionCreatedTimeStamp = LongField()
     topicoursesDiscussionQuestionTitle = StringField()
     topicoursesDiscussionQuestionContent = StringField()
-    topicoursesDiscussionCreatorUserID = ObjectIdField()
+    topicoursesDiscussionCreatorUserID = LongField()
 
 class TopicoursesDiscussionComment(Document):
     topicoursesID = ObjectIdField()
     topicoursesDiscussionID = ObjectIdField()
+    topicoursesDiscussionParentID = ObjectIdField()
+
+    #
+    topicoursesDiscussionCommentCreatorUserID = LongField()
+
     topicoursesDiscussionReplyTimeStamp = LongField()
     #vote
+    usefulnessVotesCount = IntField()
+
+class UserAppointment(Document):
+    #TO-DO
+    userRequestStudentID = LongField()
+    userRequestTutorID = LongField()
+
+    userAppointmentDate = LongField()
+    userAppointmentStartTime = LongField()
+    userAppointmentDuration = LongField()
+    userAppointmentTitle = StringField()
+    userAppointmentCost = IntField()
+    userAppointmentTutorMessage = StringField()
+    userAppointmentStatus = BooleanField() # finished or not
+    userAppointmentCreatedTimeStamp = LongField()
+
+class UserRequest(EmbeddedDocument):
+    userRequestTuitionLevel = StringField()
+    userRequestTuitionSubject = StringField()
+    userRequestTuitionLearningGoal = StringField()
+    #userRequestTimeZone = StringField(max_length=64)
+    userRequestTimePreference = StringField()
+    userRequestDatePreference = StringField()
+    userRequestOther = StringField()
+
+class TutorReply(EmbeddedDocument):
+    tutorReplyPriceQuote = IntField()
+    tutorReplyTimeSlotList = ListField()
+   # tutorReplyTimeZone = StringField()
+    tutorReplyMessage = StringField()
+
+class UserRequestTutor(Document):
+    sessionID = LongField()
+    userRequestStudentID = LongField()
+    userRequestTutorID = LongField()
+    createdTimeStamp = LongField()
+    timeZone = StringField()
+    userRequest = EmbeddedDocumentField(UserRequest)
 
 
 

@@ -39,36 +39,10 @@ def register_(request):
             return render_to_response('welcome.html', context)
             #return HttpResponseRedirect('login.html')
 
-
-def login1(request):
-    if request.method == 'GET':
-        return render_to_response('login.html', context_instance=RequestContext(request))
-    else:
-        user_email= request.POST.get('user_email')
-        print 'email:', user_email
-        user = user_db.get_user(user_email)
-        if not user:
-            context = { 'errors': '%s is not exist' % user_email}
-        else:
-            context = {'user_info': user}
-        #return HttpResponseRedirect('welcome.html', context)
-        return render_to_response('welcome.html', context)
-
-
-def login_old(request):
-    if request.method == 'GET':
-        return render_to_response('login.html', context_instance=RequestContext(request))
-    else:
-        user_email= request.POST.get('user_email')
-        print 'email:', user_email
-        user = user_db.get_user(user_email)
-        if not user:
-            context = { 'errors': '%s is not exist' % user_email}
-        else:
-            #context = {'user_info': user}
-            context = {'userPersonalProfile': user.get('userPersonalProfile', {})}
-        #return HttpResponseRedirect('welcome.html', context)
-        return render_to_response('userProfile.html',  context)
+def getUserPersonalProfile(user_email):
+    userProfile = models.UserPersonalProfile.objects(userEmail=user_email).first()
+    print 'get', userProfile.userSkypeID
+    return userProfile
 
 def login(request):
     if request.method == 'GET':
@@ -76,18 +50,16 @@ def login(request):
     else:
         user_email= request.POST.get('user_email')
         print 'email:', user_email
-        for o in models.user.objects:
-            print 'e:', o.user_email
-        user=models.user.objects(user_email='%s'%user_email).first()
-        print user
-        print user.user_email
-
-
+        #user=models.user.objects.get(user_email=user_email)
+        user=models.user.objects.get(userEmail=user_email)
+        userProfile = getUserPersonalProfile(user_email)
+        print 'userEducationInfo:',userProfile.userEducationCredential[0].userEducationInfo
         if not user:
             context = { 'errors': '%s is not exist' % user_email}
         else:
             #context = {'user_info': user}
-            context = {'userPersonalProfile': user.userPersonalProfile}
+            context = {'userPersonalProfile': userProfile}
         #return HttpResponseRedirect('welcome.html', context)
         return render_to_response('userProfile.html',  context)
+
 
