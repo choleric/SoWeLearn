@@ -1,32 +1,56 @@
-from django.db import models
-import pymongo
 from mongoengine import *
+from django.db import models
 
-# Create your models here.
+class Profile(UserenaLanguageBaseProfile):
 
-class userPersonalProfile(EmbeddedDocument):
-    aboutUserQuote = StringField(max_length=120)
-    userEducationCredentials = StringField(max_length=120)
-    userWorkCredentials = StringField(max_length=120)
-    userLocation = StringField(max_length=120)
+    gender = models.PositiveSmallIntegerField(_('gender'),
+                                              choices=GENDER_CHOICES,
+                                              blank=True,
+                                              null=True)
+    website = models.URLField(_('website'), blank=True)
+    location =  models.CharField(_('location'), max_length=255, blank=True)
+    birth_date = models.DateField(_('birth date'), blank=True, null=True)
+    about_me = models.TextField(_('about me'), blank=True)  
+    
+class userVerified(EmbeddedDocument):
+    IsVerified = BooleanField(default=False)
+    verifiedTimeStamp = LongField()
+    verifiedStaffId = ObjectIdField()  
+    
+    meta = {'allow_inheritance': True}  
+    
+class UserEducationCredential(userVerified):
+    userEducationInfo = StringField()
+       
+class UserWorkCredential(userVerified):
+    userWorkInfo = StringField()
+    
+class userPersonalProfile(Document):
+    userSkypeID ＝ StringField()
+    aboutUserQuote = StringField()
+    userEducationCredential = ListField(EmbeddedDocumentField(UserEducationCredential))
+    userWorkCredential = ListField(EmbeddedDocumentField(UserWorkCredential))
+    userLocation = StringField()
+    
+class userTeachingProfile(Document):
+    tutorTuitionTopics = StringField()    
+    tutorTuitionAverageHourlyRateMiddleSchool = LongField()
+    tutorTuitionAverageHourlyRateHighSchool = LongField()
+    tutorTuitionAverageHourlyRateCollege = LongField()
 
-class user(Document):
-    user_email = StringField(max_length=120, required=True)
-    user_name = StringField(max_length=50)
-    userPersonalProfile=EmbeddedDocumentField(userPersonalProfile)
-
-class UserOld():
-    def get_user(self, user_email):
-        client = pymongo.MongoClient("localhost", 27017)
-        mydb = client.user
-        user_info = mydb.user_profile.find_one({'user_email': user_email})
-        client.close()
-        return user_info
-
-    def add_user(self, **kwargs):
-        client = pymongo.MongoClient("localhost", 27017)
-        mydb = client.user
-        mydb.user_profile.save(kwargs)
-        client.close()
-        return True
-
+class TopicoursesReview(EmbeddedDocument):
+    topicoursesReviewTimeStamp = LongField()
+    topicoursesReviewCreatorUserID = ObjectIdField()
+    topicoursesReviewContent = StringField()
+    
+class Topicourses(Document):
+    topicourseUploadTimeStamp = LongField()
+    topicourseCreatorUserID = ObjectIdField()
+    #
+    topicoursesReview = ListField(EmbeddedDocumentField(TopicoursesReview))
+    
+class TopicoursesDiscussionThread():
+    TopicoursesID = ObjectIdField()
+    topicoursesDiscussionTimeStamp = LongField()
+    topicoursesDiscussionQuestionTitle = StringField()
+    topicoursesDiscussionQuestionContent = StringField()
