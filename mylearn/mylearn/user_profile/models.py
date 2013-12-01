@@ -40,7 +40,7 @@ class UserWorkCredential(userVerified):
     userWorkInfo = StringField()
 
 class userPersonalProfile(Document):
-    userSkypeID ＝ StringField()
+    userSkypeID = StringField()
     aboutUserQuote = StringField()
     userEducationCredential = ListField(EmbeddedDocumentField(UserEducationCredential))
     userWorkCredential = ListField(EmbeddedDocumentField(UserWorkCredential))
