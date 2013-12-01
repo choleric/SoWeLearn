@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="734bb4a6-8c7a-4198-a878-530affb175eb" name="Default" comment="" />
+    <list default="true" id="734bb4a6-8c7a-4198-a878-530affb175eb" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mylearn/mylearn/user_profile/models.py" afterPath="$PROJECT_DIR$/mylearn/mylearn/user_profile/models.py" />
+    </list>
     <ignored path="SoWeLearn.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -78,7 +80,7 @@
       <file leaf-file-name="models.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mylearn/mylearn/user_profile/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="32" selection-start="582" selection-end="582" vertical-scroll-proportion="0.51282054" vertical-offset="0" max-vertical-offset="915">
+            <state line="18" column="0" selection-start="599" selection-end="599" vertical-scroll-proportion="-2.4615386" vertical-offset="1134" max-vertical-offset="1485">
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -555,7 +557,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mylearn/mylearn/user_profile/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="32" selection-start="582" selection-end="582" vertical-scroll-proportion="0.51282054" vertical-offset="0" max-vertical-offset="915">
+        <state line="18" column="0" selection-start="599" selection-end="599" vertical-scroll-proportion="-2.4615386" vertical-offset="1134" max-vertical-offset="1485">
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
