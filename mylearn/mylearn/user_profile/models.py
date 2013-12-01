@@ -14,17 +14,6 @@ class user(Document):
     user_name = StringField(max_length=50)
     userPersonalProfile=EmbeddedDocumentField(userPersonalProfile)
 
-#This is the from usera
-class Profile(UserenaLanguageBaseProfile):
-
-    gender = models.PositiveSmallIntegerField(_('gender'),
-                                              choices=GENDER_CHOICES,
-                                              blank=True,
-                                              null=True)
-    website = models.URLField(_('website'), blank=True)
-    location =  models.CharField(_('location'), max_length=255, blank=True)
-    birth_date = models.DateField(_('birth date'), blank=True, null=True)
-    about_me = models.TextField(_('about me'), blank=True)
 
 class userVerified(EmbeddedDocument):
     IsVerified = BooleanField(default=False)
@@ -73,7 +62,7 @@ class Topicourses(Document):
     topicourseCreatorUserID = ObjectIdField()
     #
     #topicoursesReview = ListField(EmbeddedDocumentField(TopicoursesReview))
-    topiquiz =
+    # topiquiz =
 
 class TopicoursesDiscussionThread(Document):
     topicoursesID = ObjectIdField()
