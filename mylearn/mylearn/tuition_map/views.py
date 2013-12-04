@@ -1,3 +1,4 @@
+import json
 # Create your views here.
 def getUserAppointment(user_email):
     userAppointments = {}
@@ -54,4 +55,36 @@ def getTutorReply(user_email):
 
     return tutorReplys
 
-print getTutorReply('test_email')
+def getUserProfile(user_email):
+    userProfile= {}
+    userProfile['userName']='test name'
+    userProfile['userEmail']=user_email
+    userProfile['userSkypeID']='testSkypeID'
+
+    personalProfile={}
+    personalProfile['aboutUserQuote']='Test About Me'
+    personalProfile['userEducationCredential']=[]
+    for i in range(0,2):
+        educationCredential={}
+        educationCredential['educationInfo']='test education info'
+        educationCredential['IsVerified']=True
+        educationCredential['verifiedTimeStamp']=11110+i
+        educationCredential['verifiedStaffID']=11
+        personalProfile['userEducationCredential'].append(educationCredential)
+    personalProfile['userWorkCredential']=[]
+    for i in range(0,2):
+        workCredential={}
+        workCredential['workInfo']='test wrok info'
+        workCredential['IsVerified']=True
+        workCredential['verifiedTimeStamp']=22220+i
+        workCredential['verifiedStaffID']=22
+        personalProfile['userWorkCredential'].append(workCredential)
+    userProfile['personalProfile']=personalProfile
+    userProfile['userLocation']="test location"
+    userProfile['tutorTuitionTopics']="chemical engineering"
+    userProfile['tutorTuitionAverageHourlyRateMiddleSchool']=20
+    userProfile['tutorTuitionAverageHourlyRateHighSchool']=30
+    userProfile['tutorTuitionAverageHourlyRateCollege']=0
+    return userProfile
+userProfile = getUserProfile('test@test.com')
+print json.dumps(userProfile)

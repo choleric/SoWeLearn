@@ -4,9 +4,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
-
+import json
 import models
-
 # Create your views here.
 
 def getUserProfile(user_email):
@@ -28,7 +27,7 @@ def getUserProfile(user_email):
     personalProfile['userWorkCredential']=[]
     for i in range(0,2):
         workCredential={}
-        workCredential['WorkInfo']='test wrok info'
+        workCredential['workInfo']='test wrok info'
         workCredential['IsVerified']=True
         workCredential['verifiedTimeStamp']=22220+i
         workCredential['verifiedStaffID']=22
@@ -39,8 +38,20 @@ def getUserProfile(user_email):
     userProfile['tutorTuitionAverageHourlyRateMiddleSchool']=20
     userProfile['tutorTuitionAverageHourlyRateHighSchool']=30
     userProfile['tutorTuitionAverageHourlyRateCollege']=0
+
     return userProfile
 
+def profile(request):
+    userProfile = getUserProfile('test@test.com')
+    print userProfile
+    #context = {'userProfile':userProfile}
+    context = {'personalProfile': userProfile['personalProfile']}
+    return render_to_response('userProfile2.html',  context)
+
+def profile2(request):
+    userProfile = getUserProfile('test@test.com')
+    userProfile = json.dumps(userProfile)
+    return HttpResponse(userProfile)
 
 #user_db = models.User()
 

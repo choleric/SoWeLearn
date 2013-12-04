@@ -15,4 +15,6 @@ urlpatterns = patterns('',
     url(r'^test/', mylearn.user_profile.views.test),
     url(r'^register/', mylearn.user_profile.views.register_),
     url(r'^login/', mylearn.user_profile.views.login),
+    url(r'^profile/', mylearn.user_profile.views.profile),
+    url(r'^profile2/', mylearn.user_profile.views.profile2),
 )
