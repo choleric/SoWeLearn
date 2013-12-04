@@ -9,6 +9,39 @@ import models
 
 # Create your views here.
 
+def getUserProfile(user_email):
+    userProfile= {}
+    userProfile['userName']='test name'
+    userProfile['userEmail']=user_email
+    userProfile['userSkypeID']='testSkypeID'
+
+    personalProfile={}
+    personalProfile['aboutUserQuote']='Test About Me'
+    personalProfile['userEducationCredential']=[]
+    for i in range(0,2):
+        educationCredential={}
+        educationCredential['educationInfo']='test education info'
+        educationCredential['IsVerified']=True
+        educationCredential['verifiedTimeStamp']=11110+i
+        educationCredential['verifiedStaffID']=11
+        personalProfile['userEducationCredential'].append(educationCredential)
+    personalProfile['userWorkCredential']=[]
+    for i in range(0,2):
+        workCredential={}
+        workCredential['WorkInfo']='test wrok info'
+        workCredential['IsVerified']=True
+        workCredential['verifiedTimeStamp']=22220+i
+        workCredential['verifiedStaffID']=22
+        personalProfile['userWorkCredential'].append(workCredential)
+    userProfile['personalProfile']=personalProfile
+    userProfile['userLocation']="test location"
+    userProfile['tutorTuitionTopics']="chemical engineering"
+    userProfile['tutorTuitionAverageHourlyRateMiddleSchool']=20
+    userProfile['tutorTuitionAverageHourlyRateHighSchool']=30
+    userProfile['tutorTuitionAverageHourlyRateCollege']=0
+    return userProfile
+
+
 #user_db = models.User()
 
 def test(request):
@@ -52,13 +85,13 @@ def login(request):
         print 'email:', user_email
         #user=models.user.objects.get(user_email=user_email)
         user=models.user.objects.get(userEmail=user_email)
-        userProfile = getUserPersonalProfile(user_email)
+        userProfile = getUserProfile(user_email)
         print 'userEducationInfo:',userProfile.userEducationCredential[0].userEducationInfo
         if not user:
             context = { 'errors': '%s is not exist' % user_email}
         else:
             #context = {'user_info': user}
-            context = {'userPersonalProfile': userProfile}
+            context = {'userPersonalProfile': userProfile.userPersonalProfile}
         #return HttpResponseRedirect('welcome.html', context)
         return render_to_response('userProfile.html',  context)
 

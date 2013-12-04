@@ -25,3 +25,18 @@ def getUserTopicourses(user_email, get_type, num):
 
     return topicourses
 
+def getUserTopiquestions(user_email, get_type, num):
+    topiquestions = {}
+
+    topiquestions['userTopiquestionsList'] = []
+    for j in range(0, 3):
+        topiquestion = {}
+        topiquestion['userTopiquestionTimeStamp'] = 0
+        topiquestion['topiquestionCreatorUserID'] = 10000
+        topiquestion['topiquestionTitle'] = 'topiquestionTitleForTest'
+        topiquestion['topiquestionPath'] = '/redirect/url/'
+
+        topiquestions['userTopiquestionsList'].append(topiquestion)
+
+    return topiquestions
+
