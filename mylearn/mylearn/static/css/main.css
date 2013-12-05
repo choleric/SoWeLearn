@@ -148,7 +148,7 @@ html,body{height:100%; width:100%;  margin:0; padding:0;overflow: hidden;}
 	font-family: STHeiti, 微软雅黑, "Microsoft Yahei", Helmet, Freesans, sans-serif;
 }
 .searchBtn{
-	background-image: url("../images/schBtns.png");
+	background-image: url("../images/schBtns.png}");
 	background-position: top right;
 	position: absolute;
 	right: 10px;

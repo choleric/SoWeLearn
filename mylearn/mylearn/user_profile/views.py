@@ -59,7 +59,7 @@ def test(request):
     return HttpResponse("hello world")
 
 def welcome(request):
-    return render_to_response('welcome.html')
+    return render_to_response('main.html')
 
 def register_(request):
     if request.method == 'GET':
