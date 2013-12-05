@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 APP_DIR =  os.path.dirname(globals()['__file__'])
+PROJECT_DIR = os.path.dirname(__file__)
 
 DBNAME = 'mylearn'
 
@@ -90,6 +91,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
+#STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 STATIC_URL = '/static/'
+STATIC_ROOT = ''
+STATICFILES_DIRS = (
+            os.path.join(PROJECT_DIR, 'staticfiles'),
+            os.path.join(PROJECT_DIR, 'static'),
+            )
+
 
 TEST_RUNNER = 'mongorunner.TestRunner'
