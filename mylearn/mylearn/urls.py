@@ -1,6 +1,9 @@
 from django.conf.urls import patterns, include, url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls.static import static
 
 import mylearn.user_profile.views
+import settings
 
 from django.contrib import admin
 admin.autodiscover()
@@ -18,3 +21,5 @@ urlpatterns = patterns('',
     url(r'^profile/', mylearn.user_profile.views.profile),
     url(r'^profile2/', mylearn.user_profile.views.profile2),
 )
+
+urlpatterns += staticfiles_urlpatterns()
