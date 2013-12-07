@@ -63,3 +63,17 @@ class UserPersonalProfile(Document):
         for work_info in new_work_info:
             self.userWorkCredential.append(UserWorkCredential(**work_info))
         self.save()
+
+    def change_tutorTuitionTopics(self, new_tutorTuitionTopics):
+        self.tutorTuitionTopics = new_tutorTuitionTopics
+        self.save()
+
+    def change_tutorTuitionAverageHourlyRateMiddleSchool(self, new_tutorAverageRate):
+        self.tutorTuitionAverageHourlyRateMiddleSchool = new_tutorAverageRate
+        self.save()
+    def tutorTuitionAverageHourlyRateHighSchool(self, new_tutorAverageRate):
+        self.tutorTuitionAverageHourlyRateHighSchool = new_tutorAverageRate
+        self.save()
+    def tutorTuitionAverageHourlyRateCollege(self, new_tutorAverageRate):
+        self.tutorTuitionAverageHourlyRateCollege = new_tutorAverageRate
+        self.save()
