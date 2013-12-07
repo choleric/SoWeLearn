@@ -1,5 +1,6 @@
 from mongoengine import *
 from django.db import models
+import datetime
 
 # Create your models here.
 
@@ -11,28 +12,48 @@ class UserReview(Document):
     reviewVote = IntField()
     reviewContent = StringField()
 
-
 class TopicoursesReview(EmbeddedDocument):
     topicoursesReviewCreatedTimeStamp = LongField()
     topicoursesReviewCreatorUserID = ObjectIdField()
     topicoursesReviewContent = StringField()
 
 class Topiquiz(EmbeddedDocument):
+    topiquizId = ObjectIdField()
     topiquizType = IntField()
     topiquizQuestion = StringField()
     topiquizOption = ListField(StringField())
     topiquizAnswer = StringField()
     topiquizExplanation = StringField()
-    topiquizCreatedTimeStamp = LongField()
-    topiquizCreatorUserID = LongField()
+    topiquizCreatedTimeStamp = DateTimeField(default=datetime.datetime.now)
+    topiquizCreatorUserID = LongField(required=True)
     topiquizErrorFlag = BooleanField()
     topiquizErrorFlagUserID = ObjectIdField()
-    topiquizErrorFlagTimeStamp = LongField()
+    topiquizErrorFlagTimeStamp = DateTimeField()
 
 class Topicourses(Document):
-    topicourseUploadTimeStamp = LongField()
-    topicourseCreatorUserID = LongField()
-    topicoursesTitle = StringField()
+    topicoursesUploadTimeStamp = DateTimeField(default=datetime.datetime.now)
+    topicoursesCreatorUserID = LongField(required=True)
+    topicoursesTitle = StringField(required=True)
     #
     #topicoursesReview = ListField(EmbeddedDocumentField(TopicoursesReview))
     topiquiz = ListField(EmbeddedDocumentField(Topiquiz))
+
+    def change_topicourses_title(self, new_title):
+        self.topicoursesTitle = new_title
+        self.save()
+
+    # TODO
+    def update_topiquiz(self, topiquiz):
+        newtopiquiz = Topiquiz(**topiquiz)
+        quiz_idx = -1
+        for quiz in self.topiquiz:
+            if quiz.topiquizId == newtopiquiz.topiquizId:
+                quiz_idx = self.topiquiz.index(quiz)
+                break
+        if quiz_idx >= 0:
+            self.topiquiz[quiz_idx] = newtopiquiz
+            self.save()
+
+    def upload_topiquiz(self, topiquiz):
+         self.topiquiz.append(Topiquiz(**topiquiz))
+         self.save()

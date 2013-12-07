@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mylearn.user_profile',
+    'mylearn.topicourse',
 )
 
 MIDDLEWARE_CLASSES = (
