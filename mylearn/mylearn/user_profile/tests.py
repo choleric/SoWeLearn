@@ -86,7 +86,7 @@ class UserPersonalProfileTestCase(TestCase):
         UserPersonalProfile.objects.create(userSkypeID='skypei_id001', aboutUserQuote='my quote', userEmail='009',userEducationCredential=userEducationCredential)
 
         new_userEducationCredential=[]
-        for i in range(0,1):
+        for i in range(0,2):
             educationCredential={}
             educationCredential['userEducationInfo']='new education info'
             educationCredential['IsVerified']=True
@@ -103,3 +103,34 @@ class UserPersonalProfileTestCase(TestCase):
         newuser = UserPersonalProfile.objects.get(userEmail='009')
         for i in range(0,1):
             self.assertEqual(newuser.userEducationCredential[i].userEducationInfo,new_userEducationCredential[i]['userEducationInfo'])
+
+    def test_change_work_info(self):
+        #create test user
+        userWorkCredential=[]
+        for i in range(0,2):
+            workCredential={}
+            workCredential['userWorkInfo']='test work info'
+            workCredential['IsVerified']=True
+            workCredential['verifiedTimeStamp']=22220+i
+            workCredential['verifiedStaffId']=22
+            userWorkCredential.append(workCredential)
+        UserPersonalProfile.objects.create(userSkypeID='skypei_id001', aboutUserQuote='my quote', userEmail='009',userWorkCredential=userWorkCredential)
+
+        new_userWorkCredential=[]
+        for i in range(0,1):
+            workCredential={}
+            workCredential['userWorkInfo']='new work info'
+            workCredential['IsVerified']=True
+            workCredential['verifiedTimeStamp']=11110+i
+            workCredential['verifiedStaffId']=11
+            new_userWorkCredential.append(workCredential)
+        #test before changing
+        user = UserPersonalProfile.objects.get(userEmail='009')
+        for i in range(0,1):
+            self.assertNotEqual(user.userWorkCredential[i].userWorkInfo,new_userWorkCredential[i]['userWorkInfo'])
+
+        user.change_work_info(new_userWorkCredential)
+        #test after changing
+        newuser = UserPersonalProfile.objects.get(userEmail='009')
+        for i in range(0,1):
+            self.assertEqual(newuser.userWorkCredential[i].userWorkInfo,new_userWorkCredential[i]['userWorkInfo'])
