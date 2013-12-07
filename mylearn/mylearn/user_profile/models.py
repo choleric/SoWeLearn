@@ -42,3 +42,7 @@ class UserPersonalProfile(Document):
     tutorTuitionAverageHourlyRateHighSchool = LongField()
     tutorTuitionAverageHourlyRateCollege = LongField()
 
+    def change_about_user_quote(self, new_quote):
+        self.aboutUserQuote = new_quote
+        self.save()
+
