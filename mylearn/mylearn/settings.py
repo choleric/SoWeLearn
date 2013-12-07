@@ -100,4 +100,4 @@ STATICFILES_DIRS = (
             )
 
 
-TEST_RUNNER = 'mongorunner.TestRunner'
+#TEST_RUNNER = 'mongorunner.TestRunner'

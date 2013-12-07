@@ -61,16 +61,45 @@ class UserPersonalProfileTestCase(TestCase):
     def test_change_about_user_quote(self):
         #create test user
         new_quote = 'new quote'
-        UserPersonalProfile.objects.create(userSkypeID='skypei_id001', aboutUserQuote='my quote', userEmail='007')
+        UserPersonalProfile.objects.create(userSkypeID='skypei_id001', aboutUserQuote='my quote', userEmail='008')
 
         #test before changing
-        user = UserPersonalProfile.objects.get(userEmail='007')
+        user = UserPersonalProfile.objects.get(userEmail='008')
         self.assertNotEqual(user.aboutUserQuote, new_quote)
 
         user.change_about_user_quote(new_quote)
 
         #test after changing
-        newuser = UserPersonalProfile.objects.get(userEmail='007')
+        newuser = UserPersonalProfile.objects.get(userEmail='008')
         self.assertEqual(newuser.aboutUserQuote, new_quote)
 
+    def test_change_education_info(self):
+        #create test user
+        userEducationCredential=[]
+        for i in range(0,1):
+            educationCredential={}
+            educationCredential['userEducationInfo']='test education info'
+            educationCredential['IsVerified']=True
+            educationCredential['verifiedTimeStamp']=11110
+            educationCredential['verifiedStaffId']=11
+            userEducationCredential.append(educationCredential)
+        UserPersonalProfile.objects.create(userSkypeID='skypei_id001', aboutUserQuote='my quote', userEmail='009',userEducationCredential=userEducationCredential)
 
+        new_userEducationCredential=[]
+        for i in range(0,1):
+            educationCredential={}
+            educationCredential['userEducationInfo']='new education info'
+            educationCredential['IsVerified']=True
+            educationCredential['verifiedTimeStamp']=11110
+            educationCredential['verifiedStaffId']=11
+            new_userEducationCredential.append(educationCredential)
+        #test before changing
+        user = UserPersonalProfile.objects.get(userEmail='009')
+        for i in range(0,1):
+            self.assertNotEqual(user.userEducationCredential[i].userEducationInfo,new_userEducationCredential[i]['userEducationInfo'])
+
+        user.change_education_info(new_userEducationCredential)
+        #test after changing
+        newuser = UserPersonalProfile.objects.get(userEmail='009')
+        for i in range(0,1):
+            self.assertEqual(newuser.userEducationCredential[i].userEducationInfo,new_userEducationCredential[i]['userEducationInfo'])
