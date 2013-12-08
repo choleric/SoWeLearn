@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'mylearn.user_profile',
     'mylearn.topicourse',
+    'mylearn.tuition_map',
 )
 
 MIDDLEWARE_CLASSES = (

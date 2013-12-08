@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 
 import mylearn.user_profile.views
 import mylearn.topicourse.views
+from  mylearn.tuition_map.views import get_tuition_map, getUserAppointment, getUserRequest, getTutorReply
 import settings
 
 from django.contrib import admin
@@ -23,6 +24,10 @@ urlpatterns = patterns('',
     url(r'^profile2/', mylearn.user_profile.views.profile2),
     url(r'^userTopicourses/',mylearn.topicourse.views.userTopicourses),
     url(r'^userTopiquestions/',mylearn.topicourse.views.userTopiquestions),
+    url(r'^getUserAppointment/', get_tuition_map(getUserAppointment)),
+    url(r'^getUserRequest/', get_tuition_map(getUserRequest)),
+    url(r'^getTutorReply/', get_tuition_map(getTutorReply)),
+
 )
 
 urlpatterns += staticfiles_urlpatterns()
