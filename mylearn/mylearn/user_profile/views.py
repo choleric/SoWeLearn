@@ -19,18 +19,22 @@ def getUserProfile(user_email):
     personalProfile['userEducationCredential']=[]
     for i in range(0,2):
         educationCredential={}
-        educationCredential['educationInfo']='test education info'
+        educationCredential['userEducationInfo']='test education info'
         educationCredential['IsVerified']=True
         educationCredential['verifiedTimeStamp']=11110+i
-        educationCredential['verifiedStaffID']=11
+        educationCredential['verifiedStaffId']=11
         personalProfile['userEducationCredential'].append(educationCredential)
     personalProfile['userWorkCredential']=[]
     for i in range(0,2):
         workCredential={}
+<<<<<<< HEAD
         workCredential['workInfo']='test work info'
+=======
+        workCredential['userWorkInfo']='test work info'
+>>>>>>> 694403054c70febdeba08a4ce76f0619bae2a61d
         workCredential['IsVerified']=True
         workCredential['verifiedTimeStamp']=22220+i
-        workCredential['verifiedStaffID']=22
+        workCredential['verifiedStaffId']=22
         personalProfile['userWorkCredential'].append(workCredential)
     userProfile['personalProfile']=personalProfile
     userProfile['userLocation']="test location"

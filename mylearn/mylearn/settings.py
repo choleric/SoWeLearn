@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mylearn.user_profile',
+    'mylearn.topicourse',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -100,4 +101,4 @@ STATICFILES_DIRS = (
             )
 
 
-TEST_RUNNER = 'mongorunner.TestRunner'
+#TEST_RUNNER = 'mongorunner.TestRunner'
