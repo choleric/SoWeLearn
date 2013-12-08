@@ -3,6 +3,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 
 import mylearn.user_profile.views
+import mylearn.topicourse.views
 import settings
 
 from django.contrib import admin
@@ -20,6 +21,8 @@ urlpatterns = patterns('',
     url(r'^login/', mylearn.user_profile.views.login),
     url(r'^profile/', mylearn.user_profile.views.profile),
     url(r'^profile2/', mylearn.user_profile.views.profile2),
+    url(r'^userTopicourses/',mylearn.topicourse.views.userTopicourses),
+    url(r'^userTopiquestions/',mylearn.topicourse.views.userTopiquestions),
 )
 
 urlpatterns += staticfiles_urlpatterns()
