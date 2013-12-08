@@ -27,7 +27,11 @@ def getUserProfile(user_email):
     personalProfile['userWorkCredential']=[]
     for i in range(0,2):
         workCredential={}
+<<<<<<< HEAD
+        workCredential['workInfo']='test work info'
+=======
         workCredential['userWorkInfo']='test work info'
+>>>>>>> 694403054c70febdeba08a4ce76f0619bae2a61d
         workCredential['IsVerified']=True
         workCredential['verifiedTimeStamp']=22220+i
         workCredential['verifiedStaffId']=22

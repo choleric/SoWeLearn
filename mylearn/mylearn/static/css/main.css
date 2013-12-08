@@ -1,5 +1,14 @@
 html,body{height:100%; width:100%;  margin:0; padding:0;overflow: hidden;}
 
+a, a:link, a:visited { text-decoration:underline;}
+a:hover {text-decoration: none;}
+::-moz-selection{ background: #F00; color:#fff; text-shadow: none; }
+::selection { background:#F00; color:#fff; text-shadow: none; } 
+a:link { -webkit-tap-highlight-color: #F00; }
+
+body .hide {
+	display: none;
+}
 .main{
 	height:100%; margin:0; padding:0;overflow: hidden;
 	width: 100%;
@@ -230,18 +239,49 @@ html,body{height:100%; width:100%;  margin:0; padding:0;overflow: hidden;}
 	top: 0;
 	background-color: #6FB4E7;
 }
-.right .content{
+.left .content .userImage img{
+	width: 420px;
+	max-height: 350px;
+}
+.left .navBtns{
+	width:  420px;
+	height:  50px;
+}
+.left .navBtns .tabBtn{
+	display:inline-block;
+	margin: 25px;
+	font-size: 12px;
+	text-decoration: none!important;
+	font-family: Helvetica, Arial, sans serif;
+	padding: 8px 12px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	box-shadow: inset 0px 0px 2px #fff;
+	-o-box-shadow: inset 0px 0px 2px #fff;
+	-webkit-box-shadow: inset 0px 0px 2px #fff;
+	-moz-box-shadow: inset 0px 0px 2px #fff;
+	color: #444;
+	border: 1px solid #d0d0d0;
+	background-image: -moz-linear-gradient(#ededed, #e1e1e1);
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e1e1e1), to(#ededed));
+	background-image: -webkit-linear-gradient(#ededed, #e1e1e1);
+	background-image: -o-linear-gradient(#ededed, #e1e1e1);
+	text-shadow: 1px 1px 1px #fff;
+	background-color: #e1e1e1;
+}
+
+/*right div*/
+.right .content,.right .content .rightDown{
 	position: absolute;
 	top: 0;
 	left: 0;
+	margin-top: 10px;
 }
 .right .content .requestInbox{
 	position: relative;
 	width: 400px;
-	height: 200px;
+	height: 280px;
 	margin-left: 10px;
-	background-color: red;
-	margin-top: 10px;
 }
 .right .content .appointmentSchedule{
 	position: relative;
@@ -249,6 +289,4 @@ html,body{height:100%; width:100%;  margin:0; padding:0;overflow: hidden;}
 	height: 800px;
 	margin-left: 10px;
 	background-color: orange;
-	margin-top: 20px;
-	margin-bottom: 10px;
 }
