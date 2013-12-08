@@ -44,15 +44,23 @@ $(document).ready( function(){
 	}
 	
 	//右边滚动
-	$('.right').on('mousewheel', function(event) {
-	    var top = $(".right .content").css("top");
-	    var rightHeight = $(window).height()-$(".content").height();
-		top = +top.substr(0,top.length-2);
-		var move = event.deltaY*20+top;
-		if(move > 0 || rightHeight>0){ move =0; }
-		else if(move < rightHeight){move = rightHeight}
-		$(".right .content").css("top",move+"px");
-		console.log("top:"+top+",   rightHeight:"+rightHeight+",   move:"+move);
+	var rightHeight = $(window).height()-$(".right  .content").height();
+	$(".right .rightDown").slimScroll({
+	        width: '420px',
+	        height: rightHeight,
+	        size: '10px',
+	        position: 'right',
+	        color: '#000',
+	        wheelStep: 10
+	});
+	//右上轮播
+	$('#requestInbox-slider').bxSlider();
+	//left-down nav
+	$(".tabBtn").bind("click",function(){
+		$(".leftDown .contsDetail").hide();
+		if($(this).hasClass("learning")){$(".leftDown #learning").show();}
+		else if($(this).hasClass("teaching")){$(".leftDown #teaching").show();}
+		else if($(this).hasClass("personal")){$(".leftDown #personal").show();}
 	});
 });
 
