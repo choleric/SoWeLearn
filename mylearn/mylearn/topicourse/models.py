@@ -31,11 +31,15 @@ class Topiquiz(EmbeddedDocument):
     topiquizErrorFlagTimeStamp = DateTimeField()
 
 class Topicourses(Document):
+    topicourseId = StringField()
     topicoursesUploadTimeStamp = DateTimeField(default=datetime.datetime.now)
     topicoursesCreatorUserID = LongField(required=True)
     topicoursesTitle = StringField(required=True)
+    topicourseTag = ListField(StringField())
+    topicourseType = StringField()
+    topicourseLevel = StringField()
     #
-    #topicoursesReview = ListField(EmbeddedDocumentField(TopicoursesReview))
+    topicoursesReview = ListField(EmbeddedDocumentField(TopicoursesReview))
     topiquiz = ListField(EmbeddedDocumentField(Topiquiz))
 
     def change_topicourses_title(self, new_title):
