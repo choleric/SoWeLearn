@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     url(r'^login/', mylearn.user_profile.views.login),
     url(r'^profile/', mylearn.user_profile.views.profile),
     url(r'^profile2/', mylearn.user_profile.views.profile2),
+    url(r'^topicourses/', mylearn.user_profile.views.topicourses),
 )
 
 urlpatterns += staticfiles_urlpatterns()

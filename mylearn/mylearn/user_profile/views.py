@@ -27,11 +27,7 @@ def getUserProfile(user_email):
     personalProfile['userWorkCredential']=[]
     for i in range(0,2):
         workCredential={}
-<<<<<<< HEAD
-        workCredential['workInfo']='test work info'
-=======
         workCredential['userWorkInfo']='test work info'
->>>>>>> 694403054c70febdeba08a4ce76f0619bae2a61d
         workCredential['IsVerified']=True
         workCredential['verifiedTimeStamp']=22220+i
         workCredential['verifiedStaffId']=22
@@ -56,6 +52,29 @@ def profile2(request):
     userProfile = getUserProfile('test@test.com')
     userProfile = json.dumps(userProfile)
     return HttpResponse(userProfile)
+
+def getUserTopicourses(userID,type,number):
+    userTopicoursesList = []
+    for i in range(0,2):
+        userTopicourse={}
+        userTopicourse['userTopicoursesTimestamp']=1234+i
+        userTopicourse['userTopicourseCreatorUserID'] = 0
+        userTopicourse['topicourseTitle'] = 'test topic title'
+        userTopicourse['topicoursePath'] = 'test path'
+        userTopicourse['userTopicquizList']=[]
+        for j in range(0,3):
+            userTopicquiz={}
+            userTopicquiz['userTopicquizTimestamp']=9876+j
+            userTopicquiz['userTopicquizResult']='2013-14-25'
+            userTopicourse['userTopicquizList'].append(userTopicquiz)
+        userTopicoursesList.append(userTopicourse)
+
+    return  userTopicoursesList
+
+def topicourses(request):
+    userTopicourses = getUserTopicourses("1146","teaching","2")
+    userTopicourses = json.dumps(userTopicourses)
+    return HttpResponse(userTopicourses)
 
 #user_db = models.User()
 
