@@ -1,16 +1,12 @@
-#
-# 
-#
-
 from django.test import TestCase
 #from mongorunner import TestCase
 from mongoengine import connect
 from mongoengine.connection import get_db,disconnect
 from mongoengine.python_support import PY3
+from django.utils.unittest import SkipTest
 
 # Create your tests here.
 
-import mylearn
 from models import *
 
 try:
@@ -21,7 +17,7 @@ except Exception as err:
         from unittest import TestCase
         # Dummy value so no error
         class settings:
-            MONGO_DATABASE_NAME = 'dummy'
+            DBNAME = 'dummy'
     else:
         raise err
 

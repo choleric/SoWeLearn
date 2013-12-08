@@ -1,4 +1,5 @@
 import json
+from django.http import HttpResponse
 # Create your views here.
 def getUserAppointment(user_email):
     userAppointments = {}
@@ -55,36 +56,10 @@ def getTutorReply(user_email):
 
     return tutorReplys
 
-def getUserProfile(user_email):
-    userProfile= {}
-    userProfile['userName']='test name'
-    userProfile['userEmail']=user_email
-    userProfile['userSkypeID']='testSkypeID'
-
-    personalProfile={}
-    personalProfile['aboutUserQuote']='Test About Me'
-    personalProfile['userEducationCredential']=[]
-    for i in range(0,2):
-        educationCredential={}
-        educationCredential['educationInfo']='test education info'
-        educationCredential['IsVerified']=True
-        educationCredential['verifiedTimeStamp']=11110+i
-        educationCredential['verifiedStaffID']=11
-        personalProfile['userEducationCredential'].append(educationCredential)
-    personalProfile['userWorkCredential']=[]
-    for i in range(0,2):
-        workCredential={}
-        workCredential['workInfo']='test wrok info'
-        workCredential['IsVerified']=True
-        workCredential['verifiedTimeStamp']=22220+i
-        workCredential['verifiedStaffID']=22
-        personalProfile['userWorkCredential'].append(workCredential)
-    userProfile['personalProfile']=personalProfile
-    userProfile['userLocation']="test location"
-    userProfile['tutorTuitionTopics']="chemical engineering"
-    userProfile['tutorTuitionAverageHourlyRateMiddleSchool']=20
-    userProfile['tutorTuitionAverageHourlyRateHighSchool']=30
-    userProfile['tutorTuitionAverageHourlyRateCollege']=0
-    return userProfile
-userProfile = getUserProfile('test@test.com')
-print json.dumps(userProfile)
+def get_tuition_map(func):
+    def new_view(request, *karg, **kwargs):
+        # get user_emai
+        raw_data = func('test@test.com')
+        #format json output
+        return HttpResponse(json.dumps(raw_data, sort_keys=True, indent=4))
+    return new_view

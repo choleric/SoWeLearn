@@ -1,21 +1,26 @@
 from mongoengine import *
 from django.db import models
+import datetime
 
 # Create your models here.
 
 class UserAppointment(Document):
     #TO-DO
+    STATUS_CHOICE = (
+        ('F', 'Finished'),
+        ('NF', 'Not Finished'),
+    )
     userRequestStudentID = LongField()
     userRequestTutorID = LongField()
 
-    userAppointmentDate = LongField()
-    userAppointmentStartTime = LongField()
+    #userAppointmentDate = DateTimeField()
+    userAppointmentStartTime = DateTimeField()
     userAppointmentDuration = LongField()
     userAppointmentTitle = StringField()
     userAppointmentCost = IntField()
     userAppointmentTutorMessage = StringField()
-    userAppointmentStatus = BooleanField() # finished or not
-    userAppointmentCreatedTimeStamp = LongField()
+    userAppointmentStatus = StringField(max_length=2, choices=STATUS_CHOICE)
+    userAppointmentCreatedTimeStamp = DateTimeField(default=datetime.datetime.now)
 
 class UserRequest(EmbeddedDocument):
     userRequestTuitionLevel = StringField()
