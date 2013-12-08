@@ -94,3 +94,13 @@ class TopicoursesTestCase(TestCase):
         newtopicourse = Topicourses.objects.get(pk=topicourse.id)
         self.assertEqual(newtopicourse.topiquiz[0].topiquizQuestion, newtopiquiz['topiquizQuestion'])
         self.assertEqual(newtopicourse.topiquiz[0].topiquizCreatorUserID, newtopiquiz['topiquizCreatorUserID'])
+
+    def test_change_tag(self):
+        topicourse = Topicourses.objects.create(topicoursesTitle='test topicourses title', topicoursesCreatorUserID=123, topicourseTag=['testTag1','testTag2'])
+        newTag=['testTag1','newTag1','newTag2']
+        self.assertNotEqual(topicourse.topicourseTag, newTag)
+
+        topicourse.change_tag(newTag)
+
+        newtopicourse = Topicourses.objects.get(pk=topicourse.id)
+        self.assertEqual(newtopicourse.topicourseTag, newTag)

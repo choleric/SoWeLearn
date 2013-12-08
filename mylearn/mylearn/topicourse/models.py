@@ -35,6 +35,7 @@ class Topicourses(Document):
     topicoursesUploadTimeStamp = DateTimeField(default=datetime.datetime.now)
     topicoursesCreatorUserID = LongField(required=True)
     topicoursesTitle = StringField(required=True)
+    topicoursesContent = StringField()
     topicourseTag = ListField(StringField())
     topicourseType = StringField()
     topicourseLevel = StringField()
@@ -61,3 +62,10 @@ class Topicourses(Document):
     def upload_topiquiz(self, topiquiz):
          self.topiquiz.append(Topiquiz(**topiquiz))
          self.save()
+
+    def change_tag(self,new_tag):
+        self.update(pull_all__topicourseTag=self.topicourseTag)
+        self.reload()
+        for tag in new_tag:
+            self.topicourseTag.append(tag)
+        self.save()
