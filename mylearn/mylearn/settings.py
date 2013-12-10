@@ -79,7 +79,7 @@ connect(DBNAME, host='localhost', port=27017)
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'zh_CN'
+LANGUAGE_CODE = 'fr'
 
 TIME_ZONE = 'Asia/Shanghai'
 
