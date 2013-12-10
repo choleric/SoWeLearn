@@ -1,12 +1,13 @@
 #userProfile.html
 {% load i18n %}
 <ul>
-    <li>{% trans "About myself" %}: {{ userPersonalProfile.aboutUserQuote }}</li>
-    {% for education in userPersonalProfile.userEducationCredential %}
+    <li>{% trans "About myself" %}: {{ personalProfile.aboutUserQuote }}</li>
+    {% for education in personalProfile.userEducationCredential %}
     <li>{% trans "Education" %}: {{education.userEducationInfo }}</li>
     {% endfor %}
-    {% for work in userPersonalProfile.UserWorkCredential %}
+    {% for work in personalProfile.userWorkCredential %}
     <li>{% trans "Work" %}: {{ work.userWorkInfo }}</li>
     {% endfor %}
-    <li>{% trans "Location" %}: {{ userPersonalProfile.userLocation }}</li>
+    <li>{% trans "Location" %}: {{ personalProfile.userLocation }}</li>
+    <li>{% trans "my" %}: {{ personalProfile.userLocation }}</li>
 </ul>

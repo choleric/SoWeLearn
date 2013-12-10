@@ -46,7 +46,7 @@ def profile(request):
     print userProfile
     #context = {'userProfile':userProfile}
     context = {'personalProfile': userProfile['personalProfile']}
-    return render_to_response('userProfile2.html',  context)
+    return render_to_response('userProfile.html',  context)
 
 def profile2(request):
     userProfile = getUserProfile('test@test.com')

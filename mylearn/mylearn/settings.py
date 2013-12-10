@@ -79,7 +79,7 @@ connect(DBNAME, host='localhost', port=27017)
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh_CN'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -89,7 +89,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+LOCALE_PATHS = (
+    '/home/zw/SoWeLearn/mylearn/locale',
+    '/var/local/translations/locale'
+)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
