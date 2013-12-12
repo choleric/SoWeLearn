@@ -6,6 +6,7 @@ from django.core.context_processors import csrf
 from django.template import RequestContext
 import json
 import models
+import forms
 # Create your views here.
 
 def getUserProfile(user_email):
@@ -53,6 +54,25 @@ def profile2(request):
     userProfile = json.dumps(userProfile)
     return HttpResponse(userProfile)
 
+def editAboutUserQuoteForm(request):
+    if request.method == 'POST':
+        form = forms.AboutUserQuoteForm(request.POST)
+        if form.is_valid():
+            newUserQuote = form.cleaned_data
+            print newUserQuote
+            user = models.UserPersonalProfile.objects.get(userEmail='test@test.com')
+            user.change_about_user_quote(newUserQuote['aboutUserQuote'])
+        else:
+            form = forms.AboutUserQuoteForm
+    else:
+        form = forms.AboutUserQuoteForm
+    return render(request,'editAboutUserQuote.html',{'form': form})
+
+
+
+
+
+#test code
 #user_db = models.User()
 
 def test(request):

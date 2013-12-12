@@ -31,3 +31,9 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += staticfiles_urlpatterns()
+
+urlpatterns += patterns('mylearn.user_profile.views',
+    (r'^editAboutUserQuote/$', 'editAboutUserQuoteForm')
+
+
+)
