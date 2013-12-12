@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 import sys
+import os
 import os.path
 import logging
 import logging.config
@@ -18,6 +18,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Find project name
 PROJECT_NAME = "mylearn"
+PROJECT_APP_NAME = "apps"
+PROJECT_APP_PREFIX = PROJECT_NAME + "." + PROJECT_APP_NAME
 PROJECT_DIR = os.path.join(BASE_DIR, PROJECT_NAME)
 
 
@@ -42,8 +44,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = PROJECT_NAME + '.urls'
-
+ROOT_URLCONF = PROJECT_NAME + ".urls"
 WSGI_APPLICATION = PROJECT_NAME + '.wsgi.application'
 
 
@@ -72,8 +73,10 @@ if __mode_key in os.environ :
         pass
     else :
         __mode = __mode_tmp
+
+PROJECT_CONFIG_DIR = os.path.join(PROJECT_DIR, "config", __mode)
 # Log config
-__logConfigFile = os.path.join(PROJECT_DIR, "config", __mode, "log.conf")
+__logConfigFile = os.path.join(PROJECT_CONFIG_DIR, "log.conf")
 if not os.path.exists(__logConfigFile) :
     print "Log config file not found......."
     sys.exit(1)
@@ -82,12 +85,24 @@ logging.config.fileConfig(__logConfigFile)
 
 
 # Do the load operation
-__settingFile = os.path.join(PROJECT_DIR, "config", __mode, "settings.py")
+__settingFile = os.path.join(PROJECT_CONFIG_DIR, "settings.py")
 if not os.path.exists(__settingFile) :
     logging.getLogger(__name__).error("setting file '%s' not found", __settingFile)
     sys.exit(1)
 
 execfile(__settingFile)
 
+
+# Automatically load apps from apps directory
+__appsDir = os.path.join(PROJECT_DIR, PROJECT_APP_NAME)
+if not os.path.exists(__appsDir) :
+    logging.getLogger(__name__).error("apps directory '%s' not found", __appsDir)
+    sys.exit(1)
+
+__appList = os.listdir(__appsDir)
+if None != __appList :
+    for app in __appList :
+        if os.path.isdir(os.path.join(__appsDir, app)) :
+            INSTALLED_APPS += ("%s.apps.%s"%(PROJECT_NAME, app),)
 
 # IMPORTANT no configuration below is allowed

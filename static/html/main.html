@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SoWeLearn</title>
+		<meta charset="utf-8">
+                                <link rel="stylesheet" type="text/css" href="{% static 'css/main.css'%}">
+                                <link href="{% static 'css/jquery.bxslider.css'%}" rel="stylesheet" />
+                                 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	</head>
+	<body>
+		<div class="left">
+            <div class="content">
+                <div class="userImage">
+                    <img src="../static/images/cambridge3.png">
+                </div>
+                <div class="leftDown">
+                    <div class="navBtns">
+                            <a href ="#" class="tabBtn learning">Learning</a>
+                            <a href ="#" class="tabBtn teaching ">Teaching</a>
+                            <a href ="#" class="tabBtn personal">Personal</a>
+                    </div>
+                    <div class="conts">
+                        <div id="learning" class="contsDetail">
+                            <p>About Learing:</p>
+                        </div>
+                        <div id="teaching"  class="contsDetail hide">
+                            <p>About Teaching:</p>
+                        </div>
+                        <div id="personal" class="contsDetail hide">
+                            <p>About yourself:</p>
+                            <input type="text" id="aboutUserQuote" value=""/>
+                            <p>Education and Work[edit]</p>
+                            <ul id="userEducationCredential">
+
+                            </ul>
+                            <p>Basic Information[edit]</p>
+                            <p id="location"></p>
+                            <p id="tutorTuitionTopics"></p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+		</div>
+		<div class="main">
+			<div class="mockUpImg"><img src="../static/images/7.jpg"/></div>
+			<div class="leftUp"></div>
+			<div class="rightUp"></div>
+			<div class="leftBottom"></div>
+			<div class="rightBottom"></div>
+			<div class="bottomSearch">
+				<div class="search">
+					<input type="text" class="searchInput" placeholder="search a topic, tutor, subject"/>
+					<a href="#" class="searchBtn searchSwing"></a>
+				</div>
+			</div>
+		</div>
+		<div id="right" class="right">
+                                    <div class="content">
+                                        <div class="requestInbox">
+                                            <ul id="requestInbox-slider" class="bxslider">
+                                                <li>
+                                                    <div style="width:400px;height:200px;background-color:green;"></div>
+                                                </li>
+                                                <li>
+                                                    <img src="../static/images/2.jpg" alt="image2"/>
+                                                </li>  
+                                                <li>
+                                                    <img src="../static/images/3.jpg" alt="image2"/>
+                                                </li>  
+                                                <li>
+                                                    <img src="../static/images/4.jpg" alt="image2"/>
+                                                </li>  
+                                                <li>
+                                                    <img src="../static/images/5.jpg" alt="image2"/>
+                                                </li>  
+                                                <li>
+                                                    <img src="../static/images/6.jpg" alt="image2"/>
+                                                </li>  
+                                                <li>
+                                                    <img src="../static/images/7.jpg" alt="image2"/>
+                                                </li>     
+                                            </ul>
+                                        </div>
+                                        <div class="rightDown">
+                                            <div class="appointmentSchedule"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                <script type="text/javascript" src="{% static 'js/main.js'%}"></script>
+                <script type="text/javascript" src="{% static 'js/jquery.bxslider.min.js'%}"></script>
+                <script type="text/javascript" src="{% static 'js/jquery.slimscroll.js'%}"></script>
+                <script type="text/javascript" src="{% static 'js/tools.js'%}"></script>
+	</body>
+</html>
