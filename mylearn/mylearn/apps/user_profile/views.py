@@ -6,6 +6,7 @@ from django.core.context_processors import csrf
 from django.template import RequestContext
 import json
 import models
+from .forms import UserQuoteForm
 # Create your views here.
 
 def getUserProfile(user_email):
@@ -128,5 +129,17 @@ def login(request):
             context = {'userPersonalProfile': userProfile.userPersonalProfile}
         #return HttpResponseRedirect('welcome.html', context)
         return render_to_response('userProfile.html',  context)
+
+
+def ModifyUserQuote(request):
+    if request.POST:
+        user_quote = UserQuoteForm(request.POST)
+        if user_quote.is_valid() == True:
+            print user_quote['cleaned_data']
+            print 'save to db'
+            return HttpResponseRedirect('/profile')
+    else:
+        print "invalid request"
+        return HttpResponseRedirect('/profile')
 
 

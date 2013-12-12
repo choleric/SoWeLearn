@@ -4,6 +4,9 @@ from mongoengine import connect
 from mongoengine.connection import get_db,disconnect
 from mongoengine.python_support import PY3
 from django.utils.unittest import SkipTest
+from django.test import Client
+
+from .forms import UserQuoteForm
 
 # Create your tests here.
 
@@ -130,3 +133,18 @@ class UserPersonalProfileTestCase(TestCase):
         newuser = UserPersonalProfile.objects.get(userEmail='009')
         for i in range(0,1):
             self.assertEqual(newuser.userWorkCredential[i].userWorkInfo,new_userWorkCredential[i]['userWorkInfo'])
+
+
+
+class UserQuoteFormTestCase(TestCase):
+    def test_forms(self):
+        quote = UserQuoteForm(data={'user_quote': 'hello world'})
+        self.assertEqual(quote.is_valid(), True)
+
+    def test_ModifyUserQuote(self):
+        response = self.client.post('/modify-user-quote')
+        print response.status_code
+        self.assertEqual(response.status_code, 301)
+        print response
+
+

@@ -7,6 +7,10 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
+from mongoengine import *
+DBNAME = 'mylearn'
+connect(DBNAME, host='localhost', port=27017)
+
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
