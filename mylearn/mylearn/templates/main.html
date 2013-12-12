@@ -7,58 +7,6 @@
                                 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css'%}">
                                 <link href="{% static 'css/jquery.bxslider.css'%}" rel="stylesheet" />
                                  <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-
-        <script type="text/javascript">
-            function AJAXOptions(data, success, type, url, dataType, cache, error)
-            {
-                this.type = type || "get";
-                this.url = url || "../profile2/";
-                this.dataType = dataType || "json";
-                this.cache = cache || false;
-                this.success = success || function(){};
-                this.error = error || function(){alert("操作失败!求提交失");};
-            }
-            AJAXOptions.prototype.setSuccess = function(sucCallback)
-            {
-                this.success = function(data, textStatus){
-                    //simetimes, data is null but the request status is OK! maybe it's a bug! need to repair!!!
-                    if(!data)
-                        return;
-                    else{
-                        sucCallback(data);
-                    }
-                };
-            }
-            var ajaxOptions = new AJAXOptions();
-            ajaxOptions.setSuccess(function(data){
-                var uec = data.personalProfile.userEducationCredential;
-                var uecCode = "";
-                for(var i = 0, elength = uec.length; i < elength; i++){
-                    uecCode += "<li>";
-                    uecCode += uec[i].educationInfo;
-                    if(uec[i].IsVerified){
-                        uecCode += "[Verified]</li>";
-                    }else{
-                        uecCode += "[Unverified]</li>";
-                    }
-                }
-                uec = data.personalProfile.userWorkCredential;
-                for(var i = 0, elength = uec.length; i < elength; i++){
-                    uecCode += "<li>";
-                    uecCode += uec[i].workInfo;
-                    if(uec[i].IsVerified){
-                        uecCode += "[Verified]</li>";
-                    }else{
-                        uecCode += "[Unverified]</li>";
-                    }
-                }
-                $("#aboutUserQuote").val(data.personalProfile.aboutUserQuote);
-                $("#userEducationCredential").html(uecCode);
-                $("#location").html(data.userLocation);
-                $("#tutorTuitionTopics").html(data.tutorTuitionTopics);
-            });
-            $.ajax(ajaxOptions);
-        </script>
 	</head>
 	<body>
 		<div class="left">
@@ -143,5 +91,6 @@
                 <script type="text/javascript" src="{% static 'js/main.js'%}"></script>
                 <script type="text/javascript" src="{% static 'js/jquery.bxslider.min.js'%}"></script>
                 <script type="text/javascript" src="{% static 'js/jquery.slimscroll.js'%}"></script>
+                <script type="text/javascript" src="{% static 'js/tools.js'%}"></script>
 	</body>
 </html>

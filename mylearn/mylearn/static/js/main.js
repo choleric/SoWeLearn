@@ -62,8 +62,60 @@ $(document).ready( function(){
 		else if($(this).hasClass("teaching")){$(".leftDown #teaching").show();}
 		else if($(this).hasClass("personal")){$(".leftDown #personal").show();}
 	});
+	var getUserProfile = new AJAXOptions();
+	getUserProfile.setSuccess(displayUserProfile);
+	$.ajax(getUserProfile);
+	var  getTopicourses = new AJAXOptions();
+	getTopicourses.url =  "/topicourses/";
+	getTopicourses.setSuccess(displayTopicourses);
+	$.ajax(getTopicourses);
+
 });
 
+function displayUserProfile(data){
+	var uec = data.personalProfile.userEducationCredential;
+	    var uecCode = "";
+	    for(var i = 0, elength = uec.length; i < elength; i++){
+	        uecCode += "<li>";
+	        uecCode += uec[i].educationInfo;
+	        if(uec[i].IsVerified){
+	            uecCode += "[Verified]</li>";
+	        }else{
+	            uecCode += "[Unverified]</li>";
+	        }
+	    }
+	    uec = data.personalProfile.userWorkCredential;
+	    for(var i = 0, elength = uec.length; i < elength; i++){
+	        uecCode += "<li>";
+	        uecCode += uec[i].workInfo;
+	        if(uec[i].IsVerified){
+	            uecCode += "[Verified]</li>";
+	        }else{
+	            uecCode += "[Unverified]</li>";
+	        }
+	    }
+	    $("#aboutUserQuote").val(data.personalProfile.aboutUserQuote);
+	    $("#userEducationCredential").html(uecCode);
+	    $("#location").html(data.userLocation);
+	    $("#tutorTuitionTopics").html(data.tutorTuitionTopics);
+}
+function displayTopicourses(data){
+	var tcHTML = "<ul>";
+	for(var i = 0,l = data.length; i < l; i++){
+		tcHTML += "<li>userTopicoursesTimestamp:"+data[i].userTopicoursesTimestamp+"</li>"
+		tcHTML += "<li>userTopicourseCreatorUserID:"+data[i].userTopicourseCreatorUserID+"</li>"
+		tcHTML += "<li>topicourseTitle:"+data[i].topicourseTitle+"</li>"
+		tcHTML += "<li>topicoursePath:"+data[i].topicoursePath+"</li>"
+		var topicQuiz = data[i].userTopicquizList;
+		for(var j  = 0, jl = topicQuiz.length; j < jl ; j++){
+			tcHTML += "<li>userTopicquizTimestamp:"+topicQuiz[j].userTopicquizTimestamp+"</li>";
+			tcHTML += "<li>userTopicquizResult:"+topicQuiz[j].userTopicquizResult+"</li>";
+			tcHTML += "<li>userTopicquizList:"+topicQuiz[j].userTopicquizList+"</li>";
+		}
+	}
+	tcHTML += "</ul>";
+	$("#teaching p").html(tcHTML);
+}
 function back(){
 	$(".main").addClass("nonTransform");
 	$(".right").addClass("nonTransform");

@@ -22,12 +22,13 @@ urlpatterns = patterns('',
     url(r'^login/', mylearn.user_profile.views.login),
     url(r'^profile/', mylearn.user_profile.views.profile),
     url(r'^profile2/', mylearn.user_profile.views.profile2),
+    url(r'^topicourses/', mylearn.user_profile.views.topicourses),#test topicourses -zhouwei
+
     url(r'^userTopicourses/',mylearn.topicourse.views.userTopicourses),
     url(r'^userTopiquestions/',mylearn.topicourse.views.userTopiquestions),
     url(r'^getUserAppointment/', get_tuition_map(getUserAppointment)),
     url(r'^getUserRequest/', get_tuition_map(getUserRequest)),
     url(r'^getTutorReply/', get_tuition_map(getTutorReply)),
-
 )
 
 urlpatterns += staticfiles_urlpatterns()

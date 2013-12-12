@@ -54,6 +54,7 @@ def profile2(request):
     userProfile = json.dumps(userProfile)
     return HttpResponse(userProfile)
 
+<<<<<<< HEAD
 def editAboutUserQuoteForm(request):
     if request.method == 'POST':
         form = forms.AboutUserQuoteForm(request.POST)
@@ -73,6 +74,31 @@ def editAboutUserQuoteForm(request):
 
 
 #test code
+=======
+def getUserTopicourses(userID,type,number):
+    userTopicoursesList = []
+    for i in range(0,2):
+        userTopicourse={}
+        userTopicourse['userTopicoursesTimestamp']=1234+i
+        userTopicourse['userTopicourseCreatorUserID'] = 0
+        userTopicourse['topicourseTitle'] = 'test topic title'
+        userTopicourse['topicoursePath'] = 'test path'
+        userTopicourse['userTopicquizList']=[]
+        for j in range(0,3):
+            userTopicquiz={}
+            userTopicquiz['userTopicquizTimestamp']=9876+j
+            userTopicquiz['userTopicquizResult']='2013-14-25'
+            userTopicourse['userTopicquizList'].append(userTopicquiz)
+        userTopicoursesList.append(userTopicourse)
+
+    return  userTopicoursesList
+
+def topicourses(request):
+    userTopicourses = getUserTopicourses("1146","teaching","2")
+    userTopicourses = json.dumps(userTopicourses)
+    return HttpResponse(userTopicourses)
+
+>>>>>>> 509cc1eb783373fa83f1f3c3e25a1515e9a9bda1
 #user_db = models.User()
 
 def test(request):

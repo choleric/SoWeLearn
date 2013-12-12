@@ -13,7 +13,7 @@ class UserReview(Document):
     reviewContent = StringField()
 
 class TopicoursesReview(EmbeddedDocument):
-    topicoursesReviewCreatedTimeStamp = LongField()
+    topicoursesReviewCreatedTimeStamp = DateTimeField(default=datetime.datetime.now)
     topicoursesReviewCreatorUserID = ObjectIdField()
     topicoursesReviewContent = StringField()
 
@@ -69,3 +69,4 @@ class Topicourses(Document):
         for tag in new_tag:
             self.topicourseTag.append(tag)
         self.save()
+
