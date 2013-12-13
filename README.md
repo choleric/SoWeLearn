@@ -13,6 +13,12 @@ git是分布式的版本管理工具，所以有远程repo和本地repo的概念
     git branch -t local_master origin/newproj
 ##### checkout and status  
 记得要经常看下自己所在的branch是不是自己认为的哦
+##### commit  
+推荐用如下的流程commit代码：  
+    git status  
+    git add xxx  
+    git commit -m "commit log"  
+这样是防止*git commit -am "commit log"*将所有不必要的问题，提交到repo里去  
   
 #### code with log  
 后端想要*print xxx*的时候千万别print, 而是用如下的代码：  
