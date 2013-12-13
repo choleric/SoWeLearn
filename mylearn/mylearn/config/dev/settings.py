@@ -2,14 +2,20 @@
 This is django setting.py for development
 """
 import os
+import logging
+
+from mongoengine import connect
+__log = logging.getLogger(__name__)
 
 DEBUG = True
 TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
-from mongoengine import *
 DBNAME = 'mylearn'
-connect(DBNAME, host='localhost', port=27017)
+try :
+    connect(DBNAME, host='localhost', port=27017)
+except Exception as e :
+    __log.error("mongodb connnect: %s", e)
 
 
 # Database
