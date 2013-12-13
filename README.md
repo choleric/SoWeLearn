@@ -1,14 +1,15 @@
 SoWeLearn
 =========
-[logd]: https://docs.djangoproject.com/en/dev/topics/logging/ "django log"
-[logp]: http://docs.python.org/2/howto/logging.html "python log"
+[logd]: https://docs.djangoproject.com/en/dev/topics/logging/ "Django Logging"
+[logp]: http://docs.python.org/2/howto/logging.html "Python Logging"
+[codestyle]: http://www.python.org/dev/peps/pep-0008/ "Python Code Style"
 
   
 ### TIPS  
   
 #### git  
 git是分布式的版本管理工具，所以有远程repo和本地repo的概念。*git push*和*git pull*是远程相关的操作, 建议只在本地开发测试完成后进行使用。而其他的操作只影响你本地的代码，所以可以为所欲为。  
-##### 获取branch
+##### branch
 我们可以使用如下命令在本地新建一个local_master的分支， 并让它和远程分支同步（也就是说pull和push会自动同步两个分支）:  
 
     git branch -t local_master origin/newproj
@@ -35,6 +36,9 @@ git是分布式的版本管理工具，所以有远程repo和本地repo的概念
 
 这是利用了python的日志模块，方便我们统一管理日志。具体可以参考连接：[python log][logp]和[django log][logd]
   
+#### python code style
+规范编码风格，让代码merge的时候难度降低，也让可读性更好。我们可以采用python推荐的[code style][codestyle]。  
+尽量遵守，有些不适应的地方可以忽略。
   
 ### URL  
 我们现在的工程采用了前后端分离的模式，也就是说我们会有一个web server（nginx）根据url不同转发请求。所以我们会把url分成如下几类：  
