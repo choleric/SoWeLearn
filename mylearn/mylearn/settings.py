@@ -33,6 +33,9 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'userena',
+    'guardian',
+    'easy_thumbnails',
 )
 
 MIDDLEWARE_CLASSES = (
