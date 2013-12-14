@@ -2,6 +2,7 @@ import os.path
 
 from django.conf.urls import patterns
 from django.conf.urls import url
+from django.conf.urls import include
 from settings import PROJECT_APP_PREFIX
 from settings import PROJECT_CONFIG_DIR
 
@@ -25,6 +26,10 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
     url(r'^getUserAppointment/', 'get_tuition_map'),
     url(r'^getUserRequest/', 'get_tuition_map'),
     url(r'^getTutorReply/', 'get_tuition_map'),
+)
+
+urlpatterns += patterns('',
+        (r'^accounts/', include('userena.urls')),
 )
 
 # Load extra urls config file

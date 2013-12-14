@@ -60,6 +60,18 @@ LOCALE_PATHS = (
     os.path.join(PROJECT_DIR, "locale"),
 )
 
+# accounts setting
+AUTHENTICATION_BACKENDS = (
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+ANONYMOUS_USER_ID = -1
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'
+
 
 # Load settings.py(development or production) file based on os environment variable "MYLEARN_MODE", default production mode
 __MODE_DEV= "dev"
@@ -82,12 +94,13 @@ if not os.path.exists(__logConfigFile) :
     sys.exit(1)
 
 logging.config.fileConfig(__logConfigFile)
+__logger = logging.getLogger(__name__)
 
 
 # Do the load operation
 __settingFile = os.path.join(PROJECT_CONFIG_DIR, "settings.py")
 if not os.path.exists(__settingFile) :
-    logging.getLogger(__name__).error("setting file '%s' not found", __settingFile)
+    __logger.error("setting file '%s' not found", __settingFile)
     sys.exit(1)
 
 execfile(__settingFile)
@@ -96,13 +109,14 @@ execfile(__settingFile)
 # Automatically load apps from apps directory
 __appsDir = os.path.join(PROJECT_DIR, PROJECT_APP_NAME)
 if not os.path.exists(__appsDir) :
-    logging.getLogger(__name__).error("apps directory '%s' not found", __appsDir)
+    __logger.error("apps directory '%s' not found", __appsDir)
     sys.exit(1)
 
 __appList = os.listdir(__appsDir)
 if None != __appList :
     for app in __appList :
         if os.path.isdir(os.path.join(__appsDir, app)) :
-            INSTALLED_APPS += ("%s.apps.%s"%(PROJECT_NAME, app),)
+            __logger.info("load app: %s", app)
+            INSTALLED_APPS += ("%s.%s"%(PROJECT_APP_PREFIX, app),)
 
 # IMPORTANT no configuration below is allowed
