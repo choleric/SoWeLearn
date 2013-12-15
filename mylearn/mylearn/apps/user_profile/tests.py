@@ -137,44 +137,34 @@ class UserPersonalProfileTestCase(TestCase):
 
 class UserProfileFormTestCase(TestCase):
     def test_forms(self):
-        quote = UserQuoteForm(data={'user_quote': 'hello world'})
-        print quote
-        self.assertEqual(quote.is_valid(), True)
+        quote = UserQuoteForm(data={'aboutUserQuote': 'hello world'})
+        self.assertEqual(quote.is_valid(), False)
 
     def test_modify_user_quote(self):
-        response = self.client.post('/modify-user-quote/',{'user_quote': 'hello'})
-        print response.status_code
-        self.assertEqual(response.status_code, 302)
-        print response
+        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello'})
+        self.assertEqual(response.status_code, 200)
+        responseDict = json.loads(response.content)
+        self.assertEquals(responseDict['success'], True)
 
     def test_modify_user_quote_length(self):
-        response = self.client.post('/modify-user-quote/',{'user_quote': 'hello world'})
-        print response.status_code
+        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
         self.assertEqual(response.status_code, 200)
         responseDict = json.loads(response.content)
-        self.assertEquals('errorList' in responseDict, True)
-        print response
+        self.assertEquals(responseDict['success'], False)
 
     def test_modify_user_quote_empty(self):
-        response = self.client.post('/modify-user-quote/',{'user_quote': ''})
-        print response.status_code
+        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': ''})
         self.assertEqual(response.status_code, 200)
         responseDict = json.loads(response.content)
-        self.assertEquals('errorList' in responseDict, True)
-        print response
+        self.assertEquals(responseDict['success'], False)
 
     def test_modify_user_quote_invalid_request(self):
-        response = self.client.get('/modify-user-quote/',{'user_quote': 'hello world'})
-        print response.status_code
-        self.assertEqual(response.status_code, 200)
-        responseDict = json.loads(response.content)
-        self.assertEquals('errorList' in responseDict, True)
-        print response
+        response = self.client.get('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
+        self.assertEqual(response.status_code, 404)
 
     def test_modify_work_and_edu_empty(self):
         response = self.client.post('/modify_work_and_education_credential/',{'userEducationCredential': '','userWorkCredential':''})
-        print response.status_code
         self.assertEqual(response.status_code, 200)
         responseDict = json.loads(response.content)
-        self.assertEquals('errorList_userEducationCredential' in responseDict, True)
-        print response
+        self.assertEquals(responseDict['success'], False)
+

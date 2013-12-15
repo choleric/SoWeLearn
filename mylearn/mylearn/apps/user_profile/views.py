@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
@@ -130,73 +130,49 @@ def login(request):
         #return HttpResponseRedirect('welcome.html', context)
         return render_to_response('userProfile.html',  context)
 
-from django.forms.util import ErrorList
 def modify_user_quote(request):
     if request.POST:
         user_quote = UserQuoteForm(request.POST)
         if user_quote.is_valid() == True:
+            #TODO
             #user.change_about_user_quote(user_quote['aboutUserQuote'])
-            return HttpResponseRedirect('/profile')
+            return HttpResponse(json.dumps({'success': True}))
         else:
-            errorMessage={}
-            errorList=[]
-            for error in user_quote.errors['aboutUserQuote']:
-                errorList.append(str(error))
-            print errorList
-            errorMessage['errorList']=errorList
-            errorMessage=json.dumps(errorMessage)
-            return HttpResponse(errorMessage)
+            return HttpResponse(json.dumps({'success': False, 'errors': dict(user_quote.errors.items())}))
+
     else:
-        errorMessage={'errorList':"Invalid Request"}
-        errorMessage=json.dumps(errorMessage)
-        return HttpResponse(errorMessage)
+        raise Http404()
 
 
 def modify_work_and_education_credential(request):
     if request.POST:
-        form = WorkAndEducationCredentialForm(request.POST)
-        if form.is_valid() == True:
-            return HttpResponseRedirect('/profile')
+        workForm = WorkAndEducationCredentialForm(request.POST)
+        if workForm.is_valid() == True:
+            #TODO
+            return HttpResponse(json.dumps({'success':True}))
         else:
-            errorMessage={}
-            for key, value in request.POST.iteritems():
-                errorList=[]
-                for error in form.errors[key]:
-                    errorList.append(error)
-                errorMessage['errorList_'+str(key)]=errorList
-            errorMessage=json.dumps(errorMessage)
-            return HttpResponse(errorMessage)
+            return HttpResponse(json.dumps({'success': False, 'errors': dict(workForm.errors.items())}))
     else:
-        errorMessage={'errorList':"Invalid Request"}
-        errorMessage=json.dumps(errorMessage)
-        return HttpResponse(errorMessage)
+        raise Http404()
 
 
 def modify_location_and_contact_form(request):
     if request.POST:
-        form = LocationAndContactForm(request.POST)
-        if form.is_valid() == True:
-            return HttpResponseRedirect('/profile')
+        locationForm = LocationAndContactForm(request.POST)
+        if locationForm.is_valid() == True:
+            #TODO
+            return HttpResponse(json.dumps({'success':True}))
         else:
-            errorMessage={}
-            for key, value in request.POST.iteritems():
-                errorList=[]
-                for error in form.errors[key]:
-                    errorList.append(error)
-                errorMessage['errorList_'+str(key)]=errorList
-            errorMessage=json.dumps(errorMessage)
-            return HttpResponse(errorMessage)
+            return HttpResponse(json.dumps({'success': False, 'errors': dict(locationForm.errors.items())}))
     else:
-        errorMessage={'errorList':"Invalid Request"}
-        errorMessage=json.dumps(errorMessage)
-        return HttpResponse(errorMessage)
+        raise Http404()
 
 def edit_teaching_profile_form(request):
     """Function for update teaching profile."""
     if request.method == 'POST':
-        form = forms.TeachingProfileForm(request.POST)
-        if form.is_valid():
-            newTeachingProfileForm = form.cleaned_data
+        teachingForm = forms.TeachingProfileForm(request.POST)
+        if teachingForm.is_valid():
+            newTeachingProfileForm = teachingForm.cleaned_data
             print newTeachingProfileForm
             user = models.UserPersonalProfile.objects.get(userEmail='test@test.com') #To be replaced!
             if newTeachingProfileForm['tutorTuitionTopics']!='' :
@@ -209,9 +185,11 @@ def edit_teaching_profile_form(request):
                 user.tutorTuitionAverageHourlyRateCollege(newTeachingProfileForm['tutorTuitionAverageHourlyRateCollege'])
             else:
                 pass
+
+            return HttpResponse(json.dumps({'success':True}))
+
         else:
-            error = form.errors
-            return error
-    else:
-        pass
-    pass #??
+            return HttpResponse(json.dumps({'success': False, 'errors': dict(teachingForm.errors.items())}))
+
+    raise Http404()
+
