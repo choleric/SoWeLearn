@@ -107,7 +107,7 @@ def register_(request):
             return render_to_response('welcome.html', context)
             #return HttpResponseRedirect('login.html')
 
-def getUserPersonalProfile(user_email):
+def get_user_personal_profile(user_email):
     userProfile = models.UserPersonalProfile.objects(userEmail=user_email).first()
     print 'get', userProfile.userSkypeID
     return userProfile
@@ -130,8 +130,26 @@ def login(request):
         #return HttpResponseRedirect('welcome.html', context)
         return render_to_response('userProfile.html',  context)
 
+from django.forms.util import ErrorList
+def modify_user_quote(request):
+    if request.POST:
+        user_quote = UserQuoteForm(request.POST)
+        if user_quote.is_valid() == True:
+            print user_quote['cleaned_data']
+            print 'save to db'
+            return HttpResponseRedirect('/profile')
+        else:
+            ourErrorList=[]
+            for error in user_quote.errors['user_quote']:
+                ourErrorList.append(str(error))
+            print ourErrorList
+            return ourErrorList
+    else:
+        print "invalid request"
+        return HttpResponseRedirect('/profile')
 
-def ModifyUserQuote(request):
+
+def modify_work_and_education_credential(request):
     if request.POST:
         user_quote = UserQuoteForm(request.POST)
         if user_quote.is_valid() == True:
@@ -143,3 +161,27 @@ def ModifyUserQuote(request):
         return HttpResponseRedirect('/profile')
 
 
+def edit_teaching_profile_form(request):
+    """Function for update teaching profile."""
+    if request.method == 'POST':
+        form = forms.TeachingProfileForm(request.POST)
+        if form.is_valid():
+            newTeachingProfileForm = form.cleaned_data
+            print newTeachingProfileForm
+            user = models.UserPersonalProfile.objects.get(userEmail='test@test.com') #To be replaced!
+            if newTeachingProfileForm['tutorTuitionTopics']!='' :
+                user.change_tutorTuitionTopics(newTeachingProfileForm['tutorTuitionTopics'])
+            elif newTeachingProfileForm['tutorTuitionAverageHourlyRateMiddleSchool']!='':
+                user.change_tutorTuitionAverageHourlyRateMiddleSchool(newTeachingProfileForm['tutorTuitionAverageHourlyRateMiddleSchool'])
+            elif newTeachingProfileForm['tutorTuitionAverageHourlyRateHighSchool']!='':
+                user.tutorTuitionAverageHourlyRateHighSchool(newTeachingProfileForm['tutorTuitionAverageHourlyRateHighSchool'])
+            elif newTeachingProfileForm['tutorTuitionAverageHourlyRateCollege']!='':
+                user.tutorTuitionAverageHourlyRateCollege(newTeachingProfileForm['tutorTuitionAverageHourlyRateCollege'])
+            else:
+                pass
+        else:
+            error = form.errors
+            return error
+    else:
+        pass
+    pass #??

@@ -13,7 +13,7 @@ urlpatterns = patterns(PROJECT_APP_PREFIX + '.user_profile.views',
     url(r'^profile/', 'profile'),
     url(r'^profile2/', 'profile2'),
     url(r'^topicourses/', 'topicourses'),#test topicourses -zhouwei
-    url(r'^modify-user-quote/', 'ModifyUserQuote'),#test topicourses -zhouwei
+    url(r'^modify-user-quote/', 'modify_user_quote'),#test topicourses -zhouwei
 )
 
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.topicourse.views',

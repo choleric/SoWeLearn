@@ -7,7 +7,7 @@ from django.utils.unittest import SkipTest
 from django.test import Client
 
 from .forms import UserQuoteForm
-
+import views
 # Create your tests here.
 
 from models import *
@@ -136,13 +136,18 @@ class UserPersonalProfileTestCase(TestCase):
 
 
 
-class UserQuoteFormTestCase(TestCase):
+class UserProfileFormTestCase(TestCase):
     def test_forms(self):
         quote = UserQuoteForm(data={'user_quote': 'hello world'})
+        print quote
         self.assertEqual(quote.is_valid(), True)
 
+    def test_about_user_quote_form_invalid(self):
+        form = UserQuoteForm(data = {'user_quote':"",})
+        self.failIf(form.is_valid())
+
     def test_ModifyUserQuote(self):
-        response = self.client.post('/modify-user-quote')
+        response = self.client.post('/modify-user-quote',{'user_quote': 'hello world'})
         print response.status_code
         self.assertEqual(response.status_code, 301)
         print response
