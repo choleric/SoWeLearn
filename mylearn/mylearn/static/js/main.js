@@ -1,4 +1,19 @@
 $(document).ready( function(){
+	init();
+	// getData();
+});
+
+//获取首屏信息
+function getData(){
+	sendAjaxRequest({},"",displayUserProfile);
+	sendAjaxRequest({},"/userTopicourses/",displayTopicourses);
+	sendAjaxRequest({},"/userTopiquestions/",displayTopiquestions);
+	sendAjaxRequest({},"/getUserAppointment/",displayUserAppointment);
+	sendAjaxRequest({},"/getUserRequest/",displayUserRequest);
+}
+
+//init 
+function init(){
 	$(".leftUp").bind("click",function(e){
 		if($(".left").hasClass("transformRight")){
 			back();
@@ -10,7 +25,7 @@ $(document).ready( function(){
 			$(".right").removeClass("nonTransform");
 			$(".left").removeClass("nonTransform");
 		}
-		e.stopPropagation();
+		e.stopPropagation();//阻止冒泡
 	});
 	$(".leftUp").mousedown(function(e){
 		$(this).addClass("press");
@@ -53,31 +68,22 @@ $(document).ready( function(){
 	        color: '#000',
 	        wheelStep: 10
 	});
-	//右上轮播
-	$('#requestInbox-slider').bxSlider();
 	//left-down nav
 	$(".tabBtn").bind("click",function(){
-		$(".leftDown .contsDetail").hide();
-		if($(this).hasClass("learning")){$(".leftDown #learning").show();}
-		else if($(this).hasClass("teaching")){$(".leftDown #teaching").show();}
-		else if($(this).hasClass("personal")){$(".leftDown #personal").show();}
+		$(".basicInfo .contsDetail").hide();
+		if($(this).hasClass("learning")){$(".basicInfo #learning").show();}
+		else if($(this).hasClass("teaching")){$(".basicInfo #teaching").show();}
+		else if($(this).hasClass("personal")){$(".basicInfo #personal").show();}
 	});
-	var getUserProfile = new AJAXOptions();
-	getUserProfile.setSuccess(displayUserProfile);
-	$.ajax(getUserProfile);
-	var  getTopicourses = new AJAXOptions();
-	getTopicourses.url =  "/topicourses/";
-	getTopicourses.setSuccess(displayTopicourses);
-	$.ajax(getTopicourses);
+}
 
-});
-
+//display user profile
 function displayUserProfile(data){
 	var uec = data.personalProfile.userEducationCredential;
 	    var uecCode = "";
 	    for(var i = 0, elength = uec.length; i < elength; i++){
 	        uecCode += "<li>";
-	        uecCode += uec[i].educationInfo;
+	        uecCode += uec[i].userEducationInfo;
 	        if(uec[i].IsVerified){
 	            uecCode += "[Verified]</li>";
 	        }else{
@@ -87,7 +93,7 @@ function displayUserProfile(data){
 	    uec = data.personalProfile.userWorkCredential;
 	    for(var i = 0, elength = uec.length; i < elength; i++){
 	        uecCode += "<li>";
-	        uecCode += uec[i].workInfo;
+	        uecCode += uec[i].userWorkInfo;
 	        if(uec[i].IsVerified){
 	            uecCode += "[Verified]</li>";
 	        }else{
@@ -99,23 +105,64 @@ function displayUserProfile(data){
 	    $("#location").html(data.userLocation);
 	    $("#tutorTuitionTopics").html(data.tutorTuitionTopics);
 }
+//加载显示TOpicourses信息
 function displayTopicourses(data){
-	var tcHTML = "<ul>";
-	for(var i = 0,l = data.length; i < l; i++){
-		tcHTML += "<li>userTopicoursesTimestamp:"+data[i].userTopicoursesTimestamp+"</li>"
-		tcHTML += "<li>userTopicourseCreatorUserID:"+data[i].userTopicourseCreatorUserID+"</li>"
-		tcHTML += "<li>topicourseTitle:"+data[i].topicourseTitle+"</li>"
-		tcHTML += "<li>topicoursePath:"+data[i].topicoursePath+"</li>"
-		var topicQuiz = data[i].userTopicquizList;
-		for(var j  = 0, jl = topicQuiz.length; j < jl ; j++){
-			tcHTML += "<li>userTopicquizTimestamp:"+topicQuiz[j].userTopicquizTimestamp+"</li>";
-			tcHTML += "<li>userTopicquizResult:"+topicQuiz[j].userTopicquizResult+"</li>";
-			tcHTML += "<li>userTopicquizList:"+topicQuiz[j].userTopicquizList+"</li>";
-		}
+	
+	var tcHtml = "";
+	var utcl = data.userTopicoursesList;
+	for(var i = 0,l = utcl.length; i < l; i++){
+		tcHtml += "<li>topiquestionTitle:"+utcl[i].topicourseTitle+"</li>";
 	}
-	tcHTML += "</ul>";
-	$("#teaching p").html(tcHTML);
+	$("#teaching #topicourses").html(tcHtml);
 }
+//显示topiquestions的数据
+function displayTopiquestions(data){
+
+	var tqHtml = "";
+	var uttl = data.userTopiquestionsList;
+	for(var i = 0,l = uttl.length; i < l; i++){
+		tqHtml += "<li>topiquestionTitle:"+uttl[i].topiquestionTitle+"</li>";
+	}
+	$("#teaching #topicquestions").html(tqHtml);
+}
+//
+function displayUserAppointment(data){
+	var ualHtml = "";
+	var ual = data.UserAppointmentsList;
+	for(var i = 0, l = ual.length; i < l; i++){
+		ualHtml += "<div style='border:1px solid;'><ul>";
+		ualHtml += "<li>serAppointmentCost:"+ual[i].userAppointmentCost+"</li>";
+		ualHtml += "<li>userAppointmentDate:"+ual[i].userAppointmentDate+"</li>";
+		ualHtml += "<li>userAppointmentStartTime:"+ual[i].userAppointmentStartTime+"</li>";
+		ualHtml += "<li>userAppointmentTitle:"+ual[i].userAppointmentTitle+"</li>";
+		ualHtml += "<li>userAppointmentTutorMessage:"+ual[i].userAppointmentTutorMessage+"</li>";
+		ualHtml += "</ul></div>";
+	}
+	$("#right .rightDown .appointmentSchedule").html(ualHtml);
+}
+//
+function displayUserRequest(data){
+	var urdpHtml = "";
+	var urdp = data.userRequestsList;
+	for(var i = 0, l = urdp.length; i < l; i++){
+		urdpHtml += "<li><div style='border:1px solid; width:400px; height:260px;'>";
+		urdpHtml += "<p>userRequestDatePreference:"+urdp[i].userRequestDatePreference+"</p>";
+		urdpHtml += "<p>userRequestOther:"+urdp[i].userRequestOther+"</p>";
+		urdpHtml += "<p>userRequestStudentName:"+urdp[i].serRequestStudentName+"</p>";
+		urdpHtml += "<p>userRequestTimePreference:"+urdp[i].userRequestTimePreference+"</p>";
+		urdpHtml += "<p>userRequestTimeZone:"+urdp[i].userRequestTimeZone+"</p>";
+		urdpHtml += "<p>userRequestTuitionLearningGoal:"+urdp[i].userRequestTuitionLearningGoal+"</p>";
+		urdpHtml += "<p>userRequestTuitionLevel:"+urdp[i].userRequestTuitionLevel+"</p>";
+		urdpHtml += "<p>userRequestTuitionSubject:"+urdp[i].userRequestTuitionSubject+"</p>";
+		urdpHtml += "<p>userRequestTutorName:"+urdp[i].userRequestTutorName+"</p>";
+		urdpHtml += "</li>";
+	}
+	$("#right .requestInbox #requestInbox-slider").html(urdpHtml);
+	
+	//右上轮播，一定要放在获取数据之后
+	$('#requestInbox-slider').bxSlider();
+}
+//回到主界面
 function back(){
 	$(".main").addClass("nonTransform");
 	$(".right").addClass("nonTransform");
