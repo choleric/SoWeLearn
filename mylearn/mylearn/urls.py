@@ -13,7 +13,9 @@ urlpatterns = patterns(PROJECT_APP_PREFIX + '.user_profile.views',
     url(r'^profile/', 'profile'),
     url(r'^profile2/', 'profile2'),
     url(r'^topicourses/', 'topicourses'),#test topicourses -zhouwei
-    url(r'^modify-user-quote/', 'modify_user_quote'),#test topicourses -zhouwei
+    url(r'^modify-user-quote/', 'modify_user_quote'),
+    url(r'^modify_work_and_education_credential/','modify_work_and_education_credential'),
+    url(r'^modify_work_and_education_credential/','modify_work_and_education_credential'),
 )
 
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.topicourse.views',

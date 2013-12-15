@@ -4,10 +4,9 @@ from mongoengine import connect
 from mongoengine.connection import get_db,disconnect
 from mongoengine.python_support import PY3
 from django.utils.unittest import SkipTest
-from django.test import Client
 
 from .forms import UserQuoteForm
-import views
+import json
 # Create your tests here.
 
 from models import *
@@ -142,14 +141,40 @@ class UserProfileFormTestCase(TestCase):
         print quote
         self.assertEqual(quote.is_valid(), True)
 
-    def test_about_user_quote_form_invalid(self):
-        form = UserQuoteForm(data = {'user_quote':"",})
-        self.failIf(form.is_valid())
-
-    def test_ModifyUserQuote(self):
-        response = self.client.post('/modify-user-quote',{'user_quote': 'hello world'})
+    def test_modify_user_quote(self):
+        response = self.client.post('/modify-user-quote/',{'user_quote': 'hello'})
         print response.status_code
-        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response.status_code, 302)
         print response
 
+    def test_modify_user_quote_length(self):
+        response = self.client.post('/modify-user-quote/',{'user_quote': 'hello world'})
+        print response.status_code
+        self.assertEqual(response.status_code, 200)
+        responseDict = json.loads(response.content)
+        self.assertEquals('errorList' in responseDict, True)
+        print response
 
+    def test_modify_user_quote_empty(self):
+        response = self.client.post('/modify-user-quote/',{'user_quote': ''})
+        print response.status_code
+        self.assertEqual(response.status_code, 200)
+        responseDict = json.loads(response.content)
+        self.assertEquals('errorList' in responseDict, True)
+        print response
+
+    def test_modify_user_quote_invalid_request(self):
+        response = self.client.get('/modify-user-quote/',{'user_quote': 'hello world'})
+        print response.status_code
+        self.assertEqual(response.status_code, 200)
+        responseDict = json.loads(response.content)
+        self.assertEquals('errorList' in responseDict, True)
+        print response
+
+    def test_modify_work_and_edu_empty(self):
+        response = self.client.post('/modify_work_and_education_credential/',{'userEducationCredential': '','userWorkCredential':''})
+        print response.status_code
+        self.assertEqual(response.status_code, 200)
+        responseDict = json.loads(response.content)
+        self.assertEquals('errorList_userEducationCredential' in responseDict, True)
+        print response

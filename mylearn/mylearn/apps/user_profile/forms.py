@@ -1,17 +1,13 @@
 from django import forms
 
 class UserQuoteForm(forms.Form):
-    user_quote= forms.CharField(max_length=5)
+    aboutUserQuote= forms.CharField(max_length=10)
 
-    def clean_user_quote(self):
-        user_quote = self.cleaned_data['user_quote']
-        if len(user_quote) > 5:
-            raise forms.ValidationError('too long quote')
-        return user_quote
+    #def __unicode__(self):
 
 class WorkAndEducationCredentialForm(forms.Form):
-    userEducationCredential = forms.CharField(required=False)
-    userWorkCredential = forms.CharField(required=False)
+    userEducationCredential = forms.CharField()
+    userWorkCredential = forms.CharField()
 
 class LocationAndContactForm(forms.Form):
     userLocation = forms.CharField(required=False)

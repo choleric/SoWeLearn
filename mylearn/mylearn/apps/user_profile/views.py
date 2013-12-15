@@ -6,7 +6,7 @@ from django.core.context_processors import csrf
 from django.template import RequestContext
 import json
 import models
-from .forms import UserQuoteForm
+from .forms import UserQuoteForm, WorkAndEducationCredentialForm, LocationAndContactForm
 # Create your views here.
 
 def getUserProfile(user_email):
@@ -135,31 +135,61 @@ def modify_user_quote(request):
     if request.POST:
         user_quote = UserQuoteForm(request.POST)
         if user_quote.is_valid() == True:
-            print user_quote['cleaned_data']
-            print 'save to db'
+            #user.change_about_user_quote(user_quote['aboutUserQuote'])
             return HttpResponseRedirect('/profile')
         else:
-            ourErrorList=[]
-            for error in user_quote.errors['user_quote']:
-                ourErrorList.append(str(error))
-            print ourErrorList
-            return ourErrorList
+            errorMessage={}
+            errorList=[]
+            for error in user_quote.errors['aboutUserQuote']:
+                errorList.append(str(error))
+            print errorList
+            errorMessage['errorList']=errorList
+            errorMessage=json.dumps(errorMessage)
+            return HttpResponse(errorMessage)
     else:
-        print "invalid request"
-        return HttpResponseRedirect('/profile')
+        errorMessage={'errorList':"Invalid Request"}
+        errorMessage=json.dumps(errorMessage)
+        return HttpResponse(errorMessage)
 
 
 def modify_work_and_education_credential(request):
     if request.POST:
-        user_quote = UserQuoteForm(request.POST)
-        if user_quote.is_valid() == True:
-            print user_quote['cleaned_data']
-            print 'save to db'
+        form = WorkAndEducationCredentialForm(request.POST)
+        if form.is_valid() == True:
             return HttpResponseRedirect('/profile')
+        else:
+            errorMessage={}
+            for key, value in request.POST.iteritems():
+                errorList=[]
+                for error in form.errors[key]:
+                    errorList.append(error)
+                errorMessage['errorList_'+str(key)]=errorList
+            errorMessage=json.dumps(errorMessage)
+            return HttpResponse(errorMessage)
     else:
-        print "invalid request"
-        return HttpResponseRedirect('/profile')
+        errorMessage={'errorList':"Invalid Request"}
+        errorMessage=json.dumps(errorMessage)
+        return HttpResponse(errorMessage)
 
+
+def modify_location_and_contact_form(request):
+    if request.POST:
+        form = LocationAndContactForm(request.POST)
+        if form.is_valid() == True:
+            return HttpResponseRedirect('/profile')
+        else:
+            errorMessage={}
+            for key, value in request.POST.iteritems():
+                errorList=[]
+                for error in form.errors[key]:
+                    errorList.append(error)
+                errorMessage['errorList_'+str(key)]=errorList
+            errorMessage=json.dumps(errorMessage)
+            return HttpResponse(errorMessage)
+    else:
+        errorMessage={'errorList':"Invalid Request"}
+        errorMessage=json.dumps(errorMessage)
+        return HttpResponse(errorMessage)
 
 def edit_teaching_profile_form(request):
     """Function for update teaching profile."""
