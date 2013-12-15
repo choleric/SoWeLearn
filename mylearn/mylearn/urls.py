@@ -24,9 +24,9 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.topicourse.views',
 )
 
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
-    url(r'^getUserAppointment/', 'get_tuition_map'),
-    url(r'^getUserRequest/', 'get_tuition_map'),
-    url(r'^getTutorReply/', 'get_tuition_map'),
+    url(r'^getUserAppointment/', 'get_user_appointment'),
+    url(r'^getUserRequest/', 'get_user_request'),
+    url(r'^getTutorReply/', 'get_tutor_reply'),
 )
 
 # Load extra urls config file

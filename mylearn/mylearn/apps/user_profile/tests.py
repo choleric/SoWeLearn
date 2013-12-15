@@ -137,18 +137,21 @@ class UserPersonalProfileTestCase(TestCase):
 
 class UserProfileFormTestCase(TestCase):
     def test_forms(self):
-        quote = UserQuoteForm(data={'user_quote': 'hello world'})
+
+
+    def test_user_quote_form(self):
+        quote = UserQuoteForm(data={'aboutUserQuote': 'hello world'})
         print quote
         self.assertEqual(quote.is_valid(), True)
 
     def test_modify_user_quote(self):
-        response = self.client.post('/modify-user-quote/',{'user_quote': 'hello'})
+        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello'})
         print response.status_code
         self.assertEqual(response.status_code, 302)
         print response
 
     def test_modify_user_quote_length(self):
-        response = self.client.post('/modify-user-quote/',{'user_quote': 'hello world'})
+        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
         print response.status_code
         self.assertEqual(response.status_code, 200)
         responseDict = json.loads(response.content)
@@ -156,7 +159,7 @@ class UserProfileFormTestCase(TestCase):
         print response
 
     def test_modify_user_quote_empty(self):
-        response = self.client.post('/modify-user-quote/',{'user_quote': ''})
+        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': ''})
         print response.status_code
         self.assertEqual(response.status_code, 200)
         responseDict = json.loads(response.content)
@@ -164,7 +167,7 @@ class UserProfileFormTestCase(TestCase):
         print response
 
     def test_modify_user_quote_invalid_request(self):
-        response = self.client.get('/modify-user-quote/',{'user_quote': 'hello world'})
+        response = self.client.get('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
         print response.status_code
         self.assertEqual(response.status_code, 200)
         responseDict = json.loads(response.content)
