@@ -4,10 +4,9 @@ from mongoengine import connect
 from mongoengine.connection import get_db,disconnect
 from mongoengine.python_support import PY3
 from django.utils.unittest import SkipTest
-from django.test import Client
 
 from .forms import UserQuoteForm
-
+import json
 # Create your tests here.
 
 from models import *
@@ -136,15 +135,52 @@ class UserPersonalProfileTestCase(TestCase):
 
 
 
-class UserQuoteFormTestCase(TestCase):
-    def test_forms(self):
-        quote = UserQuoteForm(data={'user_quote': 'hello world'})
-        self.assertEqual(quote.is_valid(), True)
+class UserProfileFormTestCase(TestCase):
+    def test_user_quote_form(self):
+        quote = UserQuoteForm(data={'aboutUserQuote': 'hello world'})
+        print quote
+        self.assertEqual(quote.is_valid(), False)
 
-    def test_ModifyUserQuote(self):
-        response = self.client.post('/modify-user-quote')
+    def test_modify_user_quote(self):
+        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello'})
         print response.status_code
-        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response.status_code, 302)
         print response
 
+    def test_modify_user_quote_length(self):
+        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
+        print response.status_code
+        quote = UserQuoteForm(data={'aboutUserQuote': 'hello world'})
+        self.assertEqual(quote.is_valid(), False)
+
+    def test_modify_user_quote(self):
+        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello'})
+        self.assertEqual(response.status_code, 200)
+        responseDict = json.loads(response.content)
+        self.assertEquals(responseDict['success'], True)
+
+    def test_modify_user_quote_length(self):
+        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
+        self.assertEqual(response.status_code, 200)
+        responseDict = json.loads(response.content)
+        self.assertEquals(responseDict['success'], False)
+
+    def test_modify_user_quote_empty(self):
+        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': ''})
+        print response.status_code
+        self.assertEqual(response.status_code, 200)
+        responseDict = json.loads(response.content)
+        self.assertEquals(responseDict['success'], False)
+
+    def test_modify_user_quote_invalid_request(self):
+        response = self.client.get('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
+        print response.status_code
+        print response
+        self.assertEqual(response.status_code, 404)
+
+    def test_modify_work_and_edu_empty(self):
+        response = self.client.post('/modify_work_and_education_credential/',{'userEducationCredential': '','userWorkCredential':''})
+        self.assertEqual(response.status_code, 200)
+        responseDict = json.loads(response.content)
+        self.assertEquals(responseDict['success'], False)
 

@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
 import json
 import models
-from .forms import UserQuoteForm
+from .forms import UserQuoteForm, WorkAndEducationCredentialForm, LocationAndContactForm
 # Create your views here.
 
 def getUserProfile(user_email):
@@ -107,7 +107,7 @@ def register_(request):
             return render_to_response('welcome.html', context)
             #return HttpResponseRedirect('login.html')
 
-def getUserPersonalProfile(user_email):
+def get_user_personal_profile(user_email):
     userProfile = models.UserPersonalProfile.objects(userEmail=user_email).first()
     print 'get', userProfile.userSkypeID
     return userProfile
@@ -130,16 +130,66 @@ def login(request):
         #return HttpResponseRedirect('welcome.html', context)
         return render_to_response('userProfile.html',  context)
 
-
-def ModifyUserQuote(request):
+def modify_user_quote(request):
     if request.POST:
         user_quote = UserQuoteForm(request.POST)
         if user_quote.is_valid() == True:
-            print user_quote['cleaned_data']
-            print 'save to db'
-            return HttpResponseRedirect('/profile')
-    else:
-        print "invalid request"
-        return HttpResponseRedirect('/profile')
+            #TODO
+            #user.change_about_user_quote(user_quote['aboutUserQuote'])
+            return HttpResponse(json.dumps({'success': True}))
+        else:
+            return HttpResponse(json.dumps({'success': False, 'errors': dict(user_quote.errors.items())}))
 
+    else:
+        raise Http404()
+
+
+def modify_work_and_education_credential(request):
+    if request.POST:
+        workForm = WorkAndEducationCredentialForm(request.POST)
+        if workForm.is_valid() == True:
+            #TODO
+            return HttpResponse(json.dumps({'success':True}))
+        else:
+            return HttpResponse(json.dumps({'success': False, 'errors': dict(workForm.errors.items())}))
+    else:
+        raise Http404()
+
+
+def modify_location_and_contact_form(request):
+    if request.POST:
+        locationForm = LocationAndContactForm(request.POST)
+        if locationForm.is_valid() == True:
+            #TODO
+            return HttpResponse(json.dumps({'success':True}))
+        else:
+            return HttpResponse(json.dumps({'success': False, 'errors': dict(locationForm.errors.items())}))
+    else:
+        raise Http404()
+
+def edit_teaching_profile_form(request):
+    """Function for update teaching profile."""
+    if request.method == 'POST':
+        teachingForm = forms.TeachingProfileForm(request.POST)
+        if teachingForm.is_valid():
+            newTeachingProfileForm = teachingForm.cleaned_data
+            print newTeachingProfileForm
+            user = models.UserPersonalProfile.objects.get(userEmail='test@test.com') #To be replaced!
+            if newTeachingProfileForm['tutorTuitionTopics']!='' :
+                user.change_tutorTuitionTopics(newTeachingProfileForm['tutorTuitionTopics'])
+            elif newTeachingProfileForm['tutorTuitionAverageHourlyRateMiddleSchool']!='':
+                user.change_tutorTuitionAverageHourlyRateMiddleSchool(newTeachingProfileForm['tutorTuitionAverageHourlyRateMiddleSchool'])
+            elif newTeachingProfileForm['tutorTuitionAverageHourlyRateHighSchool']!='':
+                user.tutorTuitionAverageHourlyRateHighSchool(newTeachingProfileForm['tutorTuitionAverageHourlyRateHighSchool'])
+            elif newTeachingProfileForm['tutorTuitionAverageHourlyRateCollege']!='':
+                user.tutorTuitionAverageHourlyRateCollege(newTeachingProfileForm['tutorTuitionAverageHourlyRateCollege'])
+            else:
+                pass
+
+            return HttpResponse(json.dumps({'success':True}))
+
+        else:
+            return HttpResponse(json.dumps({'success': False, 'errors': dict(teachingForm.errors.items())}))
+
+    raise Http404()
 

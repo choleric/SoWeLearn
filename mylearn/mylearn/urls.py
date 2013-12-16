@@ -14,7 +14,9 @@ urlpatterns = patterns(PROJECT_APP_PREFIX + '.user_profile.views',
     url(r'^profile/', 'profile'),
     url(r'^profile2/', 'profile2'),
     url(r'^topicourses/', 'topicourses'),#test topicourses -zhouwei
-    url(r'^modify-user-quote/', 'ModifyUserQuote'),#test topicourses -zhouwei
+    url(r'^modify-user-quote/', 'modify_user_quote'),
+    url(r'^modify_work_and_education_credential/','modify_work_and_education_credential'),
+    url(r'^modify_work_and_education_credential/','modify_work_and_education_credential'),
 )
 
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.topicourse.views',
@@ -23,9 +25,9 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.topicourse.views',
 )
 
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
-    url(r'^getUserAppointment/', 'get_tuition_map'),
-    url(r'^getUserRequest/', 'get_tuition_map'),
-    url(r'^getTutorReply/', 'get_tuition_map'),
+    url(r'^getUserAppointment/', 'get_user_appointment'),
+    url(r'^getUserRequest/', 'get_user_request'),
+    url(r'^getTutorReply/', 'get_tutor_reply'),
 )
 
 urlpatterns += patterns('',
