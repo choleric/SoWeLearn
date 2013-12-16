@@ -6,12 +6,12 @@
 		<meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css'%}">
         <link href="{% static 'css/jquery.bxslider.css'%}" rel="stylesheet" />
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js'%}"></script>
 	</head>
 	<body>
 		<div class="left">
             <div class="content">
-                <div class="basicInfo">
+                <div class="basicInfo contBox">
                     <div class="userImageBackground">
                         <img src="../static/images/cambridge3.png">
                     </div>
@@ -42,17 +42,17 @@
                             <p>Statics</p>
                         </div>
                         <div id="personal" class="contsDetail hide">
-                            <div class="title"><span>About Myself</span><span></span></div>
+                            <div class="title"><span>About Myself</span><span class="arrow-right"></span></div>
                             <div class="detailContApp"></div>
                             <div class="title"><span>Shan</span></div>
                             <div class="title"><span>Lu</span></div>
-                            <div class="title"><span>Location</span><span></span></div>
+                            <div class="title"><span>Location</span><span class="arrow-right"></span></div>
                             <div class="detailContApp"></div>
-                            <div class="title"><span></span><span></span></div>
+                            <div class="title"><span></span><span class="arrow-right"></span></div>
                             <div class="detailContApp"></div>
-                            <div class="title"><span></span><span></span></div>
+                            <div class="title"><span></span><span class="arrow-right"></span></div>
                             <div class="detailContApp"></div>
-                            <div class="title gray"><span>Phone Number</span><span></span></div>
+                            <div class="title gray"><span>Phone Number</span><span class="arrow-down"></span></div>
                             <div class="detailContApp"></div>
                             <!-- <p>About yourself:</p>
                             <input type="text" id="aboutUserQuote" value=""/>
@@ -66,9 +66,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="educationAndWork">
-                    
-                    
+                <div class="education contBox">
+                    <span class="cardTitle">Education</span>
+                    <div class="conts">
+                        <div class="contsDetail">
+                            <div class="title"><span>Cambridge University</span><span class="offon"></span></div>
+                            <div class="title"><span></span><span class="offon"></span></div>
+                            <div class="title"><span></span><span class="offon"></span></div>
+                            <div class="title"><span>CentOS</span><span class="radio"></span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="work contBox">
+                    <span class="cardTitle">Work</span>
+                    <div class="conts">
+                        <div class="contsDetail">
+                            <div class="title"><span>Cambridge University</span><span class="offon"></span></div>
+                            <div class="title"><span></span><span class="offon"></span></div>
+                            <div class="title"><span></span><span class="offon"></span></div>
+                            <div class="title"><span>CentOS</span><span class="radio"></span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 		</div>

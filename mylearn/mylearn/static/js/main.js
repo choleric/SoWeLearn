@@ -68,6 +68,14 @@ function init(){
 	        color: '#000',
 	        wheelStep: 10
 	});
+	$(".left .content").slimScroll({
+	        width: '420px',
+	        height:  $(window).height(),
+	        size: '10px',
+	        position: 'right',
+	        color: '#000',
+	        wheelStep: 10
+	});
 	//left-down nav
 	$(".tabBtn").bind("click",function(){
 		$(".basicInfo .contsDetail").hide();
