@@ -31,7 +31,7 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
 )
 
 urlpatterns += patterns('',
-        (r'^accounts/', include('userena.urls')),
+    (r'^accounts/', include('allauth.urls')),
 )
 
 # Load extra urls config file
