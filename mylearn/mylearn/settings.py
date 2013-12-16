@@ -31,7 +31,6 @@ SECRET_KEY = 'qukye=pnq%+(4o571gq=#*nur+noruonh=ulci3^8df!%4e3ac'
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
     'django.contrib.messages',
     'userena',
     'guardian',
@@ -63,17 +62,25 @@ LOCALE_PATHS = (
     os.path.join(PROJECT_DIR, "locale"),
 )
 
-# accounts setting
+# auth settings
 AUTHENTICATION_BACKENDS = (
     'userena.backends.UserenaAuthenticationBackend',
     'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_NAME = "_l"
+SESSION_EXPIRE_AT_BROWSER_CLOSE =True
+
+# userena settings
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+ANONYMOUS_USER_ID = -1
+USERENA_ACTIVATION_DAYS=1
 
 
 # Load settings.py(development or production) file based on os environment variable "MYLEARN_MODE", default production mode
