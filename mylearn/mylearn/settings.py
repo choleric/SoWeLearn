@@ -81,6 +81,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE =True
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 ANONYMOUS_USER_ID = -1
 USERENA_ACTIVATION_DAYS=1
+USERENA_WITHOUT_USERNAME=True #set to true
 
 
 # Load settings.py(development or production) file based on os environment variable "MYLEARN_MODE", default production mode
