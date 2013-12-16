@@ -27,14 +27,14 @@ PROJECT_DIR = os.path.join(BASE_DIR, PROJECT_NAME)
 SECRET_KEY = 'qukye=pnq%+(4o571gq=#*nur+noruonh=ulci3^8df!%4e3ac'
 
 
+def get_project_app_qulified_name(app) :
+    return "%s.%s"%(PROJECT_APP_PREFIX, app)
+
 # Application definition
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
-    'userena',
-    'guardian',
-    'easy_thumbnails',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -127,6 +127,13 @@ if None != __appList :
     for app in __appList :
         if os.path.isdir(os.path.join(__appsDir, app)) :
             __logger.info("load app: %s", app)
-            INSTALLED_APPS += ("%s.%s"%(PROJECT_APP_PREFIX, app),)
+            INSTALLED_APPS += (get_project_app_qulified_name(app), )
+
+# userena must load after mock userena app "userena_override_template" for the templates
+INSTALLED_APPS += (
+    'userena',
+    'guardian',
+    'easy_thumbnails',
+)
 
 # IMPORTANT no configuration below is allowed
