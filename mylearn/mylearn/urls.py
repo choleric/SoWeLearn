@@ -5,6 +5,8 @@ from django.conf.urls import url
 from django.conf.urls import include
 from settings import PROJECT_APP_PREFIX
 from settings import PROJECT_CONFIG_DIR
+#To test allauth
+from django.contrib import admin
 
 urlpatterns = patterns(PROJECT_APP_PREFIX + '.user_profile.views',
     url(r'^$', 'welcome'),
@@ -30,10 +32,18 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
     url(r'^getTutorReply/', 'get_tutor_reply'),
 )
 
+urlpatterns += patterns(PROJECT_APP_PREFIX + '.allauth_override_template.views',
+    url(r'^accounts/signup/$', 'signup_learn', name="account_signup"),
+)
+
 urlpatterns += patterns('',
     (r'^accounts/', include('allauth.urls')),
 )
 
+#To test allauth
+urlpatterns += patterns('',
+    (r'^admin/', include(admin.site.urls)),
+)
 # Load extra urls config file
 __extraURLConfigFile = os.path.join(PROJECT_CONFIG_DIR, "urls.py")
 if os.path.exists(__extraURLConfigFile) :

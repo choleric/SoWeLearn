@@ -11,8 +11,15 @@ class userPersonalProfile(EmbeddedDocument):
 
 class user(Document):
     userEmail = StringField(max_length=120, required=True,unique=True)
-    userName = StringField(max_length=50)
+    userFirstName = StringField(max_length=50)
+    userLastName = StringField(max_length=50)
     #userPersonalProfile=EmbeddedDocumentField(userPersonalProfile)
+
+    def user_signup(self, userEmail, userFirstName, userLastName):
+        self.userEmail = userEmail
+        self.userFirstName = userFirstName
+        self.userLastName = userLastName
+        self.save()
 #
 class UserVerified(EmbeddedDocument):
     IsVerified = BooleanField(default=False)

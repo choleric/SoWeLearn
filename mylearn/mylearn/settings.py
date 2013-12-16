@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -43,6 +44,8 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.linkedin',
     'allauth.socialaccount.providers.twitter',
+    #To test allauth
+    'django.contrib.admin',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -74,6 +77,7 @@ LOCALE_PATHS = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     # Required by allauth template tags
     "django.core.context_processors.request",
+    'django.contrib.auth.context_processors.auth',
     # allauth specific context processors
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
@@ -85,7 +89,6 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
@@ -93,13 +96,32 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_NAME = "_l"
 SESSION_EXPIRE_AT_BROWSER_CLOSE =True
+ANONYMOUS_USER_ID=-1
 
-# userena settings
-EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
-ANONYMOUS_USER_ID = -1
-USERENA_ACTIVATION_DAYS=1
-USERENA_WITHOUT_USERNAME=True #set to true
+# allauth settings
+ACCOUNT_ADAPTER ="allauth.account.adapter.DefaultAccountAdapter" #can be customized
+ACCOUNT_AUTHENTICATION_METHOD="email"
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=1
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_EMAIL_VERIFICATION= "mandatory"
+ACCOUNT_USERNAME_REQUIRED=False
+  #Specifies the adapter class to use, allowing you to alter certain default behaviour.
+SOCIALACCOUNT_ADAPTER="allauth.socialaccount.adapter.DefaultSocialAccountAdapter"
 
+SOCIALACCOUNT_PROVIDERS = \
+    {
+    #Settings for Facebook
+    'facebook':
+       {'SCOPE': ['email', 'publish_stream'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'METHOD': 'oauth2',
+        'LOCALE_FUNC': 'path.to.callable', #what should this be referred to?
+        'VERIFIED_EMAIL': True},
+    #Settings for Google
+    'google':
+        { 'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile'],
+          'AUTH_PARAMS': { 'access_type': 'online' } }
+    }
 
 # Load settings.py(development or production) file based on os environment variable "MYLEARN_MODE", default production mode
 __MODE_DEV= "dev"
