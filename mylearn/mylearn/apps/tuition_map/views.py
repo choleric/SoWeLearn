@@ -11,7 +11,7 @@ def get_tuition_map(func):
     return new_view
 
 @get_tuition_map
-def getUserAppointment(user_email):
+def get_user_appointment(user_email):
     userAppointments = {}
 
     userAppointments['UserAppointmentsList']=[]
@@ -28,7 +28,7 @@ def getUserAppointment(user_email):
     return userAppointments
 
 @get_tuition_map
-def getUserRequest(user_email):
+def get_user_request(user_email):
     userRequests={}
 
     userRequests['userRequestsList']=[]
@@ -49,7 +49,7 @@ def getUserRequest(user_email):
     return userRequests
 
 @get_tuition_map
-def getTutorReply(user_email):
+def get_tutor_reply(user_email):
     tutorReplys={}
 
     tutorReplys['tutorReplysList']=[]

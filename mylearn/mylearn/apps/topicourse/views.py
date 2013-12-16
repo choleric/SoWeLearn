@@ -26,7 +26,7 @@ def getUserTopicourses(user_email, get_type, num):
     #sorted(topicourses.['userTopicoursesList'],key=topicourses.['userTopicoursesList'].)
     return topicourses
 
-def userTopicourses(request):
+def user_topicourses(request):
     userTopicourses = getUserTopicourses('test@test.com','learning',3)
     userTopicourses = json.dumps(userTopicourses)
     return HttpResponse(userTopicourses)
@@ -46,7 +46,7 @@ def getUserTopiquestions(user_email, get_type, num):
 
     return topiquestions
 
-def userTopiquestions(request):
+def user_topiquestions(request):
     userTopiquestions = getUserTopiquestions('test@test.com','learning',3)
     userTopiquestions = json.dumps(userTopiquestions)
     return HttpResponse(userTopiquestions)
