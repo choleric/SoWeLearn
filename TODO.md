@@ -12,7 +12,7 @@
 7. 把个个链接的参数整理成文档
 8. user model根据需求重定义  
 9. profile model根据需求定义，并接入allauth系统
-10. 调整password(change, set, inactive, reset)的参数和传出的数据,单元测试, 包括email的验证流程  
+10. 调整password(change, set, inactive, reset)的参数和传出的数据,单元测试  
   
   
 #### 前后端数据交互统一  
