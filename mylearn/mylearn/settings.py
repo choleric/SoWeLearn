@@ -44,8 +44,6 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.linkedin',
     'allauth.socialaccount.providers.twitter',
-    #To test allauth
-    'django.contrib.admin',
 )
 
 MIDDLEWARE_CLASSES = (
