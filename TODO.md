@@ -31,7 +31,7 @@ p是个个操作定义的参数，可以不存在
   
 ##### 实体设计  
 首要建立个个实体之间的关系, 以下实体是我暂定，可以根据情况修改:  
-![Simple Entity Design][entitydesign]
+![Simple Entity Design][entitydesign]   
 这些实体我们可以理解成对应一个model，然后每个model会有自己的function。
 
 ##### 业务实现
