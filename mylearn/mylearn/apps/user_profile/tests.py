@@ -1,55 +1,10 @@
-from django.test import TestCase
-#from mongorunner import TestCase
-from mongoengine import connect
-from mongoengine.connection import get_db,disconnect
-from mongoengine.python_support import PY3
-from django.utils.unittest import SkipTest
-
-from .forms import UserQuoteForm
 import json
-# Create your tests here.
-
 from models import *
-
-try:
-    from django.test import TestCase
-    from django.conf import settings
-except Exception as err:
-    if PY3:
-        from unittest import TestCase
-        # Dummy value so no error
-        class settings:
-            DBNAME = 'dummy'
-    else:
-        raise err
-
-#
-# WARNING: MUST CLOSE the connection to production database, otherwise all tables will be dropped in _post_teardown function.
-#          Because connection is already set up in settings.py
-#
-disconnect()
+from .forms import UserQuoteForm
+from ..projtest import BaseTest
 
 
-class UserPersonalProfileTestCase(TestCase):
-    db_name = 'test_%s' % settings.DBNAME
-    print 'start test UserPersonalProfileTestCase...'
-
-    def __init__(self, methodName='runtest'):
-
-        connect(self.db_name)
-        self.db = get_db()
-        super(UserPersonalProfileTestCase, self).__init__(methodName)
-
-    def _post_teardown(self):
-        super(UserPersonalProfileTestCase, self)._post_teardown()
-        for collection in self.db.collection_names():
-            if collection == 'system.indexes':
-                continue
-            self.db.drop_collection(collection)
-
-    def setUp(self):
-        if PY3:
-            raise SkipTest('django does not have Python 3 support')
+class UserPersonalProfileTestCase(BaseTest):
 
     def test_model(self):
         UserPersonalProfile.objects.create(userSkypeID='skypei_id001', aboutUserQuote='my quote', userEmail='007')
@@ -135,7 +90,7 @@ class UserPersonalProfileTestCase(TestCase):
 
 
 
-class UserProfileFormTestCase(TestCase):
+class UserProfileFormTestCase(BaseTest):
     def test_user_quote_form(self):
         quote = UserQuoteForm(data={'aboutUserQuote': 'hello world'})
         print quote
