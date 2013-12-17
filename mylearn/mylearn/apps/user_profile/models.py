@@ -9,7 +9,7 @@ class userPersonalProfile(EmbeddedDocument):
     userWorkCredentials = StringField(max_length=120)
     userLocation = StringField(max_length=120)
 
-class user(Document):
+class User(Document):
     userEmail = StringField(max_length=120, required=True,unique=True)
     userFirstName = StringField(max_length=50)
     userLastName = StringField(max_length=50)
