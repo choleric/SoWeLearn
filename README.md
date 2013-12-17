@@ -26,6 +26,9 @@ git是分布式的版本管理工具，所以有远程repo和本地repo的概念
 这样是防止*git commit -am "commit log"*将所有不必要的问题，提交到repo里去  
 ##### push  
 每次push之间记得要pull以下代码哦
+##### delete remote branch  
+      
+    git push origin :remoteBranchName  
   
 #### code with log  
 后端想要*print xxx*的时候千万别print, 而是用如下的代码：  
