@@ -32,9 +32,9 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
     url(r'^getTutorReply/', 'get_tutor_reply'),
 )
 
-urlpatterns += patterns(PROJECT_APP_PREFIX + '.allauth_override_template.views',
-    url(r'^accounts/signup/$', 'signup_learn', name="account_signup"),
-)
+#urlpatterns += patterns(PROJECT_APP_PREFIX + '.allauth_override_template.views',
+#    url(r'^accounts/signup/$', 'signup_learn', name="account_signup"),
+#)
 
 urlpatterns += patterns('',
     (r'^accounts/', include('allauth.urls')),

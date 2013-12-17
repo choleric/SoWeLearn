@@ -129,7 +129,7 @@ class UserProfileFormTestCase(BaseTest):
 
     def test_modify_user_quote_invalid_request(self):
         response = self.client.get('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
-        print response.status_code
+        print response.status_codecre
         print response
         self.assertEqual(response.status_code, 404)
 

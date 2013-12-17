@@ -1,34 +1,26 @@
 import json
-from models import *
-from .forms import SignupFormLearn, SignupFormAdd
+from django.contrib.auth import get_user_model
+from django.core.urlresolvers import reverse
+from django.test.client import Client
+from .forms import SignupFormAdd
 from ..projtest import BaseTest
-from mylearn.apps.user_profile.models import User
 
 # Create your tests here.
-def test_user_quote_form(self):
-        quote = UserQuoteForm(data={'aboutUserQuote': 'hello world'})
-        print quote
-        self.assertEqual(quote.is_valid(), False)
-
 class UserAllAuthTestCase(BaseTest):
-    def test_signup_form(self):
-        data ={'email': "signup@signup.com",'password1':"signup",'password1':"signup",'password2':"signup",\
-            'userFirstName':"ming", 'userLastName':'xing'}
-        signup = SignupFormLearn(data)
-        print signup.errors
-        self.assertEqual(signup.is_valid(), True)
-
     def test_signup_form_add(self):
-        data ={'email': "signup@signup.com",'password1':"signup",'password1':"signup",'password2':"signup",\
+        data ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
         signup = SignupFormAdd(data)
         print signup.errors
         self.assertEqual(signup.is_valid(), True)
 
-    def test_signup(self):
-        data ={'email': "signup@signup.com",'password1':"signup",'password1':"signup",'password2':"signup",\
+    def test_signup_save(self):
+        data ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
-        signup = SignupFormLearn(data)
-        signup.save()
-        user = User.objects.get(email="signup@signup.com")
-        self.assertEqual(user.userLastName,"xing")
+        signup = SignupFormAdd(data)
+        User = get_user_model()
+        user = User()
+        if signup.is_valid():
+            signup.save(user)
+        user = User.objects.get(first_name="ming")
+        self.assertEqual(user.last_name,"xing")

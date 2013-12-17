@@ -19,7 +19,7 @@ class User(Document):
         self.userEmail = userEmail
         self.userFirstName = userFirstName
         self.userLastName = userLastName
-        self.save()
+        self.create()
 #
 class UserVerified(EmbeddedDocument):
     IsVerified = BooleanField(default=False)
