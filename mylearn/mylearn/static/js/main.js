@@ -1,6 +1,7 @@
 $(document).ready( function(){
 	init();
 	// getData();
+	leftInit();
 });
 
 //获取首屏信息
@@ -85,6 +86,18 @@ function init(){
 	});
 }
 
+function leftInit(){
+	//verified  and  unverified 
+	$(".switch").bind("click",function(){
+		if($(this).hasClass("switch-on")){
+			$(this).removeClass("switch-on").addClass("switch-off");
+			$(this).children("span").html("unverified");
+		}else if($(this).hasClass("switch-off")){
+			$(this).removeClass("switch-off").addClass("switch-on");
+			$(this).children("span").html("verified");
+		}
+	});
+}
 //display user profile
 function displayUserProfile(data){
 	var uec = data.personalProfile.userEducationCredential;
