@@ -40,3 +40,6 @@ INSTALLED_APPS += (
     #To test allauth
     'django.contrib.admin',
 )
+
+# for allauth requiring site_id
+SITE_ID = 1
