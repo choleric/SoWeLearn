@@ -4,7 +4,7 @@
   
 #### auth  
 1. 整合allauth基本配置，包括cookie时效和名字的配置，匿名用户登录的配置等(status: done)
-2. 调整signin的参数和传出的数据,单元测试(status:assigned, ray)  
+2. 调整signin的参数和传出的数据,单元测试  
 3. 调整signout的参数和传出的数据,单元测试  
 4. 调整signup的参数和传出的数据,单元测试, 包括email的验证流程－－Meichen  
 5. 配置allauth的第三方接入的数据，email和本地账户的对接  
@@ -17,7 +17,7 @@
   
 #### 前后端数据交互统一  
 1. 前端传入的数据需要进行[html entity code][htmlenti]的转化, 最好可以采用decorator的方式  
-2. 统一python端httprespose的应用，可以写一个自己的response来达到统一传出参数格式的目地，具体格式如下  
+2. 统一python端httprespose的应用，可以写一个自己的response来达到统一传出参数格式的目地，具体格式如下(status:assigned, ray)  
 3. 整理出个个操作的code值文档
     
 ##### 传出参数格式
