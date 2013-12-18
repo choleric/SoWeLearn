@@ -103,7 +103,6 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=1
 ACCOUNT_EMAIL_REQUIRED=True
 ACCOUNT_EMAIL_VERIFICATION= "mandatory"
 ACCOUNT_USERNAME_REQUIRED=False
-ACCOUNT_SIGNUP_FORM_CLASS = 'allauth_override_template.forms.SignupFormAdd'
   #Specifies the adapter class to use, allowing you to alter certain default behaviour.
 SOCIALACCOUNT_ADAPTER="allauth.socialaccount.adapter.DefaultSocialAccountAdapter"
 
