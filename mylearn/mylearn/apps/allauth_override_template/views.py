@@ -10,9 +10,7 @@ from .. import code
 class SignupViewLearn(SignupView,AjaxCapableProcessFormViewMixin):
     def form_invalid(self, form):
         #return HttpResponse(dict(form.errors.items()))
-        rawdata = dict(form.errors.items())
-        for k,v in rawdata:
-
+        data = dict(form.errors.items())
         return JsonResponse(code.SignupFailure, data)
 
 signup_learn = SignupViewLearn.as_view()
