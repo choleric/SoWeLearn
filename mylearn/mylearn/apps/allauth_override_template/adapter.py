@@ -1,4 +1,6 @@
 from allauth.account.adapter import DefaultAccountAdapter
+from ..response import JsonResponse
+from .. import code
 
 class AccountAdapter(DefaultAccountAdapter):
     def ajax_response(self, request, response, redirect_to=None, form=None):
@@ -15,6 +17,4 @@ class AccountAdapter(DefaultAccountAdapter):
             if hasattr(response, 'render'):
                 response.render()
             data['html'] = response.content.decode('utf8')
-        return HttpResponse(json.dumps(data),
-                            status=status,
-                            content_type='application/json')
+        return JsonResponse(code.SignupFailure, data)
