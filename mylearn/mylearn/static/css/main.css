@@ -5,7 +5,10 @@ a:hover {text-decoration: none;}
 ::-moz-selection{ background: #F00; color:#fff; text-shadow: none; }
 ::selection { background:#F00; color:#fff; text-shadow: none; } 
 a:link { -webkit-tap-highlight-color: #F00; }
-
+ 
+textarea:focus{
+	outline: none;
+}
 body .hide {
 	display: none;
 }
@@ -343,18 +346,48 @@ body .hide {
 	left: 9px;
 }
 .left .conts .contsDetail .title{
+	position: relative;
 	width: 400px;
-	height: 50px;
+	min-height: 30px;
+	padding: 3px 0;
 	font-family: Arial,sans-serif,Microsoft Yahei;
 	font-size: 16px;
 	font-weight: bold;
 	background-color: #fff;
 	border-top: solid 1px #efefef;
 }
+.left .conts .contsDetail .title.editable{
+	border: 1px solid rgba(0,0,0,0.1);
+	box-shadow: 0px 0px 13px rgba(0,0,0,0.5) inset;
+}
 .left .conts .title span{
-	height: 50px;
-	line-height: 50px;
+	height: 40px;
+	line-height: 40px;
 	margin-left: 20px;
+}
+.left .conts .title .info{
+	display: block;
+	height: inherit;
+	min-height: 19px;
+	line-height: 19px;
+	padding: 2px 0;
+	max-width: 270px;
+}
+.left .conts .title textarea.info{
+	border: none;
+	overflow-y: visible;
+	margin-left: 20px;
+	width: 270px;
+	font-size: 16px;
+	color: #3c3c3c;
+	font-weight: bolder;
+	font-family: Arial,sans-serif,Microsoft Yahei;
+}
+.left .conts .title .info.last{
+	padding-bottom: 10px;
+}
+.left .work .title,.left .education .title{
+	padding-top: 8px !important;
 }
 .left .conts .contsDetail .arrow-right,.left .conts .contsDetail .arrow-down{
 	background: url(../images/arrow.png) no-repeat scroll;
@@ -373,16 +406,21 @@ body .hide {
 .left .conts .contsDetail .switch{
 	display: inline-block;
 	width: 88px;
-	position: relative;
-	float: right;
+	position: absolute;
+	right: 10px;
+	top: 10px;
 	height: 20px;
-	margin: 13px 10px;
 	border-radius: 12px;
 	-webkit-border-radius: 12px;
 	-moz-border-radius: 12px;
 	-o-border-radius: 12px;
 	-ms-border-radius: 12px;
-}
+	/*-ms-transition:all 5s ease-in-out;
+	-webkit-transition:all 5s ease-in-out;
+	-o-transition:all 5s ease-in-out;
+	-moz-transition:all 5s ease-in-out;
+	transition:all 5s ease-in-out;
+*/}
 .left .conts .contsDetail .switch:hover{
 	cursor: pointer;
 }
