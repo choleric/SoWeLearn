@@ -10,6 +10,7 @@ from .forms import UserQuoteForm, WorkAndEducationCredentialForm, LocationAndCon
 from django.contrib.auth.decorators import login_required
 from .. import code
 from ..response import JsonResponse
+from ..decorator import html_entity_encode
 # Create your views here.
 
 def getUserProfile(user_email):
@@ -52,6 +53,7 @@ def profile(request):
     context = {'personalProfile': userProfile['personalProfile']}
     return render_to_response('userProfile.html',  context)
 
+@html_entity_encode()
 def profile2(request):
     userProfile = getUserProfile('test@test.com')
     return JsonResponse(code.SUCCESS, userProfile)

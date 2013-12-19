@@ -16,7 +16,7 @@
   
   
 #### 前后端数据交互统一  
-1. 前端传入的数据需要进行[html entity code][htmlenti]的转化, 最好可以采用decorator的方式(status:assigned, Ray)  
+1. 前端传入的数据需要进行[html entity code][htmlenti]的转化, 最好可以采用decorator的方式(status:done, Ray)  
 2. 统一python端httprespose的应用，可以写一个自己的response来达到统一传出参数格式的目地，具体格式如下(status:done, Ray)  
 3. 整理出个个操作的code值文档
     
