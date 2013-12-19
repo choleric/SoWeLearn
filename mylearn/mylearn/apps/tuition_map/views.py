@@ -1,13 +1,17 @@
 import json
 from django.http import HttpResponse
-# Create your views here.
+from ..decorator import html_entity_encode
+from .. import code
+from ..response import JsonResponse
 
+# Create your views here.
 def get_tuition_map(func):
     def new_view(request, *karg, **kwargs):
         # get user_emai
         raw_data = func('test@test.com')
         #format json output
-        return HttpResponse(json.dumps(raw_data, sort_keys=True, indent=4))
+        #return HttpResponse(json.dumps(raw_data, sort_keys=True, indent=4))
+        return JsonResponse(code.SUCCESS, raw_data)
     return new_view
 
 @get_tuition_map

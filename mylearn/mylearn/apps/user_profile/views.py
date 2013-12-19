@@ -76,10 +76,10 @@ def getUserTopicourses(userID,type,number):
 
     return  userTopicoursesList
 
+@html_entity_encode()
 def topicourses(request):
     userTopicourses = getUserTopicourses("1146","teaching","2")
-    userTopicourses = json.dumps(userTopicourses)
-    return HttpResponse(userTopicourses)
+    return JsonResponse(code.SUCCESS, userTopicourses)
 
 #user_db = models.User()
 

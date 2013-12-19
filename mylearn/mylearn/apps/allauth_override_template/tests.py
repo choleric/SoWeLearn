@@ -12,7 +12,6 @@ class UserAllAuthTestCase(BaseTest):
         data ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
         signup = SignupFormAdd(data)
-        print signup.errors
         self.assertEqual(signup.is_valid(), True)
 
     def test_signup_save(self):
@@ -24,20 +23,21 @@ class UserAllAuthTestCase(BaseTest):
         if signup.is_valid():
             signup.save(user)
         user = User.objects.get(first_name="ming")
-        self.assertEqual(user.last_name,"xing")
+        self.assertEqual(user.last_name,"xing",user)
 
     def test_signup_allauth_form(self):
         data ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
         signup = SignupForm(data)
-        self.assertEqual(signup.is_valid(), True)
+        self.assertEqual(signup.is_valid(), True, signup.errors)
 
     def test_signup_allauth_form_email_invalid(self):
-        data ={'email': "signup.com",'password1':"signup",'password2':"signup",\
+        data ={'email': "signup.com",'password1':"signup1",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
         signup = SignupForm(data)
-        print signup.errors
+        signupError = dict(signup.errors.items())
         self.assertEqual(signup.is_valid(), False)
+        self.assertTrue('email' in signupError)
 
     def test_signup(self):
         data ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
@@ -48,8 +48,17 @@ class UserAllAuthTestCase(BaseTest):
         self.assertEqual(user.last_name,"xing")
 
     def test_signup_email_invalid(self):
-        data ={'email': "signup.com",'password1':"signup",'password2':"signup",\
+        data ={'email': "signup.com",'password1':"signup1",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
         response = self.client.post(reverse('account_signup_learn'),data)
+        print response
+        self.assertEqual(response.status_code, 200)
+
+    def test_signup_email_already_taken(self):
+        User = get_user_model()
+        User.objects.create(email='signup',password='pass')
+        data2 ={'email': "signup",'password1':"signup",'password2':"signup",\
+            'userFirstName':"ming", 'userLastName':'xing'}
+        response = self.client.post(reverse('account_signup_learn'),data2)
         print response
         self.assertEqual(response.status_code, 200)
