@@ -8,6 +8,8 @@ from settings import PROJECT_CONFIG_DIR
 #To test allauth
 from django.contrib import admin
 
+admin.autodiscover()
+
 urlpatterns = patterns(PROJECT_APP_PREFIX + '.user_profile.views',
     url(r'^$', 'welcome'),
     url(r'^test/', 'test'),
@@ -34,6 +36,10 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
 
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.allauth_override_template.views',
     url(r'^accounts/signup/$', 'signup_learn', name="account_signup_learn"),
+)
+
+urlpatterns += patterns(PROJECT_APP_PREFIX + '.allauth_override_template.views',
+    url(r'^accounts/login/$', 'signin_learn', name="account_signin_learn"),
 )
 
 urlpatterns += patterns('',

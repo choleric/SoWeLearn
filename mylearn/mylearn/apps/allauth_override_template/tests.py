@@ -2,12 +2,22 @@ import json
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test.client import Client
+from django.conf import settings
+from django.contrib.sites.models import Site
 from allauth.account.forms import SignupForm
 from .forms import SignupFormAdd
 from ..projtest import BaseTest
 
 # Create your tests here.
 class UserAllAuthTestCase(BaseTest):
+    def setUp(self):
+        if 'allauth.socialaccount' in settings.INSTALLED_APPS:
+                    # Otherwise ImproperlyConfigured exceptions may occur
+                    from allauth.socialaccount.models import SocialApp
+                    sa = SocialApp.objects.create(name='testfb',
+                                                  provider='facebook')
+                    sa.sites.add(Site.objects.get_current())
+
     def test_signup_form_add(self):
         data ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
@@ -62,3 +72,11 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_signup_learn'),data2)
         print response
         self.assertEqual(response.status_code, 200)
+
+    def test_signipview(self):
+        data = {'email': 'test@test.com', 'password': 'test'}
+        response = self.client.post(reverse('account_signin_learn'),data)
+        print 'status:', response.status_code, '==='
+        print response
+        #self.assertNotEqual(response.status_code, 200)
+

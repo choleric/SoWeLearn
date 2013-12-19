@@ -22,7 +22,7 @@ PROJECT_APP_NAME = "apps"
 PROJECT_APP_PREFIX = PROJECT_NAME + "." + PROJECT_APP_NAME
 PROJECT_DIR = os.path.join(BASE_DIR, PROJECT_NAME)
 
-
+SITE_ID=1
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'qukye=pnq%+(4o571gq=#*nur+noruonh=ulci3^8df!%4e3ac'
 
@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.sites',
+    'django.contrib.staticfiles',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -81,12 +82,20 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "allauth.socialaccount.context_processors.socialaccount",
 )
 
+# List of callables that know how to import templates from various sources.
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+#     'django.template.loaders.eggs.Loader',
+)
+
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
+STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
@@ -114,7 +123,7 @@ SOCIALACCOUNT_PROVIDERS = \
        {'SCOPE': ['email', 'publish_stream'],
         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
         'METHOD': 'oauth2',
-        'LOCALE_FUNC': 'path.to.callable', #what should this be referred to?
+        'LOCALE_FUNC': lambda request: 'en_US', #what should this be referred to?
         'VERIFIED_EMAIL': True},
     #Settings for Google
     'google':
