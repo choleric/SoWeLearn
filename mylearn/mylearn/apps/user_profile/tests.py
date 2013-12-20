@@ -129,9 +129,7 @@ class UserProfileFormTestCase(BaseTest):
 
     def test_modify_user_quote_invalid_request(self):
         response = self.client.get('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
-        print response.status_codecre
-        print response
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 404, response.status_code)
 
     def test_modify_work_and_edu_empty(self):
         response = self.client.post('/modify_work_and_education_credential/',{'userEducationCredential': '','userWorkCredential':''})
