@@ -91,10 +91,10 @@ function leftInit(){
 	$(".switch").bind("click",function(){
 		if($(this).hasClass("switch-on")){
 			$(this).removeClass("switch-on").addClass("switch-off");
-			$(this).children("span").html("unverified");
+			$(this).children("span").first().html("unverified");
 		}else if($(this).hasClass("switch-off")){
 			$(this).removeClass("switch-off").addClass("switch-on");
-			$(this).children("span").html("verified");
+			$(this).children("span").first().html("verified");
 		}
 	});
 }

@@ -73,12 +73,17 @@
                             <div class="title">
                                 <span class="info">Cambridge University Central South University</span>
                                 <span class="info last">2011.09.01 -- 2014.06.22</span>
-                                <div class="switch switch-on"><span>verified</span><div class="dot"></div></div>
+                                <div class="switch switch-on tooltip">
+                                    <span>verified</span>
+                                    <div class="dot"></div>
+                                    <span class="tooltipInfo down">tooltip switch info</span>
+                                </div>
                             </div>
-                            <div class="title editable">
-                                <textarea class="info">Cambridge University Central South University</textarea>
-                                <textarea class="info last">2011.09.01 -- 2014.06.22</textarea>
-                                <div class="switch switch-on"><span>verified</span><div class="dot"></div></div>
+                            <div class="title editableBox">
+                                <div class="editable" contenteditable="true">Cambridge University Central South University</div>
+                                <div class="editable" contenteditable="true">2011.09.01 -- 2014.06.22</div>
+                                <a href="#" class="update tooltip">✓<span class="tooltipInfo">update</span></a>
+                                <a href="#" class="close tooltip">✗<span class="tooltipInfo">cancel</span></a>
                             </div>
                             <div class="title">
                                 <span class="info">Cambridge University</span>
@@ -128,6 +133,7 @@
         </div>                
         <script type="text/javascript" src="{% static 'js/jquery.bxslider.min.js'%}"></script>
         <script type="text/javascript" src="{% static 'js/jquery.slimscroll.js'%}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.tipTip.js'%}"></script>
         <script type="text/javascript" src="{% static 'js/tools.js'%}"></script>
         <script type="text/javascript" src="{% static 'js/main.js'%}"></script>
 	</body>
