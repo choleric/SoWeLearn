@@ -66,9 +66,9 @@ class UserAllAuthTestCase(BaseTest):
 
     def test_signup_email_already_taken(self):
         User = get_user_model()
-        User.objects.create(email='signup',password='pass')
-        data2 ={'email': "signup",'password1':"signup",'password2':"signup",\
-            'userFirstName':"ming", 'userLastName':'xing'}
+        User.objects.create(email='signup@signup.com',password='pass')
+        data2 ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
+            'userFirstName':"cccccccccccccccc", 'userLastName':'xing'}
         response = self.client.post(reverse('account_signup_learn'),data2)
         print response
         self.assertEqual(response.status_code, 200)

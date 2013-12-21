@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 
 class SignupFormAdd(forms.Form):
-    userFirstName=forms.CharField(max_length=30)
+    userFirstName=forms.CharField(max_length=10)
     userLastName=forms.CharField(max_length=30)
 
     class Meta:
