@@ -1,5 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.forms import FileField
+
 
 class SignupFormAdd(forms.Form):
     userFirstName=forms.CharField(max_length=10)
@@ -12,4 +15,3 @@ class SignupFormAdd(forms.Form):
         user.first_name = self.cleaned_data['userFirstName']
         user.last_name = self.cleaned_data['userLastName']
         user.save()
-

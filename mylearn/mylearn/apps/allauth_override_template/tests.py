@@ -57,21 +57,31 @@ class UserAllAuthTestCase(BaseTest):
         user = User.objects.get(email="signup@signup.com")
         self.assertEqual(user.last_name,"xing")
 
-    def test_signup_email_invalid(self):
-        data ={'email': "signup.com",'password1':"signup1",'password2':"signup",\
+    def test_signup_different_password(self):
+        data ={'email': "yoyo@signup.com",'password1':"signup1",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
         response = self.client.post(reverse('account_signup_learn'),data)
-        print response
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200, response)
+        content = json.loads(response.content)
+        self.assertEqual(content["c"],3,content)
 
     def test_signup_email_already_taken(self):
         User = get_user_model()
         User.objects.create(email='signup@signup.com',password='pass')
         data2 ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
-            'userFirstName':"cccccccccccccccc", 'userLastName':'xing'}
+            'userFirstName':"Ming", 'userLastName':'xing'}
         response = self.client.post(reverse('account_signup_learn'),data2)
-        print response
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200, response)
+        content = json.loads(response.content)
+        self.assertEqual(content["c"],2,content)
+
+    def test_signup_common_mistakes(self):
+        data ={'email': "signup.com",'password1':"",'password2':"",\
+            'userFirstName':"", 'userLastName':''}
+        response = self.client.post(reverse('account_signup_learn'),data)
+        self.assertEqual(response.status_code, 200, response)
+        content = json.loads(response.content)
+        self.assertEqual(content["c"],1,content)
 
     def test_signipview(self):
         data = {'email': 'test@test.com', 'password': 'test'}

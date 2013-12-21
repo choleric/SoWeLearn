@@ -6,13 +6,13 @@
 1. 整合allauth基本配置，包括cookie时效和名字的配置，匿名用户登录的配置等(status: done, Meichen)
 2. 调整signin的参数和传出的数据,单元测试  -- Xiong
 3. 调整signout的参数和传出的数据,单元测试  
-4. 调整signup的参数和传出的数据,单元测试, 包括email的验证流程－－Meichen  
+4. 调整signup的参数和传出的数据,单元测试, 包括email的验证流程(status: to be checked, Meichen)
 5. 配置allauth的第三方接入的数据，email和本地账户的对接  
 6. 对每个需要登录的连接加上登录的限制
 7. 把个个链接的参数整理成文档
 8. user model根据需求重定义  
 9. profile model根据需求定义，并接入allauth系统
-10. 调整password(change, set, inactive, reset)的参数和传出的数据,单元测试  
+10. 调整password(change, set, inactive, reset)的参数和传出的数据,单元测试(status: on-going, Meichen)
   
   
 #### 前后端数据交互统一  

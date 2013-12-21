@@ -13,5 +13,7 @@ SUCCESS = 0x0
 operation error
 """
 SignupFailure = 1
+UserExist = 2
+DifferentPassword = 3
 
 # app customize codes
