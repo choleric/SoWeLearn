@@ -1,11 +1,11 @@
 html,body{height:100%; width:100%;  margin:0; padding:0;overflow: hidden;}
 
-a, a:link, a:visited { text-decoration:underline;}
-a:hover {text-decoration: none;}
-::-moz-selection{ background: #F00; color:#fff; text-shadow: none; }
-::selection { background:#F00; color:#fff; text-shadow: none; } 
-a:link { -webkit-tap-highlight-color: #F00; }
+a, a:link, a:visited ,a:hover{ text-decoration:none;}
  
+*{
+	padding: 0;
+	margin: 0;
+}
 textarea:focus{
 	outline: none;
 }
@@ -247,6 +247,7 @@ body .hide {
 	background-color: #fff;
 	width: 400px;
 	border: 1px solid #c8c7c5;
+	margin-bottom: 60px;
 	position: relative;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -261,9 +262,6 @@ body .hide {
 	-o-border-radius: 5px;
 	-ms-border-radius: 5px;
 	overflow: hidden;
-}
-.left .content .basicInfo, .left .content .education, .left .content .work{
-	margin-bottom: 60px;
 }
 .left .content .basicInfo .userImage{
 	position: absolute;
@@ -589,6 +587,55 @@ body .hide {
 	-o-border-radius: 5px;
 	-ms-border-radius: 5px;
 }
+.left .contsDetail .myGroup{
+	position: relative;
+	padding: 5px;
+	width: 390px;
+	height: 85px;
+	border-top: 1px solid #efefef;
+	display: list-item;
+	list-style: none;
+}
+.left .contsDetail .myGroup a{
+	display: block;
+	cursor: pointer;
+	overflow: hidden;
+	color: #000;
+}
+.left .contsDetail .myGroup .groupImg img{
+	width: 70px;
+	height: 70px;
+	margin: 5px;
+	float: left;
+}
+.left .contsDetail .myGroup .name,.left .contsDetail .myGroup .info{
+	display: block;
+	float: left;
+	font-weight: normal;
+	font-size: 16px;
+	height: 20px;
+	line-height: 20px;
+	margin-top: 15px;
+	margin-left: 10px;
+	width: 225px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.left .contsDetail .myGroup .name{
+	font-weight: bold;
+	color: #000;
+}
+.left .contsDetail .myGroup .info,.left .contsDetail .myGroup .date{
+	color: gray;
+}
+.left .contsDetail .myGroup .date{
+	position: absolute;
+	right: 15px;
+	top: 22px;
+}
+
+
 /*right div*/
 .right .content,.right .content .rightDown{
 	position: absolute;

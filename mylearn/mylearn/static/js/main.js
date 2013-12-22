@@ -79,10 +79,11 @@ function init(){
 	});
 	//left-down nav
 	$(".tabBtn").bind("click",function(){
+		$(".box").hide();
 		$(".basicInfo .contsDetail").hide();
-		if($(this).hasClass("learning")){$(".basicInfo #learning").show();}
-		else if($(this).hasClass("teaching")){$(".basicInfo #teaching").show();}
-		else if($(this).hasClass("personal")){$(".basicInfo #personal").show();}
+		if($(this).hasClass("learning")){$(".basicInfo #learning").show();$(".learningBox").show();}
+		else if($(this).hasClass("teaching")){$(".basicInfo #teaching").show(); $(".teachingBox").show();}
+		else if($(this).hasClass("personal")){$(".basicInfo #personal").show(); $(".personalInfoBox").show();}
 	});
 }
 

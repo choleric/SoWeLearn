@@ -24,13 +24,40 @@
                                 <a href ="#" class="tabBtn teaching "><b></b>Teaching</a>
                                 <a href ="#" class="tabBtn personal"><b></b>Personal</a>
                         </div>
+                        <!-- <div id="learning" class="contsDetail">
+                            <div class="title"><span>Group 1</span></div>
+                            <div class="title"><span>Group 2</span></div>
+                            <div class="title"><span>Group 3</span></div>
+                            <div class="title"><span>Group 4</span></div>
+                        </div> -->
                         <div id="learning" class="contsDetail">
-                            <p>Recent Topicourses</p>
-                            <p>Recent Topiquestions</p>
-                            <p>Your Groups</p>
-                            <p>Statics</p>
+                            <ul>
+                                <li class="myGroup">
+                                    <a href="">
+                                        <span class="groupImg">
+                                            <img src="../static/images/littleWeibo.jpeg">
+                                        </span>
+                                        <span class="name">Group one a long long name long long</span>
+                                        <span class="date">Oct 10</span>
+                                        <span class="info">display something</span>
+                                    </a>
+                                </li>
+                                <li class="myGroup">
+                                    <a href="">
+                                        <span class="groupImg">
+                                            <img src="../static/images/meng.jpg">
+                                        </span>
+                                        <span class="name">Group one</span>
+                                        <span class="date">Oct 10</span>
+                                        <span class="info">display something display something display something</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                         <div id="teaching"  class="contsDetail hide">
+                            <!-- <div class="title">
+                                <span class="info">My Topicourses</span>
+                            </div>
                             <p>My Topicourses[Create]</p>
                             <ul id="topicourses"></ul>
                             <p>My Topiquestions</p>
@@ -39,7 +66,7 @@
                             <p>My average hourly rate</p>
                             <p>Teaching history</p>
                             <ul id="teachingHistory"></ul>
-                            <p>Statics</p>
+                            <p>Statics</p> -->
                         </div>
                         <div id="personal" class="contsDetail hide">
                             <div class="title"><span>About Myself</span><span class="arrow-right"></span></div>
@@ -66,39 +93,125 @@
                         </div>
                     </div>
                 </div>
-                <div class="education contBox">
-                    <span class="cardTitle">Education</span>
-                    <div class="conts">
-                        <div class="contsDetail">
-                            <div class="title">
-                                <span class="info">Cambridge University Central South University</span>
-                                <span class="info last">2011.09.01 -- 2014.06.22</span>
-                                <div class="switch switch-on tooltip">
-                                    <span>verified</span>
-                                    <div class="dot"></div>
-                                    <span class="tooltipInfo down">tooltip switch info</span>
+                <div class="learningBox box">
+                    <div class="contBox">
+                        <span class="cardTitle">Recent Topicourses</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
                                 </div>
                             </div>
-                            <div class="title editableBox">
-                                <div class="editable" contenteditable="true">Cambridge University Central South University</div>
-                                <div class="editable" contenteditable="true">2011.09.01 -- 2014.06.22</div>
-                                <a href="#" class="update tooltip">✓<span class="tooltipInfo">update</span></a>
-                                <a href="#" class="close tooltip">✗<span class="tooltipInfo">cancel</span></a>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">Recent Topiquestions</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
                             </div>
-                            <div class="title">
-                                <span class="info">Cambridge University</span>
-                                <div class="switch switch-off"><div class="dot"></div><span>unverified</span></div>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">Statics</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
                             </div>
-                            <div class="title"><span class="info">Add education</span></div>
                         </div>
                     </div>
                 </div>
-                <div class="work contBox">
-                    <span class="cardTitle">Work</span>
-                    <div class="conts">
-                        <div class="contsDetail">
-                            <div class="title"><span class="info">Cambridge University</span></div>
-                            <div class="title"><span class="info">Add work</span></div>
+                <div class="teachingBox hide box">
+                    <div class="contBox">
+                        <span class="cardTitle">My Topicourses</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">My Topiquestions</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">My Tuition Topics</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">Teaching history</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">Statics</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="personalInfoBox hide box">
+                    <div class="education contBox">
+                        <span class="cardTitle">Education</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                    <span class="info last">2011.09.01 -- 2014.06.22</span>
+                                    <div class="switch switch-on tooltip">
+                                        <span>verified</span>
+                                        <div class="dot"></div>
+                                        <span class="tooltipInfo down">tooltip switch info</span>
+                                    </div>
+                                </div>
+                                <div class="title editableBox">
+                                    <div class="editable" contenteditable="true">Cambridge University Central South University</div>
+                                    <div class="editable" contenteditable="true">2011.09.01 -- 2014.06.22</div>
+                                    <a href="#" class="update tooltip">✓<span class="tooltipInfo">update</span></a>
+                                    <a href="#" class="close tooltip">✗<span class="tooltipInfo">cancel</span></a>
+                                </div>
+                                <div class="title">
+                                    <span class="info">Cambridge University</span>
+                                    <div class="switch switch-off"><div class="dot"></div><span>unverified</span></div>
+                                </div>
+                                <div class="title"><span class="info">Add education</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="work contBox">
+                        <span class="cardTitle">Work</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title"><span class="info">Cambridge University</span></div>
+                                <div class="title"><span class="info">Add work</span></div>
+                            </div>
                         </div>
                     </div>
                 </div>
