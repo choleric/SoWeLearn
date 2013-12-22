@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.views.generic.base import View
 from django.http import HttpResponse
-from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView,_ajax_response
+from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView,_ajax_response, PasswordChangeView
 from ..response import JsonResponse
 from .. import code
 # Create your views here.
@@ -46,3 +46,7 @@ class SigninViewLearn(LoginView):
             return HttpResponse(response.context_data['form'].errors.items()[0][1])
 
 signin_learn = SigninViewLearn.as_view()
+
+class PasswordChangeViewLearn(PasswordChangeView):
+    def
+

@@ -55,7 +55,7 @@ class UserAllAuthTestCase(BaseTest):
         resonpse = self.client.post(reverse('account_signup_learn'),data)
         User = get_user_model()
         user = User.objects.get(email="signup@signup.com")
-        self.assertEqual(user.last_name,"xing")
+        self.assertEqual(user.last_name,"xing",resonpse)
 
     def test_signup_different_password(self):
         data ={'email': "yoyo@signup.com",'password1':"signup1",'password2':"signup",\
@@ -76,7 +76,7 @@ class UserAllAuthTestCase(BaseTest):
         self.assertEqual(content["c"],2,content)
 
     def test_signup_common_mistakes(self):
-        data ={'email': "signup.com",'password1':"",'password2':"",\
+        data ={'email': "signup.com",'password1':"2",'password2':"2",\
             'userFirstName':"", 'userLastName':''}
         response = self.client.post(reverse('account_signup_learn'),data)
         self.assertEqual(response.status_code, 200, response)
@@ -90,3 +90,35 @@ class UserAllAuthTestCase(BaseTest):
         print response
         #self.assertNotEqual(response.status_code, 200)
 
+    def _create_user_and_login(self):
+        User = get_user_model()
+        user = User.objects.create(email='create@create.com',
+                                   is_active=True)
+        user.set_password('password')
+        user.save()
+        self.client.login(email='create@create.com', password='password')
+        return user
+
+    def _password_set_or_reset_redirect(self, urlname, usable_password):
+        user = self._create_user_and_login()
+        if not usable_password:
+            user.set_unusable_password()
+            user.save()
+        resp = self.client.get(reverse(urlname))
+        return resp
+
+    def test_password_set_redirect(self):
+        resp = self._password_set_or_reset_redirect('account_set_password',True)
+        self.assertEqual(resp.status_code, 302)
+
+    def test_password_reset(self):
+        user = self._create_user_and_login()
+        #self.assertEqual(user.password,"password")
+        data = {"oldpassword":"password", "password1":"newpassword","password2":"newpassword"}
+        response = self.client.post(reverse('account_set_password'),data)
+        print response
+        self.assertEqual(response.status_code,302)
+        self.client.get(reverse('account_logout'))
+        response2=self.client.login(email='create@create.com', password='newpassword')
+        print response2
+        #self.assertEqual(response2.status_code, 200)
