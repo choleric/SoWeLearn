@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.test.client import Client
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.test.utils import override_settings
 from allauth.account.forms import SignupForm
 from allauth.account.models import EmailAddress
 from .forms import SignupFormAdd
@@ -141,3 +142,21 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_change_password_learn'),data)
         content = json.loads(response.content)
         self.assertEqual(content["c"],3,content)
+
+    #Todo
+    def test_password_forgotten(self):
+        pass
+
+    def test_password_forgotten_different_password(self):
+        data = {"email":"doesNotExist@create.com"}
+        response = self.client.post(reverse('account_reset_password_learn'),data)
+        self.assertEqual(response.status_code,200,response)
+        content = json.loads(response.content)
+        self.assertEqual(content["c"],6,content)
+
+    def test_password_forgotten_invalid_email(self):
+        data = {"email":"create.com"}
+        response = self.client.post(reverse('account_reset_password_learn'),data)
+        self.assertEqual(response.status_code,200,response)
+        content = json.loads(response.content)
+        self.assertEqual(content["c"],7,content)

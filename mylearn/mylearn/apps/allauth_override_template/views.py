@@ -4,7 +4,8 @@ from django.views.generic.edit import FormView
 from django.views.generic.base import View
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView,_ajax_response, PasswordChangeView
+from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView,_ajax_response, PasswordChangeView, \
+    PasswordResetView
 from ..response import JsonResponse
 from .. import code
 # Create your views here.
@@ -62,6 +63,17 @@ class PasswordChangeViewLearn(PasswordChangeView):
             for i,v in enumerate(errorList):
                 if v in overlapList:
                     errorData.append(i)
-            return JsonResponse(code.ChangePasswordFailure, data)
+            return JsonResponse(code.ChangePasswordFailure, errorData)
 
 password_change_learn=login_required(PasswordChangeViewLearn.as_view())
+
+class PasswordResetViewLearn(PasswordResetView):
+    def form_invalid(self,form):
+        data = dict(form.errors.items())
+        if "email" in data and data["email"]==["The e-mail address is not assigned to any user account"]:
+            return JsonResponse(code.EmailNotRegistered)
+        else:
+            return JsonResponse(code.ResetPasswordFailure)
+
+password_reset_learn=PasswordResetViewLearn.as_view()
+
