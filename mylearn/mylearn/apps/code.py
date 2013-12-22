@@ -15,5 +15,7 @@ operation error
 SignupFailure = 1
 UserExist = 2
 DifferentPassword = 3
+ChangePasswordFailure=4
+WrongOldPassword = 5
 
 # app customize codes

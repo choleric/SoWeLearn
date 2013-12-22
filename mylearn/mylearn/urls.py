@@ -3,7 +3,7 @@ import os.path
 from django.conf.urls import patterns
 from django.conf.urls import url
 from django.conf.urls import include
-from settings import PROJECT_APP_PREFIX
+from settings import PROJECT_APP_PREFIX, get_project_app_qulified_name
 from settings import PROJECT_CONFIG_DIR
 #To test allauth
 from django.contrib import admin
@@ -34,15 +34,8 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
     url(r'^getTutorReply/', 'get_tutor_reply'),
 )
 
-urlpatterns += patterns(PROJECT_APP_PREFIX + '.allauth_override_template.views',
-    url(r'^accounts/signup/$', 'signup_learn', name="account_signup_learn"),
-)
-
-urlpatterns += patterns(PROJECT_APP_PREFIX + '.allauth_override_template.views',
-    url(r'^accounts/login/$', 'signin_learn', name="account_signin_learn"),
-)
-
 urlpatterns += patterns('',
+    (r'^accounts/', include(get_project_app_qulified_name('allauth_override_template.urls'))),
     (r'^accounts/', include('allauth.urls')),
 )
 

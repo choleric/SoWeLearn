@@ -5,6 +5,7 @@ from django.test.client import Client
 from django.conf import settings
 from django.contrib.sites.models import Site
 from allauth.account.forms import SignupForm
+from allauth.account.models import EmailAddress
 from .forms import SignupFormAdd
 from ..projtest import BaseTest
 
@@ -96,7 +97,12 @@ class UserAllAuthTestCase(BaseTest):
                                    is_active=True)
         user.set_password('password')
         user.save()
-        self.client.login(email='create@create.com', password='password')
+        EmailAddress.objects.create(user=user,
+                                    email='create@create.com',
+                                    verified=True,)
+        response = self.client.post(reverse('account_login'),
+                                {'login': 'create@create.com',
+                                 'password': 'password'})
         return user
 
     def _password_set_or_reset_redirect(self, urlname, usable_password):
@@ -111,14 +117,27 @@ class UserAllAuthTestCase(BaseTest):
         resp = self._password_set_or_reset_redirect('account_set_password',True)
         self.assertEqual(resp.status_code, 302)
 
-    def test_password_reset(self):
+    def test_password_change(self):
         user = self._create_user_and_login()
-        #self.assertEqual(user.password,"password")
         data = {"oldpassword":"password", "password1":"newpassword","password2":"newpassword"}
-        response = self.client.post(reverse('account_set_password'),data)
-        print response
+        response = self.client.post(reverse('account_change_password_learn'),data)
         self.assertEqual(response.status_code,302)
         self.client.get(reverse('account_logout'))
-        response2=self.client.login(email='create@create.com', password='newpassword')
-        print response2
-        #self.assertEqual(response2.status_code, 200)
+        response2=self.client.post(reverse('account_login'),{'login': 'create@create.com','password': 'newpassword'})
+        self.assertEqual(response2.status_code,302,response2)
+        self.assertEqual(response2['location'],'http://testserver/accounts/%(username)s/')
+
+    def test_password_change_wrong_oldpassword(self):
+        user = self._create_user_and_login()
+        data = {"oldpassword":"wrongpassword", "password1":"newpassword","password2":"newpassword"}
+        response = self.client.post(reverse('account_change_password_learn'),data)
+        self.assertEqual(response.status_code,200)
+        content = json.loads(response.content)
+        self.assertEqual(content["c"],5,content)
+
+    def test_password_change_different_password(self):
+        user = self._create_user_and_login()
+        data = {"oldpassword":"password", "password1":"newpassword1","password2":"newpassword2"}
+        response = self.client.post(reverse('account_change_password_learn'),data)
+        content = json.loads(response.content)
+        self.assertEqual(content["c"],3,content)
