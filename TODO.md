@@ -5,7 +5,7 @@
 #### auth  
 1. 整合allauth基本配置，包括cookie时效和名字的配置，匿名用户登录的配置等(status: done, Meichen)
 2. 调整signin的参数和传出的数据,单元测试  -- Xiong
-3. 调整signout的参数和传出的数据,单元测试  
+3. 调整signout的参数和传出的数据,单元测试(status: assigned, Ray)  
 4. 调整signup的参数和传出的数据,单元测试, 包括email的验证流程(status: to be checked, Meichen)
 5. 配置allauth的第三方接入的数据，email和本地账户的对接  
 6. 对每个需要登录的连接加上登录的限制
