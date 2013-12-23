@@ -6,9 +6,9 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.test.utils import override_settings
 from allauth.account.forms import SignupForm
-from allauth.account.models import EmailAddress
 from .forms import SignupFormAdd
 from ..projtest import BaseTest
+from ..projtest import BaseTestUtil
 
 # Create your tests here.
 class UserAllAuthTestCase(BaseTest):
@@ -93,17 +93,23 @@ class UserAllAuthTestCase(BaseTest):
         #self.assertNotEqual(response.status_code, 200)
 
     def _create_user_and_login(self):
-        User = get_user_model()
-        user = User.objects.create(email='create@create.com',
-                                   is_active=True)
-        user.set_password('password')
-        user.save()
-        EmailAddress.objects.create(user=user,
-                                    email='create@create.com',
-                                    verified=True,)
+        acc = 'create@create.com'
+        pwd = 'password'
+
+        user = BaseTestUtil.create_user(
+                email = acc,
+                password = pwd,
+                is_active = True
+                )
+        BaseTestUtil.create_email(
+                user=user,
+                email='create@create.com',
+                verified=True
+                )
+
         response = self.client.post(reverse('account_login'),
-                                {'login': 'create@create.com',
-                                 'password': 'password'})
+                                {'login': acc,
+                                 'password': pwd})
         return user
 
     def _password_set_or_reset_redirect(self, urlname, usable_password):
@@ -160,3 +166,11 @@ class UserAllAuthTestCase(BaseTest):
         self.assertEqual(response.status_code,200,response)
         content = json.loads(response.content)
         self.assertEqual(content["c"],7,content)
+          
+    def test_signout(self) :
+        # create user
+        # sign in 
+        # login 
+        # sign out
+        # check login requred url
+        pass
