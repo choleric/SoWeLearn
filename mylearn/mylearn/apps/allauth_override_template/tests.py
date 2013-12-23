@@ -1,6 +1,7 @@
 import json
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
+from django.core import mail
 from django.test.client import Client
 from django.conf import settings
 from django.contrib.sites.models import Site
@@ -9,6 +10,8 @@ from allauth.account.forms import SignupForm
 from allauth.account.models import EmailAddress
 from .forms import SignupFormAdd
 from ..projtest import BaseTest
+
+User = get_user_model()
 
 # Create your tests here.
 class UserAllAuthTestCase(BaseTest):
@@ -30,7 +33,6 @@ class UserAllAuthTestCase(BaseTest):
         data ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
         signup = SignupFormAdd(data)
-        User = get_user_model()
         user = User()
         if signup.is_valid():
             signup.save(user)
@@ -55,7 +57,6 @@ class UserAllAuthTestCase(BaseTest):
         data ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
         resonpse = self.client.post(reverse('account_signup_learn'),data)
-        User = get_user_model()
         user = User.objects.get(email="signup@signup.com")
         self.assertEqual(user.last_name,"xing",resonpse)
 
@@ -68,7 +69,6 @@ class UserAllAuthTestCase(BaseTest):
         self.assertEqual(content["c"],3,content)
 
     def test_signup_email_already_taken(self):
-        User = get_user_model()
         User.objects.create(email='signup@signup.com',password='pass')
         data2 ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
             'userFirstName':"Ming", 'userLastName':'xing'}
@@ -88,19 +88,18 @@ class UserAllAuthTestCase(BaseTest):
     def test_signipview(self):
         data = {'email': 'test@test.com', 'password': 'test'}
         response = self.client.post(reverse('account_signin_learn'),data)
-        print 'status:', response.status_code, '==='
-        print response
-        #self.assertNotEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200,response)
 
-    def _create_user_and_login(self):
-        User = get_user_model()
+    def _create_user(self):
         user = User.objects.create(email='create@create.com',
                                    is_active=True)
         user.set_password('password')
         user.save()
-        EmailAddress.objects.create(user=user,
-                                    email='create@create.com',
-                                    verified=True,)
+        EmailAddress.objects.create(user=user,email='create@create.com',verified=True,)
+        return user
+
+    def _create_user_and_login(self):
+        user = self._create_user()
         response = self.client.post(reverse('account_login'),
                                 {'login': 'create@create.com',
                                  'password': 'password'})
@@ -120,16 +119,15 @@ class UserAllAuthTestCase(BaseTest):
 
     def test_password_change(self):
         user = self._create_user_and_login()
+        self.assertTrue(user.check_password('password'))
         data = {"oldpassword":"password", "password1":"newpassword","password2":"newpassword"}
         response = self.client.post(reverse('account_change_password_learn'),data)
         self.assertEqual(response.status_code,302)
-        self.client.get(reverse('account_logout'))
-        response2=self.client.post(reverse('account_login'),{'login': 'create@create.com','password': 'newpassword'})
-        self.assertEqual(response2.status_code,302,response2)
-        self.assertEqual(response2['location'],'http://testserver/accounts/%(username)s/')
+        user = User.objects.get(pk=user.pk)  #Why do we need this?
+        self.assertTrue(user.check_password('newpassword'))
 
     def test_password_change_wrong_oldpassword(self):
-        user = self._create_user_and_login()
+        self._create_user_and_login()
         data = {"oldpassword":"wrongpassword", "password1":"newpassword","password2":"newpassword"}
         response = self.client.post(reverse('account_change_password_learn'),data)
         self.assertEqual(response.status_code,200)
@@ -137,15 +135,28 @@ class UserAllAuthTestCase(BaseTest):
         self.assertEqual(content["c"],5,content)
 
     def test_password_change_different_password(self):
-        user = self._create_user_and_login()
-        data = {"oldpassword":"password", "password1":"newpassword1","password2":"newpassword2"}
-        response = self.client.post(reverse('account_change_password_learn'),data)
+        self._create_user_and_login()
+        data = {"oldpassword":"password", "password1":"newpassword1", "password2":"newpassword2"}
+        response = self.client.post(reverse('account_change_password_learn'), data)
         content = json.loads(response.content)
         self.assertEqual(content["c"],3,content)
 
-    #Todo
-    def test_password_forgotten(self):
-        pass
+    def test_password_forgotten_url_protocol(self):
+        user = self._create_user()
+        resp = self.client.post(reverse('account_reset_password'),{'email': 'create@create.com'})
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, ['create@create.com'])
+        body = mail.outbox[0].body
+        self.assertGreater(body.find('http://'), 0)
+        url = body[body.find('/password/reset/'):].split()[0]
+        url = "http://testserver/accounts"+url
+        resp = self.client.get(url)
+        self.assertTemplateUsed(resp, 'account/password_reset_from_key.html')
+        self.client.post(url, {'password1': 'newpass123',
+                     'password2': 'newpass123'})
+        user = User.objects.get(pk=user.pk)
+        self.assertTrue(user.check_password('newpass123'))
+        return resp
 
     def test_password_forgotten_different_password(self):
         data = {"email":"doesNotExist@create.com"}
@@ -156,7 +167,7 @@ class UserAllAuthTestCase(BaseTest):
 
     def test_password_forgotten_invalid_email(self):
         data = {"email":"create.com"}
-        response = self.client.post(reverse('account_reset_password_learn'),data)
+        response = self.client.post(reverse('account_reset_password_learn'), data)
         self.assertEqual(response.status_code,200,response)
         content = json.loads(response.content)
         self.assertEqual(content["c"],7,content)
