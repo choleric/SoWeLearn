@@ -57,7 +57,14 @@ class BaseTestUtil :
     @staticmethod
     def create_user(**kwargs):  
         User = get_user_model()
-        return User.objects.create(**kwargs)
+        user = User.objects.create(**kwargs)
+
+        pwdKey = 'password'
+        if pwdKey in kwargs :
+            user.set_password('password')
+            user.save()
+
+        return user
 
     @staticmethod
     def create_email(**kwargs) :

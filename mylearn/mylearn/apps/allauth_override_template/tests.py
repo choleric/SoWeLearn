@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.test.utils import override_settings
 from allauth.account.forms import SignupForm
+from allauth.account.models import EmailAddress
 from .forms import SignupFormAdd
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
@@ -90,29 +91,28 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_signin_learn'),data)
         self.assertEqual(response.status_code, 200,response)
 
-    def _create_user_and_login(self):
-        user = self._create_user()
-        self.client.post(reverse('account_login'),
-                                {'login': user.email,
-                                 'password': user.password})
-        return user
-
-
     def _create_user(self):
         acc = 'create@create.com'
         pwd = 'password'
-
         user = BaseTestUtil.create_user(
-                email = acc,
+                email= acc,
                 password = pwd,
-                is_active = True
+                is_active=True
                 )
 
+        
         BaseTestUtil.create_email(
                 user=user,
                 email=acc,
                 verified=True
                 )
+        return user
+
+    def _create_user_and_login(self):
+        user = self._create_user()
+        response = self.client.post(reverse('account_login'),
+                                {'login': 'create@create.com',
+                                 'password': 'password'})
         return user
 
     def _password_set_or_reset_redirect(self, urlname, usable_password):
@@ -181,11 +181,3 @@ class UserAllAuthTestCase(BaseTest):
         self.assertEqual(response.status_code,200,response)
         content = json.loads(response.content)
         self.assertEqual(content["c"],7,content)
-          
-    def test_signout(self) :
-        # create user
-        # sign in 
-        # login 
-        # sign out
-        # check login requred url
-        pass
