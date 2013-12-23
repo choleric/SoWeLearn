@@ -159,7 +159,9 @@ class UserAllAuthTestCase(BaseTest):
         body = mail.outbox[0].body
         self.assertGreater(body.find('http://'), 0)
         url = body[body.find('/password/reset/'):].split()[0]
-        url = "http://testserver/accounts"+url
+        current_site = Site.objects.get_current()
+        url = '%s://%s%s' %(settings.ACCOUNT_DEFAULT_HTTP_PROTOCOL,
+                            "testserver/accounts", url)
         resp = self.client.get(url)
         self.assertTemplateUsed(resp, 'account/password_reset_from_key.html')
         self.client.post(url, {'password1': 'newpass123',

@@ -104,7 +104,7 @@ SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_NAME = "_l"
 SESSION_EXPIRE_AT_BROWSER_CLOSE =True
 ANONYMOUS_USER_ID=-1
-
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
 # allauth settings
 #ACCOUNT_ADAPTER = get_project_app_qulified_name('allauth_override_template.adapter.AccountAdapter') #can be customized
 ACCOUNT_AUTHENTICATION_METHOD="email"
@@ -113,6 +113,7 @@ ACCOUNT_EMAIL_REQUIRED=True
 ACCOUNT_EMAIL_VERIFICATION= "mandatory"
 ACCOUNT_USERNAME_REQUIRED=False
 ACCOUNT_PASSWORD_MIN_LENGTH=6
+
 ACCOUNT_SIGNUP_FORM_CLASS = get_project_app_qulified_name('allauth_override_template.forms.SignupFormAdd')
   #Specifies the adapter class to use, allowing you to alter certain default behaviour.
 SOCIALACCOUNT_ADAPTER="allauth.socialaccount.adapter.DefaultSocialAccountAdapter"
