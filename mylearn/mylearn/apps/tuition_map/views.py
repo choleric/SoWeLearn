@@ -1,6 +1,5 @@
 import json
 from django.http import HttpResponse
-from ..decorator import html_entity_encode
 from .. import code
 from ..response import JsonResponse
 
