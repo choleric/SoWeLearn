@@ -149,7 +149,7 @@ PROJECT_CONFIG_DIR = os.path.join(PROJECT_DIR, "config", __mode)
 # Log config
 __logConfigFile = os.path.join(PROJECT_CONFIG_DIR, "log.conf")
 if not os.path.exists(__logConfigFile) :
-
+    print "Log config file not found......."
     sys.exit(1)
 
 logging.config.fileConfig(__logConfigFile)
