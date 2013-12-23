@@ -47,7 +47,7 @@ def getUserProfile(user_email):
 
 def profile(request):
     userProfile = getUserProfile('test@test.com')
-    print userProfile
+
     #context = {'userProfile':userProfile}
     context = {'personalProfile': userProfile['personalProfile']}
     return render_to_response('userProfile.html',  context)
@@ -90,13 +90,13 @@ def register_(request):
     if request.method == 'GET':
         return render_to_response('register.html', context_instance=RequestContext(request))
     else:
-        print request.POST
+
         user_email = request.POST.get('user_email')
         error = []
-        print 'got:', user_email
+
         if not user_db.get_user(user_email):
             context = {'user_info': request.POST}
-            print request.user
+
             user_info = request.POST
             user_db.add_user(user_name=user_info.get('user_name'), user_email=user_info.get('user_email'),
                     user_location=user_info.get('user_location'))
@@ -110,7 +110,7 @@ def register_(request):
 
 def get_user_personal_profile(user_email):
     userProfile = models.UserPersonalProfile.objects(userEmail=user_email).first()
-    print 'get', userProfile.userSkypeID
+
     return userProfile
 
 def login(request):
@@ -118,11 +118,11 @@ def login(request):
         return render_to_response('login.html', context_instance=RequestContext(request))
     else:
         user_email= request.POST.get('user_email')
-        print 'email:', user_email
+
         #user=models.user.objects.get(user_email=user_email)
         user=models.user.objects.get(userEmail=user_email)
         userProfile = getUserProfile(user_email)
-        print 'userEducationInfo:',userProfile.userEducationCredential[0].userEducationInfo
+
         if not user:
             context = { 'errors': '%s is not exist' % user_email}
         else:
@@ -174,7 +174,7 @@ def edit_teaching_profile_form(request):
         teachingForm = forms.TeachingProfileForm(request.POST)
         if teachingForm.is_valid():
             newTeachingProfileForm = teachingForm.cleaned_data
-            print newTeachingProfileForm
+
             user = models.UserPersonalProfile.objects.get(userEmail='test@test.com') #To be replaced!
             if newTeachingProfileForm['tutorTuitionTopics']!='' :
                 user.change_tutorTuitionTopics(newTeachingProfileForm['tutorTuitionTopics'])

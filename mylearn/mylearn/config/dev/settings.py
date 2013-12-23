@@ -28,13 +28,6 @@ DATABASES = {
     }
 }
 
-# usernea settings
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'yourgmailaccount@gmail.com'
-EMAIL_HOST_PASSWORD = 'yourgmailpassword'
-
 # for tests
 INSTALLED_APPS += (
     #To test allauth
@@ -43,3 +36,6 @@ INSTALLED_APPS += (
 
 # for allauth requiring site_id
 SITE_ID = 1
+
+#EMAIL BACKEND FOR DJANGO-ALLAUTH
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
