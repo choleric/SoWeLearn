@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SoWeLearn</title>
+		<meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css'%}">
+        <link href="{% static 'css/jquery.bxslider.css'%}" rel="stylesheet" />
+        <script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js'%}"></script>
+	</head>
+	<body>
+		<div class="left">
+            <div class="content">
+                <div class="basicInfo contBox">
+                    <div class="conts">
+                        <div class="userImageBackground">
+                            <img src="../static/images/cambridge3.png">
+                        </div>
+                        <div class="userImage">
+                            <img src="../static/images/12345.png">
+                        </div>
+                        <div class="navBtns">
+                                <a href ="#" class="tabBtn learning"><b></b>Learning</a>
+                                <a href ="#" class="tabBtn teaching "><b></b>Teaching</a>
+                                <a href ="#" class="tabBtn personal"><b></b>Personal</a>
+                        </div>
+                        <!-- <div id="learning" class="contsDetail">
+                            <div class="title"><span>Group 1</span></div>
+                            <div class="title"><span>Group 2</span></div>
+                            <div class="title"><span>Group 3</span></div>
+                            <div class="title"><span>Group 4</span></div>
+                        </div> -->
+                        <div id="learning" class="contsDetail">
+                            <ul>
+                                <li class="myGroup">
+                                    <a href="">
+                                        <span class="groupImg">
+                                            <img src="../static/images/littleWeibo.jpeg">
+                                        </span>
+                                        <span class="name">Group one a long long name long long</span>
+                                        <span class="date">Oct 10</span>
+                                        <span class="info">display something</span>
+                                    </a>
+                                </li>
+                                <li class="myGroup">
+                                    <a href="">
+                                        <span class="groupImg">
+                                            <img src="../static/images/meng.jpg">
+                                        </span>
+                                        <span class="name">Group one</span>
+                                        <span class="date">Oct 10</span>
+                                        <span class="info">display something display something display something</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="teaching"  class="contsDetail hide">
+                            <!-- <div class="title">
+                                <span class="info">My Topicourses</span>
+                            </div>
+                            <p>My Topicourses[Create]</p>
+                            <ul id="topicourses"></ul>
+                            <p>My Topiquestions</p>
+                            <ul id="topicquestions"></ul>
+                            <p>My Tuition Topics</p>
+                            <p>My average hourly rate</p>
+                            <p>Teaching history</p>
+                            <ul id="teachingHistory"></ul>
+                            <p>Statics</p> -->
+                        </div>
+                        <div id="personal" class="contsDetail hide">
+                            <div class="title"><span>About Myself</span><span class="arrow-right"></span></div>
+                            <div class="detailContApp"></div>
+                            <div class="title"><span>Shan</span></div>
+                            <div class="title"><span>Lu</span></div>
+                            <div class="title"><span>Location</span><span class="arrow-right"></span></div>
+                            <div class="detailContApp"></div>
+                            <div class="title"><span></span><span class="arrow-right"></span></div>
+                            <div class="detailContApp"></div>
+                            <div class="title"><span></span><span class="arrow-right"></span></div>
+                            <div class="detailContApp"></div>
+                            <div class="title gray"><span>Phone Number</span><span class="arrow-down"></span></div>
+                            <div class="detailContApp"></div>
+                            <!-- <p>About yourself:</p>
+                            <input type="text" id="aboutUserQuote" value=""/>
+                            <p>Education and Work[edit]</p>
+                            <ul id="userEducationCredential">
+
+                            </ul>
+                            <p>Basic Information[edit]</p>
+                            <p id="location"></p>
+                            <p id="tutorTuitionTopics"></p> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="learningBox box">
+                    <div class="contBox">
+                        <span class="cardTitle">Recent Topicourses</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">Recent Topiquestions</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">Statics</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="teachingBox hide box">
+                    <div class="contBox">
+                        <span class="cardTitle">My Topicourses</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">My Topiquestions</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">My Tuition Topics</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">Teaching history</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contBox">
+                        <span class="cardTitle">Statics</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="personalInfoBox hide box">
+                    <div class="education contBox">
+                        <span class="cardTitle">Education</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title">
+                                    <span class="info">Cambridge University Central South University</span>
+                                    <span class="info last">2011.09.01 -- 2014.06.22</span>
+                                    <div class="switch switch-on tooltip">
+                                        <span>verified</span>
+                                        <div class="dot"></div>
+                                        <span class="tooltipInfo down">tooltip switch info</span>
+                                    </div>
+                                </div>
+                                <div class="title editableBox">
+                                    <div class="editable" contenteditable="true">Cambridge University Central South University</div>
+                                    <div class="editable" contenteditable="true">2011.09.01 -- 2014.06.22</div>
+                                    <a href="#" class="update tooltip">✓<span class="tooltipInfo">update</span></a>
+                                    <a href="#" class="close tooltip">✗<span class="tooltipInfo">cancel</span></a>
+                                </div>
+                                <div class="title">
+                                    <span class="info">Cambridge University</span>
+                                    <div class="switch switch-off"><div class="dot"></div><span>unverified</span></div>
+                                </div>
+                                <div class="title"><span class="info">Add education</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="work contBox">
+                        <span class="cardTitle">Work</span>
+                        <div class="conts">
+                            <div class="contsDetail">
+                                <div class="title"><span class="info">Cambridge University</span></div>
+                                <div class="title"><span class="info">Add work</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+		<div class="main">
+			<div class="mockUpImg"><img src="../static/images/7.jpg"/></div>
+			<div class="leftUp"></div>
+			<div class="rightUp"></div>
+			<div class="leftBottom"></div>
+			<div class="rightBottom"></div>
+			<div class="bottomSearch">
+				<div class="search">
+					<input type="text" class="searchInput" placeholder="search a topic, tutor, subject"/>
+					<a href="#" class="searchBtn searchSwing"></a>
+				</div>
+			</div>
+		</div>
+		<div id="right" class="right">
+            <div class="content">
+                <div class="requestInbox">
+                    <ul id="requestInbox-slider" class="bxslider">
+                            
+                    </ul>
+                </div>
+                <div class="rightDown">
+                    <div class="appointmentSchedule">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>                
+        <script type="text/javascript" src="{% static 'js/jquery.bxslider.min.js'%}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.slimscroll.js'%}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.tipTip.js'%}"></script>
+        <script type="text/javascript" src="{% static 'js/tools.js'%}"></script>
+        <script type="text/javascript" src="{% static 'js/main.js'%}"></script>
+	</body>
+</html>
