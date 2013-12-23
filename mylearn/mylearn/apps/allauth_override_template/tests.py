@@ -2,12 +2,11 @@ import json
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.core import mail
-from django.test.client import Client
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.test.utils import override_settings
+
 from allauth.account.forms import SignupForm
-from allauth.account.models import EmailAddress
+
 from .forms import SignupFormAdd
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
@@ -111,8 +110,8 @@ class UserAllAuthTestCase(BaseTest):
     def _create_user_and_login(self):
         user = self._create_user()
         response = self.client.post(reverse('account_login'),
-                                {'login': 'create@create.com',
-                                 'password': 'password'})
+                                    {'login': 'create@create.com',
+                                     'password': 'password'})
         return user
 
     def _password_set_or_reset_redirect(self, urlname, usable_password):
