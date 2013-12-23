@@ -35,7 +35,7 @@ disconnect()
 
 class TopicoursesTestCase(TestCase):
     db_name = 'test_%s' % settings.DBNAME
-    print 'start test UserPersonalProfileTestCase...'
+
 
     def __init__(self, methodName='runtest'):
 

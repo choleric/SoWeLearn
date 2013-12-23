@@ -2,6 +2,8 @@ from django.test import TestCase
 from mongoengine import connect
 from mongoengine.connection import get_db,disconnect
 from mongoengine.python_support import PY3
+from django.contrib.auth import get_user_model
+from allauth.account.models import EmailAddress
 
 
 try:
@@ -41,3 +43,29 @@ class BaseTest(TestCase):
     def setUp(self):
         if PY3:
             raise SkipTest('django does not have Python 3 support')
+          
+  
+"""  
+test utils
+"""
+class BaseTestUtil :  
+    """  
+    util for create user  
+        params:  
+            user: user model  
+    """
+    @staticmethod
+    def create_user(**kwargs):  
+        User = get_user_model()
+        user = User.objects.create(**kwargs)
+
+        pwdKey = 'password'
+        if pwdKey in kwargs :
+            user.set_password('password')
+            user.save()
+
+        return user
+
+    @staticmethod
+    def create_email(**kwargs) :
+        return EmailAddress.objects.create(**kwargs)

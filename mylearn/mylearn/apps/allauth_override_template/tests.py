@@ -10,6 +10,7 @@ from allauth.account.forms import SignupForm
 from allauth.account.models import EmailAddress
 from .forms import SignupFormAdd
 from ..projtest import BaseTest
+from ..projtest import BaseTestUtil
 
 User = get_user_model()
 
@@ -91,11 +92,20 @@ class UserAllAuthTestCase(BaseTest):
         self.assertEqual(response.status_code, 200,response)
 
     def _create_user(self):
-        user = User.objects.create(email='create@create.com',
-                                   is_active=True)
-        user.set_password('password')
-        user.save()
-        EmailAddress.objects.create(user=user,email='create@create.com',verified=True,)
+        acc = 'create@create.com'
+        pwd = 'password'
+        user = BaseTestUtil.create_user(
+                email= acc,
+                password = pwd,
+                is_active=True
+                )
+
+        
+        BaseTestUtil.create_email(
+                user=user,
+                email=acc,
+                verified=True
+                )
         return user
 
     def _create_user_and_login(self):
