@@ -612,6 +612,7 @@ body .hide {
 	display: block;
 	float: left;
 	font-weight: normal;
+	font-family: Arial,sans-serif,Microsoft Yahei;
 	font-size: 16px;
 	height: 20px;
 	line-height: 20px;
