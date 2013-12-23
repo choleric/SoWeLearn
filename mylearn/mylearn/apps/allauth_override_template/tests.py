@@ -181,3 +181,15 @@ class UserAllAuthTestCase(BaseTest):
         self.assertEqual(response.status_code,200,response)
         content = json.loads(response.content)
         self.assertEqual(content["c"],7,content)
+
+    def test_signout(self) :
+        # create user and login
+        user = self._create_user_and_login()
+        # sign out
+        response = self.client.post(reverse('logout'), data)
+        # request login_required url
+        data = {"oldpassword":"wrongpassword", "password1":"newpassword","password2":"newpassword"}
+        response = self.client.post(reverse('account_change_password_learn'),data)
+        # assert response redirect to sigin
+        self.assertEqual(resonpse.status_code, 302, resonpse.status_code)
+        self.assertTrue(0 < response["location"].indexOf("/login"), "location fail %s" % (resonpse["location"]))
