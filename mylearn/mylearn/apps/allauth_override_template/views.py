@@ -1,16 +1,19 @@
-import re
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.views.generic.base import View
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+
+from allauth.account import signals
 from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView,_ajax_response, PasswordChangeView, \
     PasswordResetView
 from ..response import JsonResponse
 from .. import code
 # Create your views here.
 
+
 class SignupViewLearn(SignupView,AjaxCapableProcessFormViewMixin):
+
     def form_invalid(self, form):
         #return HttpResponse(dict(form.errors.items()))
         data = dict(form.errors.items())
@@ -65,7 +68,14 @@ class PasswordChangeViewLearn(PasswordChangeView):
                     errorData.append(i)
             return JsonResponse(code.ChangePasswordFailure, errorData)
 
-password_change_learn=login_required(PasswordChangeViewLearn.as_view())
+    def form_valid(self, form):
+        form.save()
+        signals.password_changed.send(sender=self.request.user.__class__,
+                                      request=self.request,
+                                      user=self.request.user)
+        return JsonResponse(code.SUCCESS)
+
+password_change_learn = login_required(PasswordChangeViewLearn.as_view())
 
 class PasswordResetViewLearn(PasswordResetView):
     def form_invalid(self,form):
@@ -75,5 +85,5 @@ class PasswordResetViewLearn(PasswordResetView):
         else:
             return JsonResponse(code.ResetPasswordFailure)
 
-password_reset_learn=PasswordResetViewLearn.as_view()
+password_reset_learn = PasswordResetViewLearn.as_view()
 

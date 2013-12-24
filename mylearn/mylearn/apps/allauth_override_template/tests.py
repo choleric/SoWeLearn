@@ -1,11 +1,17 @@
 import json
+from datetime import timedelta
+
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.test import Client
+from django.utils.timezone import now
 
 from allauth.account.forms import SignupForm
+from allauth.account.models import EmailConfirmation
+
 
 from .forms import SignupFormAdd
 from ..projtest import BaseTest
@@ -85,6 +91,54 @@ class UserAllAuthTestCase(BaseTest):
         content = json.loads(response.content)
         self.assertEqual(content["c"],1,content)
 
+    def test_email_verification_mandatory(self):
+        c = Client()
+        # Signup
+        self.client.get(reverse('account_signup'))
+        resp = self.client.post(reverse('account_signup'),
+                      {'email': 'john@doe.com',
+                       'password1': 'johndoe',
+                       'password2': 'johndoe',
+                       'userFirstName' : 'John',
+                       'userLastName':'Doe'})
+        # Attempt to login, unverified
+        for attempt in [1, 2]:
+            resp = c.post(reverse('account_login'),
+                          {'login': 'john@doe.com',
+                           'password': 'johndoe'},
+                          follow=True)
+            # is_active is controlled by the admin to manually disable
+            # users. I don't want this flag to flip automatically whenever
+            # users verify their email adresses.
+            self.assertTrue(User.objects.filter(email='john@doe.com',
+                                                is_active=True).exists())
+            self.assertTemplateUsed(resp,
+                                    'account/verification_sent.html')
+            # Attempt 1: no mail is sent due to cool-down ,
+            # but there was already a mail in the outbox.
+            self.assertEqual(len(mail.outbox), attempt)
+            self.assertEqual(EmailConfirmation.objects
+                             .filter(email_address__email=
+                                     'john@doe.com').count(),
+                             attempt)
+            # Wait for cooldown
+            EmailConfirmation.objects.update(sent=now() - timedelta(days=1))
+        # Verify, and re-attempt to login.
+        confirmation = EmailConfirmation \
+            .objects \
+            .filter(email_address__email='john@doe.com')[:1] \
+            .get()
+        resp = c.get(reverse('account_confirm_email',
+                             args=[confirmation.key]))
+        self.assertTemplateUsed(resp, 'account/email_confirm.html')
+        respPost = c.post(reverse('account_confirm_email',
+                       args=[confirmation.key]))
+        resp = c.post(reverse('account_login'),
+                      {'login': 'john@doe.com',
+                       'password': 'johndoe'})
+        self.assertEqual(resp['location'],
+                         'http://testserver'+settings.LOGIN_REDIRECT_URL)
+
     def test_signipview(self):
         data = {'email': 'test@test.com', 'password': 'test'}
         response = self.client.post(reverse('account_signin_learn'),data)
@@ -131,7 +185,7 @@ class UserAllAuthTestCase(BaseTest):
         self.assertTrue(user.check_password('password'))
         data = {"oldpassword":"password", "password1":"newpassword","password2":"newpassword"}
         response = self.client.post(reverse('account_change_password_learn'),data)
-        self.assertEqual(response.status_code,302)
+        self.assertEqual(response.status_code,200)
         user = User.objects.get(pk=user.pk)  #Why do we need this?
         self.assertTrue(user.check_password('newpassword'))
 
