@@ -97,8 +97,8 @@ AUTHENTICATION_BACKENDS = (
 
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
-LOGIN_URL = '/accounts/signin/'
-LOGOUT_URL = '/accounts/signout/'
+LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = '/accounts/logout/'
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_NAME = "_l"
@@ -113,6 +113,7 @@ ACCOUNT_EMAIL_REQUIRED=True
 ACCOUNT_EMAIL_VERIFICATION= "mandatory"
 ACCOUNT_USERNAME_REQUIRED=False
 ACCOUNT_PASSWORD_MIN_LENGTH=6
+ACCOUNT_LOGOUT_ON_GET = True
 
 ACCOUNT_SIGNUP_FORM_CLASS = get_project_app_qulified_name('allauth_override_template.forms.SignupFormAdd')
   #Specifies the adapter class to use, allowing you to alter certain default behaviour.
