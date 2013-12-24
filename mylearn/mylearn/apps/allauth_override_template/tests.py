@@ -62,9 +62,9 @@ class UserAllAuthTestCase(BaseTest):
     def test_signup(self):
         data ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
-        resonpse = self.client.post(reverse('account_signup_learn'),data)
+        response = self.client.post(reverse('account_signup_learn'),data)
         user = User.objects.get(email="signup@signup.com")
-        self.assertEqual(user.last_name,"xing",resonpse)
+        self.assertEqual(user.last_name,"xing",response)
 
     def test_signup_different_password(self):
         data ={'email': "yoyo@signup.com",'password1':"signup1",'password2':"signup",\
@@ -236,3 +236,26 @@ class UserAllAuthTestCase(BaseTest):
         self.assertEqual(response.status_code,200,response)
         content = json.loads(response.content)
         self.assertEqual(content["c"],7,content)
+
+    def test_signout(self) :
+        # create user and login
+        user = self._create_user_and_login()
+        # sign out
+        response = self.client.post(reverse('account_signout_learn'))
+
+        # assert logout response 
+        self.assertEqual(200, response.status_code, response.status_code)
+        ret = json.loads(response.content)
+        self.assertTrue("c" in ret, response.content)
+        self.assertEqual(0, ret["c"], response.content)
+        self.assertTrue("d" in ret, response.content)
+        self.assertEqual("/", ret["d"], response.content)
+
+        # request login_required url
+        data = {"oldpassword":"wrongpassword", "password1":"newpassword","password2":"newpassword"}
+        response = self.client.post(reverse('account_change_password_learn'),data)
+
+        # assert response 
+        self.assertEqual(302, response.status_code, response.status_code)
+
+        self.assertTrue(0 < response["location"].find(settings.LOGIN_URL), "location %s, expected %s" %(response["location"], settings.LOGIN_URL))

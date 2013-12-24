@@ -3,10 +3,13 @@ from django.views.generic.edit import FormView
 from django.views.generic.base import View
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout as auth_logout
 
 from allauth.account import signals
 from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView,_ajax_response, PasswordChangeView, \
-    PasswordResetView
+    PasswordResetView, \
+    LogoutView
+
 from ..response import JsonResponse
 from .. import code
 # Create your views here.
@@ -87,3 +90,16 @@ class PasswordResetViewLearn(PasswordResetView):
 
 password_reset_learn = PasswordResetViewLearn.as_view()
 
+
+class SignOutView(LogoutView) :
+    def post(self, *args, **kwargs):
+        if self.request.user.is_authenticated():
+            self.logout()
+        redirectURL = self.get_redirect_url()
+        return JsonResponse(code.SUCCESS, redirectURL, isHTMLEncode=False)
+
+
+    def logout(self):
+        auth_logout(self.request)
+
+signout_learn = SignOutView.as_view()

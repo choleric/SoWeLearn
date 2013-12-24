@@ -3,7 +3,7 @@ SoWeLearn
 [logd]: https://docs.djangoproject.com/en/dev/topics/logging/ "Django Logging"
 [logp]: http://docs.python.org/2/howto/logging.html "Python Logging"
 [codestyle]: http://www.python.org/dev/peps/pep-0008/ "Python Code Style"
-
+[wikiSoWeLearn]: https://github.com/choleric/SoWeLearn/wiki/_pages/ "Project wiki"
   
 ### TIPS  
   
@@ -82,3 +82,8 @@ windows下或IDE下需设置环境变量
 
 #### mylearn/mylearn/locale
 国际化的文件
+
+### 前后端交流
+所有的前后端交流的信息都储存在[wiki][wikiSoWeLearn]里面，以模块为基本单位。
+
+交流的主要信息：url，传入格式和传出格式。
