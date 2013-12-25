@@ -19,5 +19,6 @@ ChangePasswordFailure = 4
 WrongOldPassword = 5
 EmailNotRegistered = 6
 ResetPasswordFailure = 7
-
+ResetpasswordFromKeyCommonFailure = 8
+ResetPasswordFromKeyBadToken = 9
 # app customize codes
