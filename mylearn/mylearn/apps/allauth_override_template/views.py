@@ -71,13 +71,6 @@ class PasswordChangeViewLearn(PasswordChangeView):
                     errorData.append(i)
             return JsonResponse(code.ChangePasswordFailure, errorData)
 
-    def form_valid(self, form):
-        form.save()
-        signals.password_changed.send(sender=self.request.user.__class__,
-                                      request=self.request,
-                                      user=self.request.user)
-        return JsonResponse(code.SUCCESS)
-
 password_change_learn = login_required(PasswordChangeViewLearn.as_view())
 
 class PasswordResetViewLearn(PasswordResetView):

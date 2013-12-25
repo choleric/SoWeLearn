@@ -63,6 +63,7 @@ class UserAllAuthTestCase(BaseTest):
         data ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
         response = self.client.post(reverse('account_signup_learn'),data)
+        self.assertEqual(response.status_code, 302, response)
         user = User.objects.get(email="signup@signup.com")
         self.assertEqual(user.last_name,"xing",response)
 
@@ -94,8 +95,8 @@ class UserAllAuthTestCase(BaseTest):
     def test_email_verification_mandatory(self):
         c = Client()
         # Signup
-        self.client.get(reverse('account_signup'))
-        resp = self.client.post(reverse('account_signup'),
+        self.client.get(reverse('account_signup_learn'))
+        resp = self.client.post(reverse('account_signup_learn'),
                       {'email': 'john@doe.com',
                        'password1': 'johndoe',
                        'password2': 'johndoe',
@@ -136,7 +137,7 @@ class UserAllAuthTestCase(BaseTest):
         resp = c.post(reverse('account_login'),
                       {'login': 'john@doe.com',
                        'password': 'johndoe'})
-        #self.assertEqual(resp['location'],'http://testserver'+settings.LOGIN_REDIRECT_URL)
+        self.assertEqual(resp['location'],'http://testserver'+settings.LOGIN_REDIRECT_URL)
 
     def test_signinview(self):
         data = {'email': 'test@test.com', 'password': 'test'}
@@ -184,7 +185,7 @@ class UserAllAuthTestCase(BaseTest):
         self.assertTrue(user.check_password('password'))
         data = {"oldpassword":"password", "password1":"newpassword","password2":"newpassword"}
         response = self.client.post(reverse('account_change_password_learn'),data)
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code,302)
         user = User.objects.get(pk=user.pk)  #Why do we need this?
         self.assertTrue(user.check_password('newpassword'))
 
@@ -205,6 +206,7 @@ class UserAllAuthTestCase(BaseTest):
 
     def test_password_forgotten_url_protocol(self):
         user = self._create_user()
+        # forgot password request
         resp = self.client.post(reverse('account_reset_password'),{'email': 'create@create.com'})
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, ['create@create.com'])
