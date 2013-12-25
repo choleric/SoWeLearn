@@ -2,18 +2,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="{{STATIC_URL}}blog.css" rel="stylesheet" type="text/css">
+        <link href="/css/login.css" rel="stylesheet" type="text/css">
     </head> 
     <body>
-        {% if errors %}
-            {% for error in errors %}
-            <p style="color: red;"> {{ error }}</p>
-            {% endfor %}
-        {% endif %}
-        <form method="post" action="">{% csrf_token %}
+        <form method="post" action="">
             <p>Email: <input type="text" name="user_email" /></p>
+            <p>First Name: <input type="text" name="first_name" /></p>
+            <p>Last Name: <input type="text" name="last name" /></p>
+            <p>password1: <input type="password" name="password1" /></p>
+            <p>password2: <input type="password" name="password2" /></p>
             <input type="submit" value="Login" />
         </form>
-
     </body>
 <html>
