@@ -11,7 +11,7 @@
 6. 对每个需要登录的连接加上登录的限制
 7. 把个个链接的参数整理成文档
 8. user model根据需求重定义  
-9. profile model根据需求定义，并接入allauth系统
+9. profile model根据需求定义，并接入allauth系统(status: assigned, Ray)
 10. 调整password(change, set, inactive, reset)的参数和传出的数据,单元测试(status: on-going, Meichen)
   
   
