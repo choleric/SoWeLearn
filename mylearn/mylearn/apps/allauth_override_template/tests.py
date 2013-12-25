@@ -1,11 +1,17 @@
 import json
+from datetime import timedelta
+
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.test import Client
+from django.utils.timezone import now
 
 from allauth.account.forms import SignupForm
+from allauth.account.models import EmailConfirmation
+
 
 from .forms import SignupFormAdd
 from ..projtest import BaseTest
@@ -56,9 +62,10 @@ class UserAllAuthTestCase(BaseTest):
     def test_signup(self):
         data ={'email': "signup@signup.com",'password1':"signup",'password2':"signup",\
             'userFirstName':"ming", 'userLastName':'xing'}
-        resonpse = self.client.post(reverse('account_signup_learn'),data)
+        response = self.client.post(reverse('account_signup_learn'),data)
+        self.assertEqual(response.status_code, 302, response)
         user = User.objects.get(email="signup@signup.com")
-        self.assertEqual(user.last_name,"xing",resonpse)
+        self.assertEqual(user.last_name,"xing",response)
 
     def test_signup_different_password(self):
         data ={'email': "yoyo@signup.com",'password1':"signup1",'password2':"signup",\
@@ -85,7 +92,54 @@ class UserAllAuthTestCase(BaseTest):
         content = json.loads(response.content)
         self.assertEqual(content["c"],1,content)
 
-    def test_signipview(self):
+    def test_email_verification_mandatory(self):
+        c = Client()
+        # Signup
+        self.client.get(reverse('account_signup_learn'))
+        resp = self.client.post(reverse('account_signup_learn'),
+                      {'email': 'john@doe.com',
+                       'password1': 'johndoe',
+                       'password2': 'johndoe',
+                       'userFirstName' : 'John',
+                       'userLastName':'Doe'})
+        # Attempt to login, unverified
+        for attempt in [1, 2]:
+            resp = c.post(reverse('account_login'),
+                          {'login': 'john@doe.com',
+                           'password': 'johndoe'},
+                          follow=True)
+            # is_active is controlled by the admin to manually disable
+            # users. I don't want this flag to flip automatically whenever
+            # users verify their email adresses.
+            self.assertTrue(User.objects.filter(email='john@doe.com',
+                                                is_active=True).exists())
+            self.assertTemplateUsed(resp,
+                                    'account/verification_sent.html')
+            # Attempt 1: no mail is sent due to cool-down ,
+            # but there was already a mail in the outbox.
+            self.assertEqual(len(mail.outbox), attempt)
+            self.assertEqual(EmailConfirmation.objects
+                             .filter(email_address__email=
+                                     'john@doe.com').count(),
+                             attempt)
+            # Wait for cooldown
+            EmailConfirmation.objects.update(sent=now() - timedelta(days=1))
+        # Verify, and re-attempt to login.
+        confirmation = EmailConfirmation \
+            .objects \
+            .filter(email_address__email='john@doe.com')[:1] \
+            .get()
+        resp = c.get(reverse('account_confirm_email',
+                             args=[confirmation.key]))
+        self.assertTemplateUsed(resp, 'account/email_confirm.html')
+        c.post(reverse('account_confirm_email',
+                       args=[confirmation.key]))
+        resp = c.post(reverse('account_login'),
+                      {'login': 'john@doe.com',
+                       'password': 'johndoe'})
+        self.assertEqual(resp['location'],'http://testserver'+settings.LOGIN_REDIRECT_URL)
+
+    def test_signinview(self):
         data = {'email': 'test@test.com', 'password': 'test'}
         response = self.client.post(reverse('account_signin_learn'),data)
         self.assertEqual(response.status_code, 200,response)
@@ -132,7 +186,7 @@ class UserAllAuthTestCase(BaseTest):
         data = {"oldpassword":"password", "password1":"newpassword","password2":"newpassword"}
         response = self.client.post(reverse('account_change_password_learn'),data)
         self.assertEqual(response.status_code,302)
-        user = User.objects.get(pk=user.pk)  #Why do we need this?
+        user = User.objects.get(pk=user.pk)
         self.assertTrue(user.check_password('newpassword'))
 
     def test_password_change_wrong_oldpassword(self):
@@ -150,26 +204,7 @@ class UserAllAuthTestCase(BaseTest):
         content = json.loads(response.content)
         self.assertEqual(content["c"],3,content)
 
-    def test_password_forgotten_url_protocol(self):
-        user = self._create_user()
-        resp = self.client.post(reverse('account_reset_password'),{'email': 'create@create.com'})
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].to, ['create@create.com'])
-        body = mail.outbox[0].body
-        self.assertGreater(body.find('http://'), 0)
-        url = body[body.find('/password/reset/'):].split()[0]
-        current_site = Site.objects.get_current()
-        url = '%s://%s%s' %(settings.ACCOUNT_DEFAULT_HTTP_PROTOCOL,
-                            "testserver/accounts", url)
-        resp = self.client.get(url)
-        self.assertTemplateUsed(resp, 'account/password_reset_from_key.html')
-        self.client.post(url, {'password1': 'newpass123',
-                     'password2': 'newpass123'})
-        user = User.objects.get(pk=user.pk)
-        self.assertTrue(user.check_password('newpass123'))
-        return resp
-
-    def test_password_forgotten_different_password(self):
+    def test_password_forgotten_no_account(self):
         data = {"email":"doesNotExist@create.com"}
         response = self.client.post(reverse('account_reset_password_learn'),data)
         self.assertEqual(response.status_code,200,response)
@@ -182,3 +217,83 @@ class UserAllAuthTestCase(BaseTest):
         self.assertEqual(response.status_code,200,response)
         content = json.loads(response.content)
         self.assertEqual(content["c"],7,content)
+
+
+    def test_password_forgotten_url_protocol(self):
+        # Send forgot password request
+        user = self._create_user()
+        resp = self.client.post(reverse('account_reset_password'),{'email': 'create@create.com'})
+
+        #assert email sent to client
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, ['create@create.com'])
+        body = mail.outbox[0].body
+        self.assertGreater(body.find('http://'), 0)
+
+        #get the reset password link
+        url = body[body.find('/password/reset/'):].split()[0]
+        url = '%s://%s%s' %(settings.ACCOUNT_DEFAULT_HTTP_PROTOCOL,
+                            "testserver/accounts", url)
+
+        #reset password
+        resp = self.client.get(url)
+        self.assertTemplateUsed(resp, 'account/password_reset_from_key.html')
+        response = self.client.post(url, {'password1': 'newpass123','password2': 'newpass123'})
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(0<response['location'].find(reverse('account_reset_password_from_key_done')),
+                        response['location'])
+
+        #assert reset password result
+        user = User.objects.get(pk=user.pk)
+        self.assertTrue(user.check_password('newpass123'))
+
+    def test_resetpw_fromkey_wrong_token(self):
+        # Send forgot password request
+        user = self._create_user()
+        resp = self.client.post(reverse('account_reset_password_learn'),{'email': 'create@create.com'})
+        # wrong token
+        url = "http://testserver/accounts/password/reset/key/1-3np-a7fd45eb77b6656ab641/"
+        response = self.client.post(url, {'password1': 'newpass','password2': 'newpass'})
+        self.assertEqual(response.status_code,200)
+        content = json.loads(response.content)
+        self.assertEqual(content["c"],9)
+
+    def test_resetpw_fromkey_bad_password(self):
+        # Send forgot password request
+        user = self._create_user()
+        resp = self.client.post(reverse('account_reset_password_learn'),{'email': 'create@create.com'})
+        #get the reset password link
+        body = mail.outbox[0].body
+        url = body[body.find('/password/reset/'):].split()[0]
+        url = '%s://%s%s' %(settings.ACCOUNT_DEFAULT_HTTP_PROTOCOL,
+                            "testserver/accounts", url)
+        #Same password
+        response = self.client.post(url, {'password1': 'password1','password2': 'password2'})
+        self.assertEqual(response.status_code,200)
+        content = json.loads(response.content)
+        self.assertEqual(content["c"],3, response)
+        #invalid password
+        response2 = self.client.post(url, {'password1': 'pass','password2': 'pass'})
+        self.assertEqual(response2.status_code,200)
+        content2 = json.loads(response2.content)
+        self.assertEqual(content2["c"],8, response2)
+
+    def test_signout(self) :
+        # create user and login
+        user = self._create_user_and_login()
+        # sign out
+        response = self.client.post(reverse('account_signout_learn'))
+
+        # assert logout response 
+        self.assertEqual(302, response.status_code, response.status_code)
+        self.assertTrue(response["location"].find(settings.ACCOUNT_LOGOUT_REDIRECT_URL),
+                response["location"])
+
+        # request login_required url
+        data = {"oldpassword":"wrongpassword", "password1":"newpassword","password2":"newpassword"}
+        response = self.client.post(reverse('account_change_password_learn'),data)
+
+        # assert response 
+        self.assertEqual(302, response.status_code, response.status_code)
+
+        self.assertTrue(0 < response["location"].find(settings.LOGIN_URL), "location %s, expected %s" %(response["location"], settings.LOGIN_URL))

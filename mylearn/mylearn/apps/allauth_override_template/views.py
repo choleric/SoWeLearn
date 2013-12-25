@@ -1,16 +1,22 @@
-import re
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.views.generic.base import View
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout as auth_logout
+
+from allauth.account import signals
 from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView,_ajax_response, PasswordChangeView, \
-    PasswordResetView
+    PasswordResetView, PasswordResetFromKeyView, \
+    LogoutView
+
 from ..response import JsonResponse
 from .. import code
 # Create your views here.
 
+
 class SignupViewLearn(SignupView,AjaxCapableProcessFormViewMixin):
+
     def form_invalid(self, form):
         #return HttpResponse(dict(form.errors.items()))
         data = dict(form.errors.items())
@@ -65,7 +71,7 @@ class PasswordChangeViewLearn(PasswordChangeView):
                     errorData.append(i)
             return JsonResponse(code.ChangePasswordFailure, errorData)
 
-password_change_learn=login_required(PasswordChangeViewLearn.as_view())
+password_change_learn = login_required(PasswordChangeViewLearn.as_view())
 
 class PasswordResetViewLearn(PasswordResetView):
     def form_invalid(self,form):
@@ -75,5 +81,24 @@ class PasswordResetViewLearn(PasswordResetView):
         else:
             return JsonResponse(code.ResetPasswordFailure)
 
-password_reset_learn=PasswordResetViewLearn.as_view()
+password_reset_learn = PasswordResetViewLearn.as_view()
 
+class PasswordResetFromKeyViewLearn(PasswordResetFromKeyView):
+    def form_invalid(self,form):
+        data = dict(form.errors.items())
+        if "password2" in data and data["password2"]==["You must type the same password each time."]:
+            return JsonResponse(code.DifferentPassword)
+        else:
+            return JsonResponse(code.ResetpasswordFromKeyCommonFailure)
+
+    def _response_bad_token(self, request, uidb36, key, **kwargs):
+        return JsonResponse(code.ResetPasswordFromKeyBadToken)
+
+password_reset_from_key_learn = PasswordResetFromKeyViewLearn.as_view()
+
+
+class SignOutView(LogoutView) :
+    def logout(self):
+        auth_logout(self.request)
+
+signout_learn = SignOutView.as_view()
