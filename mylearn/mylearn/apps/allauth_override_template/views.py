@@ -85,13 +85,6 @@ password_reset_learn = PasswordResetViewLearn.as_view()
 
 
 class SignOutView(LogoutView) :
-    def post(self, *args, **kwargs):
-        if self.request.user.is_authenticated():
-            self.logout()
-        redirectURL = self.get_redirect_url()
-        return JsonResponse(code.SUCCESS, redirectURL, isHTMLEncode=False)
-
-
     def logout(self):
         auth_logout(self.request)
 

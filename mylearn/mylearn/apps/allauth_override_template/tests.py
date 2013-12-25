@@ -245,12 +245,9 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_signout_learn'))
 
         # assert logout response 
-        self.assertEqual(200, response.status_code, response.status_code)
-        ret = json.loads(response.content)
-        self.assertTrue("c" in ret, response.content)
-        self.assertEqual(0, ret["c"], response.content)
-        self.assertTrue("d" in ret, response.content)
-        self.assertEqual("/", ret["d"], response.content)
+        self.assertEqual(302, response.status_code, response.status_code)
+        self.assertTrue(response["location"].find(settings.ACCOUNT_LOGOUT_REDIRECT_URL),
+                response["location"])
 
         # request login_required url
         data = {"oldpassword":"wrongpassword", "password1":"newpassword","password2":"newpassword"}
