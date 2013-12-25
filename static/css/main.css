@@ -34,7 +34,7 @@ body .hide {
 	border-radius: 16px;
 	position: absolute;
 	/*background-color: #d5d5d5;*/
-	background-image: url("../images/playerIcons.png");
+	background-image: url("/images/playerIcons.png");
 	z-index: 99;
 }
 .main .leftUp{
@@ -160,7 +160,7 @@ body .hide {
 	font-family: STHeiti, 微软雅黑, "Microsoft Yahei", Helmet, Freesans, sans-serif;
 }
 .searchBtn{
-	background-image: url("../images/schBtns.png}");
+	background-image: url("/images/schBtns.png}");
 	background-position: top right;
 	position: absolute;
 	right: 10px;
@@ -337,7 +337,7 @@ body .hide {
 .left .navBtns .tabBtn b{
 	width: 18px;
 	height: 15px;
-	background: url("../images/icon.png") no-repeat scroll ;
+	background: url("/images/icon.png") no-repeat scroll ;
 	display: inline-block;
 	position: absolute;
 	top: 7px;
@@ -482,7 +482,7 @@ body .hide {
 	padding-top: 8px !important;
 }
 .left .conts .contsDetail .arrow-right,.left .conts .contsDetail .arrow-down{
-	background: url(../images/arrow.png) no-repeat scroll;
+	background: url(/images/arrow.png) no-repeat scroll;
 	display: inline-block;
 	float: right;
 	margin: 15px 15px;
