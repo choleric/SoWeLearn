@@ -114,6 +114,7 @@ ACCOUNT_EMAIL_VERIFICATION= "mandatory"
 ACCOUNT_USERNAME_REQUIRED=False
 ACCOUNT_PASSWORD_MIN_LENGTH=6
 ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 
 ACCOUNT_SIGNUP_FORM_CLASS = get_project_app_qulified_name('allauth_override_template.forms.SignupFormAdd')
   #Specifies the adapter class to use, allowing you to alter certain default behaviour.
