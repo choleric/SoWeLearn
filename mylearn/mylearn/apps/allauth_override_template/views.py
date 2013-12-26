@@ -8,7 +8,7 @@ from django.contrib.auth import logout as auth_logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 from allauth.account.adapter import get_adapter
-from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView,_ajax_response, PasswordChangeView, \
+from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView, PasswordChangeView, \
     PasswordResetView, PasswordResetFromKeyView, \
     LogoutView, ConfirmEmailView
 
@@ -69,16 +69,19 @@ class ConfirmEmailViewLearn(ConfirmEmailView):
 confirm_email_learn = ConfirmEmailViewLearn.as_view()
 
 class SigninViewLearn(LoginView):
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        if form.is_valid():
-            response = self.form_valid(form)
-            return _ajax_response(self.request, response, form=form)
+    def form_invalid(self, form):
+        data = dict(form.errors.items())
+        #
+        if '__all__' in data or len(data) < 1:
+            return JsonResponse(code.SigninFailure)
         else:
-            response = self.form_invalid(form)
-            #TODO json
-            return HttpResponse(response.context_data['form'].errors.items()[0][1])
+            errorData = []
+            # don't care the detail, it's enough to treat all kinds of errors as SigninInvalidField?
+            if 'login' in data:
+                errorData.append(code.SigninFormField.index('login'))
+            if 'password' in data:
+                errorData.append(code.SigninFormField.index('password'))
+            return JsonResponse(code.SigninInvalidField, errorData)
 
 signin_learn = SigninViewLearn.as_view()
 

@@ -165,9 +165,39 @@ class UserAllAuthTestCase(BaseTest):
 
 
     def test_signinview(self):
-        data = {'email': 'test@test.com', 'password': 'test'}
+        data = {'login': 'test@test.com', 'password': 'test'}
         response = self.client.post(reverse('account_signin_learn'),data)
+        content = json.loads(response.content)
         self.assertEqual(response.status_code, 200,response)
+        self.assertEqual(content['c'], code.SigninFailure, content)
+
+    def test_signipview_empty_email(self):
+        data = {'login': '', 'password': 'test'}
+        response = self.client.post(reverse('account_signin_learn'),data)
+        content = json.loads(response.content)
+        self.assertEqual(response.status_code, 200,response)
+        self.assertEqual(content['c'], code.SigninInvalidField, content)
+        self.assertEqual(1, len(content['d']), content)
+        self.assertEqual(content['d'][0], code.SigninFormField.index('login'), content)
+
+    def test_signipview_empty_password(self):
+        data = {'login': 't@t.com', 'password': ''}
+        response = self.client.post(reverse('account_signin_learn'),data)
+        content = json.loads(response.content)
+        self.assertEqual(response.status_code, 200,response)
+        self.assertEqual(content['c'], code.SigninInvalidField, content)
+        self.assertEqual(1, len(content['d']), content)
+        self.assertEqual(content['d'][0], code.SigninFormField.index('password'), content)
+
+    def test_signipview_invalid_email(self):
+        data = {'login': 't', 'password': ''}
+        response = self.client.post(reverse('account_signin_learn'),data)
+        content = json.loads(response.content)
+        self.assertEqual(response.status_code, 200,response)
+        self.assertEqual(content['c'], code.SigninInvalidField, content)
+        self.assertEqual(2, len(content['d']), content)
+        self.assertEqual(content['d'][0], code.SigninFormField.index('login'), content)
+        self.assertEqual(content['d'][1], code.SigninFormField.index('password'), content)
 
     def _create_user(self):
         acc = 'create@create.com'
