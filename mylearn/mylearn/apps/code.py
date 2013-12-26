@@ -21,4 +21,5 @@ EmailNotRegistered = 6
 ResetPasswordFailure = 7
 ResetpasswordFromKeyCommonFailure = 8
 ResetPasswordFromKeyBadToken = 9
+InvalidConfirmationEmail = 10
 # app customize codes

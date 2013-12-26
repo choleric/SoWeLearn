@@ -1,15 +1,18 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from django.views.generic.base import View
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as auth_logout
+from django.views.decorators.csrf import ensure_csrf_cookie
 
-from allauth.account import signals
+from allauth.account.adapter import get_adapter
 from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView,_ajax_response, PasswordChangeView, \
     PasswordResetView, PasswordResetFromKeyView, \
-    LogoutView
+    LogoutView, ConfirmEmailView
 
+from ... import settings
 from ..response import JsonResponse
 from .. import code
 # Create your views here.
@@ -37,6 +40,33 @@ class SignupViewLearn(SignupView,AjaxCapableProcessFormViewMixin):
             return JsonResponse(code.SignupFailure, errorData)
 
 signup_learn = SignupViewLearn.as_view()
+
+class ConfirmEmailViewLearn(ConfirmEmailView):
+
+    def get(self, *args, **kwargs):
+        try:
+            self.object = self.get_object()
+            if settings.ACCOUNT_CONFIRM_EMAIL_ON_GET:
+                return self.post(*args, **kwargs)
+        except Http404:
+            self.object = None
+        ctx = self.get_context_data()
+        return JsonResponse(code.InvalidConfirmationEmail)
+
+    def post(self, *args, **kwargs):
+        self.object = confirmation = self.get_object()
+        confirmation.confirm(self.request)
+        get_adapter().add_message(self.request,
+                                  messages.SUCCESS,
+                                  'account/messages/email_confirmed.txt',
+                                  {'email': confirmation.email_address.email})
+        redirect_url = self.get_redirect_url()
+        if not redirect_url:
+            ctx = self.get_context_data()
+            return self.render_to_response(ctx)
+        return redirect(redirect_url)
+
+confirm_email_learn = ConfirmEmailViewLearn.as_view()
 
 class SigninViewLearn(LoginView):
     def post(self, request, *args, **kwargs):
