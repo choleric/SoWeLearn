@@ -8,14 +8,15 @@
     </head> 
     <body>
         <form id="signupForm" method="post" action="/accounts/signup/">
-            <p>Email: <input type="text" name="user_email" id="userEmail"/></p>
-            <p>password1: <input type="password" name="password1" id="password1"/></p>
-            <p>password2: <input type="password" name="password2" id="password2"/></p>
-            <p>First Name: <input type="text" name="userFirstName" id="userFirstName"/></p>
-            <p>Last Name: <input type="text" name="userLastName" id="userLastName"/></p>
-            <input type="submit" value="Login" id="registeBtn" />
+            <p class="email">Email: <input type="text" name="user_email" id="userEmail" class="{required:true,email:true,messages:{required:'Please enter a valid email address'}}"/><span class="error"></span></p>
+            <p class="password1">password1: <input type="password" name="password1" id="password1" class="{required:true,minlength:6}"/><span class="error"> </span></p>
+            <p class="password2">password2: <input type="password" name="password2" id="password2" class="{required:true,minlength:6,equalTo:'#password1'}"/><span class="error"> </span></p>
+            <p class="firstName">First Name: <input type="text" name="userFirstName" id="userFirstName" class="{required:true,minlength:6}"/></p>
+            <p class="lastName">Last Name: <input type="text" name="userLastName" id="userLastName" class="{required:true,minlength:6}"/></p>
+            <input type="submit" value="Register" id="registeBtn" />
         </form>
         <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
         <script type="text/javascript" src="/js/tools.js"></script>
         <script type="text/javascript" src="/js/register.js"></script>
     </body>

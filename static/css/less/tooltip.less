@@ -1,0 +1,53 @@
+@import "tools.less";
+
+.tooltip {
+	.tooltipInfo{
+		visibility: hidden;
+		position: absolute; 
+		display: inline-block;
+		bottom: 30px;
+		left: -50px;	
+		font-size: 12px;
+		padding: 5px;
+		border: 2px solid #ccc;
+	    .opacity(0.95);
+	    .gradient(rgba(255,255,255,0.5), rgba(255,255,255,0));
+		.border-radius(4px);  
+		.box-shadow(0 1px 2px rgba(0,0,0,0.4) inset);  
+		.text-shadow(0 1px 0 rgba(255,255,255,0.4));
+		z-index: 99;
+
+		font-size: 12px !important;
+		font-weight: bold !important;
+		text-shadow:none !important;
+		height: 15px !important;
+		line-height: 15px !important;
+		color: #000 !important;
+		margin-left: 12px !important;
+	}
+	.tooltipInfo:before
+	{
+		content: "";
+		position: absolute;
+		border-top-color: #ccc;
+		bottom: -8px;
+		left: 50%;
+		border-top: 8px solid #ddd;
+		border-bottom: 0;  
+		border-left: 8px solid transparent;
+		border-right: 8px solid transparent; 
+		z-index: 100;       
+	}
+	.tooltipInfo.down{
+		top: 30px;
+	}
+	.tooltipInfo.down:before
+	{
+		bottom: 25px;
+		left: 50%;
+		border-bottom: 8px solid #ddd;
+		border-top: 0;  
+		border-left: 8px solid transparent;
+		border-right: 8px solid transparent; 
+	}
+}
