@@ -43,3 +43,17 @@ function sendAjaxRequest(inputJsonData, url, successCallback)
         return serializeObj;
     };
 })(jQuery);
+
+/**
+ * 验证是否为正确的邮箱格式
+ * return 
+ *    true or false
+ */
+function isEmail(email){
+    var re_email = new RegExp("^([a-zA-Z0-9]+[_|\_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|.]?)*[a-zA-Z0-9]+.[a-zA-Z]{2,3}$");
+    if(re_email.test(email)){
+        return true; 
+    }else{
+        return false;
+    }
+}
