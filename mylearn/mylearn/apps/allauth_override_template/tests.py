@@ -16,6 +16,7 @@ from allauth.account.models import EmailConfirmation
 from .forms import SignupFormAdd
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
+from .. import code
 
 User = get_user_model()
 
@@ -96,7 +97,7 @@ class UserAllAuthTestCase(BaseTest):
         c = Client()
         # Signup
         self.client.get(reverse('account_signup_learn'))
-        resp = self.client.post(reverse('account_signup_learn'),
+        resp = c.post(reverse('account_signup_learn'),
                       {'email': 'john@doe.com',
                        'password1': 'johndoe',
                        'password2': 'johndoe',
@@ -124,20 +125,44 @@ class UserAllAuthTestCase(BaseTest):
                              attempt)
             # Wait for cooldown
             EmailConfirmation.objects.update(sent=now() - timedelta(days=1))
-        # Verify, and re-attempt to login.
+        # Verify, and
         confirmation = EmailConfirmation \
             .objects \
             .filter(email_address__email='john@doe.com')[:1] \
             .get()
-        resp = c.get(reverse('account_confirm_email',
-                             args=[confirmation.key]))
-        self.assertTemplateUsed(resp, 'account/email_confirm.html')
-        c.post(reverse('account_confirm_email',
-                       args=[confirmation.key]))
+        respConfirm = c.get(reverse('account_confirm_email_learn',
+                                    args=[confirmation.key]))
+        self.assertEqual(respConfirm.status_code, 302)
+        self.assertTrue(0<respConfirm['location'].find(reverse('account_signin_learn')), respConfirm['location'])
+        # Re-attempt to login.
         resp = c.post(reverse('account_login'),
                       {'login': 'john@doe.com',
                        'password': 'johndoe'})
         self.assertEqual(resp['location'],'http://testserver'+settings.LOGIN_REDIRECT_URL)
+
+    def test_email_verification_expires(self):
+        c = Client()
+        # Signup
+        self.client.get(reverse('account_signup_learn'))
+        c.post(reverse('account_signup_learn'),
+                      {'email': 'john@doe.com',
+                       'password1': 'johndoe',
+                       'password2': 'johndoe',
+                       'userFirstName' : 'John',
+                       'userLastName':'Doe'})
+        # Confirmation expires
+        EmailConfirmation.objects.update(sent=now() - timedelta(days=4))
+        # Verify and get error
+        confirmation = EmailConfirmation \
+            .objects \
+            .filter(email_address__email='john@doe.com')[:1] \
+            .get()
+        resp = c.get(reverse('account_confirm_email_learn',
+                             args=[confirmation.key]))
+        self.assertEqual(resp.status_code, 200)
+        content = json.loads(resp.content)
+        self.assertEqual(content["c"],code.InvalidConfirmationEmail,content)
+
 
     def test_signinview(self):
         data = {'email': 'test@test.com', 'password': 'test'}
