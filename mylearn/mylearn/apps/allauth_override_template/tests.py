@@ -163,6 +163,11 @@ class UserAllAuthTestCase(BaseTest):
         content = json.loads(resp.content)
         self.assertEqual(content["c"],code.InvalidConfirmationEmail,content)
 
+    def test_signinview_csrf(self):
+        data = {'login': 'test@test.com', 'password': 'test'}
+        c = Client(enforce_csrf_checks=True)
+        response = c.post(reverse('account_signin_learn'),data)
+        self.assertEqual(response.status_code, 403,response)
 
     def test_signinview(self):
         data = {'login': 'test@test.com', 'password': 'test'}

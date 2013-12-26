@@ -6,6 +6,7 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as auth_logout
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_protect
 
 from allauth.account.adapter import get_adapter
 from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView, PasswordChangeView, \
@@ -39,7 +40,7 @@ class SignupViewLearn(SignupView,AjaxCapableProcessFormViewMixin):
                     errorData.append(i)
             return JsonResponse(code.SignupFailure, errorData)
 
-signup_learn = SignupViewLearn.as_view()
+signup_learn = csrf_protect(SignupViewLearn.as_view())
 
 class ConfirmEmailViewLearn(ConfirmEmailView):
 
@@ -67,6 +68,7 @@ class ConfirmEmailViewLearn(ConfirmEmailView):
         return redirect(redirect_url)
 
 confirm_email_learn = ConfirmEmailViewLearn.as_view()
+
 
 class SigninViewLearn(LoginView):
     def form_invalid(self, form):
