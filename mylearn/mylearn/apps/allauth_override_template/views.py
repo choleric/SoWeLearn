@@ -4,8 +4,8 @@ from django.views.generic.base import View
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as auth_logout
+from django.views.decorators.csrf import ensure_csrf_cookie
 
-from allauth.account import signals
 from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView,_ajax_response, PasswordChangeView, \
     PasswordResetView, PasswordResetFromKeyView, \
     LogoutView
