@@ -6,7 +6,6 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as auth_logout
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.csrf import csrf_protect
 
 from allauth.account.adapter import get_adapter
 from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView, PasswordChangeView, \
@@ -40,7 +39,7 @@ class SignupViewLearn(SignupView,AjaxCapableProcessFormViewMixin):
                     errorData.append(i)
             return JsonResponse(code.SignupFailure, errorData)
 
-signup_learn = csrf_protect(SignupViewLearn.as_view())
+signup_learn = ensure_csrf_cookie(SignupViewLearn.as_view())
 
 class ConfirmEmailViewLearn(ConfirmEmailView):
 
@@ -67,7 +66,7 @@ class ConfirmEmailViewLearn(ConfirmEmailView):
             return self.render_to_response(ctx)
         return redirect(redirect_url)
 
-confirm_email_learn = ConfirmEmailViewLearn.as_view()
+confirm_email_learn = ensure_csrf_cookie(ConfirmEmailViewLearn.as_view())
 
 
 class SigninViewLearn(LoginView):
@@ -85,7 +84,7 @@ class SigninViewLearn(LoginView):
                 errorData.append(code.SigninFormField.index('password'))
             return JsonResponse(code.SigninInvalidField, errorData)
 
-signin_learn = SigninViewLearn.as_view()
+signin_learn = ensure_csrf_cookie(SigninViewLearn.as_view())
 
 class PasswordChangeViewLearn(PasswordChangeView):
     def form_invalid(self, form):
@@ -106,7 +105,7 @@ class PasswordChangeViewLearn(PasswordChangeView):
                     errorData.append(i)
             return JsonResponse(code.ChangePasswordFailure, errorData)
 
-password_change_learn = login_required(PasswordChangeViewLearn.as_view())
+password_change_learn = ensure_csrf_cookie(login_required(PasswordChangeViewLearn.as_view()))
 
 class PasswordResetViewLearn(PasswordResetView):
     def form_invalid(self,form):
@@ -116,7 +115,7 @@ class PasswordResetViewLearn(PasswordResetView):
         else:
             return JsonResponse(code.ResetPasswordFailure)
 
-password_reset_learn = PasswordResetViewLearn.as_view()
+password_reset_learn = ensure_csrf_cookie(PasswordResetViewLearn.as_view())
 
 class PasswordResetFromKeyViewLearn(PasswordResetFromKeyView):
     def form_invalid(self,form):
@@ -129,7 +128,7 @@ class PasswordResetFromKeyViewLearn(PasswordResetFromKeyView):
     def _response_bad_token(self, request, uidb36, key, **kwargs):
         return JsonResponse(code.ResetPasswordFromKeyBadToken)
 
-password_reset_from_key_learn = PasswordResetFromKeyViewLearn.as_view()
+password_reset_from_key_learn = ensure_csrf_cookie(PasswordResetFromKeyViewLearn.as_view())
 
 
 class SignOutView(LogoutView) :

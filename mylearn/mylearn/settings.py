@@ -59,6 +59,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = PROJECT_NAME + ".urls"
 WSGI_APPLICATION = PROJECT_NAME + '.wsgi.application'
 
+#CSRF Settings
+CSRF_COOKIE_NAME = "_t"
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
