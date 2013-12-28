@@ -1,14 +1,19 @@
+import json
+import models
+
 from django.shortcuts import render
+from django.views.generic.edit import ProcessFormView
 from django.http import HttpResponse, Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
-import json
-import models
+
 from .forms import UserQuoteForm, WorkAndEducationCredentialForm, LocationAndContactForm
+from forms import UserProfileForm
+from models import UserPersonalProfile
 from django.contrib.auth.decorators import login_required
-from .. import code
+import code
 from ..response import JsonResponse
 # Create your views here.
 
@@ -44,13 +49,6 @@ def getUserProfile(user_email):
     userProfile['tutorTuitionAverageHourlyRateCollege']=0
 
     return userProfile
-
-def profile(request):
-    userProfile = getUserProfile('test@test.com')
-
-    #context = {'userProfile':userProfile}
-    context = {'personalProfile': userProfile['personalProfile']}
-    return render_to_response('userProfile.html',  context)
 
 def profile2(request):
     userProfile = getUserProfile('test@test.com')
@@ -194,3 +192,27 @@ def edit_teaching_profile_form(request):
 
     raise Http404()
 
+
+class ProfileView(ProcessFormView) :
+    paramToFieldMap = {
+            "skypeID" : "userSkypeID"
+            }
+    from_class = UserProfileForm
+
+    def get(self, request, *args, **kwargs):
+        profile = UserPersonalProfile(userID = request.user.pk)
+        profile.reload()
+        return JsonResponse(code.SUCCESS, profile)
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+# TODO  save model and update
+            pass
+        else:
+# TODO update values
+            pass
+
+
+profile = ProfileView.as_view()

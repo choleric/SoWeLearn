@@ -20,3 +20,8 @@ class TutorHourlyRateForm(forms.Form):
     tutorTuitionAverageHourlyRateMiddleSchool = forms.DecimalField(decimal_places=2,required=False)
     tutorTuitionAverageHourlyRateHighSchool = forms.DecimalField(decimal_places=2,required=False)
     tutorTuitionAverageHourlyRateCollege = forms.DecimalField(decimal_places=2,required=False)
+
+class UserProfileForm(forms.Form):
+    skypeID = forms.IntegerField(
+            required = False
+            )
