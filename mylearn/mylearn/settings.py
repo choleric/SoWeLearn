@@ -136,6 +136,10 @@ SOCIALACCOUNT_PROVIDERS = \
     'google':
         { 'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile'],
           'AUTH_PARAMS': { 'access_type': 'online' } }
+    #Settings for Linkedin
+    'linkedin':
+      {'SCOPE': ['r_emailaddress'],
+       'PROFILE_FIELDS': ['id','first-name','last-name','email-address','picture-url','public-profile-url']}
     }
 
 # Load settings.py(development or production) file based on os environment variable "MYLEARN_MODE", default production mode
