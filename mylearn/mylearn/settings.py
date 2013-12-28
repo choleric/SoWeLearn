@@ -135,7 +135,7 @@ SOCIALACCOUNT_PROVIDERS = \
     #Settings for Google
     'google':
         { 'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile'],
-          'AUTH_PARAMS': { 'access_type': 'online' } }
+          'AUTH_PARAMS': { 'access_type': 'online' } },
     #Settings for Linkedin
     'linkedin':
       {'SCOPE': ['r_emailaddress'],
