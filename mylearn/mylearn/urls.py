@@ -36,7 +36,7 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
 
 urlpatterns += patterns('',
     (r'^accounts/', include(get_project_app_qulified_name('allauth_override_template.urls'))),
-    (r'^accounts/', include(get_project_app_qulified_name('allauth_socialaccount.urls'))),
+    (r'^accounts/social/', include(get_project_app_qulified_name('allauth_socialaccount.urls'))),
     (r'^accounts/', include('allauth.urls')),
 )
 
