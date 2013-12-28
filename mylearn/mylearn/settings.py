@@ -22,7 +22,7 @@ PROJECT_APP_NAME = "apps"
 PROJECT_APP_PREFIX = PROJECT_NAME + "." + PROJECT_APP_NAME
 PROJECT_DIR = os.path.join(BASE_DIR, PROJECT_NAME)
 
-SITE_ID=1
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'qukye=pnq%+(4o571gq=#*nur+noruonh=ulci3^8df!%4e3ac'
 
