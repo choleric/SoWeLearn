@@ -24,6 +24,7 @@ ResetPasswordFromKeyBadToken = 9
 InvalidConfirmationEmail = 10
 SigninFailure = 11
 SigninInvalidField = 12
+SocialAccountLoginFailed = 13
 # app customize codes
 
 AllAuthErrorMessageMap = {
