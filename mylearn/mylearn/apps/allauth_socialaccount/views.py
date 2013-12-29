@@ -1,11 +1,7 @@
 import logging
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-<<<<<<< HEAD
-from allauth.socialaccount.views import LoginErrorView, LoginCancelledView, SignupView
-=======
-from allauth.socialaccount.views import LoginErrorView,ConnectionsView
->>>>>>> 03c8a34259266cbdb96743954f493e934816e809
+from allauth.socialaccount.views import LoginErrorView, LoginCancelledView, SignupView, ConnectionsView
 
 from ... import settings
 from ..response import JsonResponse
@@ -19,8 +15,6 @@ class LoginErrorViewLearn(LoginErrorView):
 
 login_error_learn = LoginErrorViewLearn.as_view()
 
-<<<<<<< HEAD
-
 class LoginCancelledViewLearn(LoginCancelledView):
     def get(self, request):
         return JsonResponse(code.SocialAccountLoginCancelled)
@@ -33,7 +27,7 @@ class SignupViewLearn(SignupView):
         return JsonResponse(code.SocialAccountSignupFailure, data)
 
 signup_learn = SignupViewLearn.as_view()
-=======
+
 class ConnectionsViewLearn(ConnectionsView):
     def form_invalid(self, form):
         data = dict(form.errors.items())
@@ -42,4 +36,3 @@ class ConnectionsViewLearn(ConnectionsView):
         return JsonResponse(code.AllAuthErrorMessageMap.get(errMsg, code.SocialConnectionFailed))
 
 social_connections = ConnectionsViewLearn.as_view()
->>>>>>> 03c8a34259266cbdb96743954f493e934816e809

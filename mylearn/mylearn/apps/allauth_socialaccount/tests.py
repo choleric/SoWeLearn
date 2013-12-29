@@ -17,12 +17,9 @@ from django.test.utils import override_settings
 from django.conf import settings
 
 from allauth.tests import MockedResponse, mocked_response
-<<<<<<< HEAD
 from allauth.account.models import EmailAddress
-=======
 from allauth.account.models import EmailAddress,EmailConfirmation
 from allauth.socialaccount.tests import create_oauth2_tests
->>>>>>> 03c8a34259266cbdb96743954f493e934816e809
 from allauth.socialaccount.models import SocialAccount, SocialApp
 from allauth.socialaccount import providers
 from allauth.socialaccount.providers import registry
