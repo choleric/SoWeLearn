@@ -14,9 +14,10 @@ from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
+from django.conf import settings
 
 from allauth.tests import MockedResponse, mocked_response
-from allauth.account.models import EmailAddress
+from allauth.account.models import EmailAddress,EmailConfirmation
 from allauth.socialaccount.tests import create_oauth2_tests
 from allauth.socialaccount.models import SocialAccount, SocialApp
 from allauth.socialaccount import providers
@@ -152,5 +153,95 @@ class GoogleTests(OAuth2GenericTestCase):
                given_name,
                (repr(verified_email).lower())))
 
+    def test_username_based_on_provider(self):
+        self.login(self.get_mocked_response())
+        print 'accout', SocialAccount.objects.all()[0].user.username
 
+    def test_email_unverified(self):
+        test_email = 'raymond.penners@gmail.com'
+        resp = self.login(self.get_mocked_response(verified_email=False))
+        email_address = EmailAddress.objects \
+            .get(email=test_email)
+        self.assertFalse(email_address.verified)
+        if hasattr(settings, 'SOCIALACCOUNT_EMAIL_VERIFICATION') and  settings.SOCIALACCOUNT_EMAIL_VERIFICATION != 'none':
+            self.assertTrue(EmailConfirmation.objects
+                        .filter(email_address__email=test_email)
+                        .exists())
+        #self.assertTemplateUsed(resp,
+        #                        'account/email/email_confirmation_signup_subject.txt')
 
+    def test_account_connect(self):
+        email = 'some@mail.com'
+        username = 'user'
+        password = '123456'
+        user = User.objects.create(username=username,
+                                   is_active=True,
+                                   email=email)
+        user.set_password(password)
+        user.save()
+        EmailAddress.objects.create(user=user,
+                                    email=email,
+                                    primary=True,
+                                    verified=True)
+        #ret = self.client.login(username=email,
+        #                  password=password)
+        response = self.client.post(reverse('account_signin_learn'), {
+            'login': email,
+            'password': password,
+            })
+
+        self.login(self.get_mocked_response(given_name='user'),
+                   process='connect')
+        # Check if we connected...
+        self.assertTrue(SocialAccount.objects.filter(user=user,
+                                                     provider=GoogleProvider.id).exists())
+        # For now, we do not pick up any new e-mail addresses on connect
+        self.assertEqual(EmailAddress.objects.filter(user=user).count(), 1)
+        self.assertEqual(EmailAddress.objects.filter(user=user,
+                                                      email=email).count(), 1)
+
+    def test_account_connection_remove_no_password(self):
+        self.assertFalse(SocialAccount.objects.filter(
+                                                     provider=GoogleProvider.id).exists())
+        username = 'sowelearn'
+        self.login(self.get_mocked_response(given_name=username),
+                   process='login')
+        # Check if we connected...
+        self.assertTrue(SocialAccount.objects.filter(
+                                                     provider=GoogleProvider.id).exists())
+
+        #print self.client.get(reverse('socialaccount_connections'))
+        resp = self.client.post(reverse('socialaccount_connections'), {'account':1})
+        self.assertEqual(resp.status_code, 200)
+        content = json.loads(resp.content)
+        self.assertEqual(content['c'], code.SocialConnectionFailedNoPassword)
+
+    def test_account_connection_remove(self):
+        self.assertFalse(SocialAccount.objects.filter(
+                                                     provider=GoogleProvider.id).exists())
+        email = 'some@mail.com'
+        username = 'user'
+        password = '123456'
+
+        self.login(self.get_mocked_response(given_name=username),
+                   process='login')
+
+        user = User.objects.get(username=username)
+        user.set_password(password)
+        user.save()
+
+        self.assertTrue(SocialAccount.objects.filter(
+                                                     provider=GoogleProvider.id).exists())
+
+        #print self.client.get(reverse('socialaccount_connections'))
+        resp = self.client.post(reverse('socialaccount_connections'), {'account':1})
+        self.assertEqual(resp.status_code, 302)
+        #remove again
+        resp = self.client.post(reverse('socialaccount_connections'), {'account':1})
+        self.assertEqual(resp.status_code, 200)
+        content = json.loads(resp.content)
+        self.assertEqual(content['c'], code.SocialConnectionFailed)
+
+    def test_account_connection_remove_not_verified_email(self):
+        #if email is not verified, user can't signin.
+        pass

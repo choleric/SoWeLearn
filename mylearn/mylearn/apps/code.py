@@ -24,12 +24,18 @@ ResetPasswordFromKeyBadToken = 9
 InvalidConfirmationEmail = 10
 SigninFailure = 11
 SigninInvalidField = 12
-SocialAccountLoginFailed = 13
+
+SocialAccountLoginFailed = 1001
+SocialConnectionFailed = 1002
+SocialConnectionFailedNoPassword = 1003
+SocialConnectionFailedNoVerifiedEmail = 1004
 # app customize codes
 
 AllAuthErrorMessageMap = {
  'This field is required.' : SigninInvalidField,
  'Enter a valid email address.' : SigninInvalidField,
+'Your account has no password set up.': SocialConnectionFailedNoPassword,
+'Your account has no verified e-mail address.' : SocialConnectionFailedNoVerifiedEmail,
 }
 
 #
