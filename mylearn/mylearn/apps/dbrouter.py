@@ -1,24 +1,22 @@
 """
 auto route to mongo based on class
+read config from settings.DBROUTER_APP_CONFIG and route db operation
 """
-from mongoengine.base import BaseDocument
+from django.conf import settings
 
-
-# these values must be the values in settings.DATABASES
-MONGODB_NAME = 'mongodb'
-DEFAULT_NAME = 'default'
-
+DATABASES_APP_FILTER_KEY = "APPS"
 
 class DBRouter(object) :
-    MONGODB_APP_SET = set(['site', 'user_profile'])
-
-    def isAppUsingMongo(self, app_label) :
-        return app_label in self.MONGODB_APP_SET
+    def routeDBOperation(self, app_label) :
+        for db, config in settings.DATABASES.iteritems() :
+            if DATABASES_APP_FILTER_KEY not in config :
+                continue
+            if app_label in config[DATABASES_APP_FILTER_KEY] :
+                return db
+        return "default"
 
     def db_for_read(self, model, **hints):
-        if self.isAppUsingMongo(model._meta.app_label) :
-            return MONGODB_NAME
-        return DEFAULT_NAME
+        return self.routeDBOperation(model._meta.app_label)
 
     def db_for_write(self, model, **hints):
         return self.db_for_read(model, **hints)

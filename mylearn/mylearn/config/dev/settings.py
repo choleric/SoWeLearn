@@ -21,7 +21,8 @@ DATABASES = {
     },
     'mongodb' : {
       'ENGINE' : 'django_mongodb_engine',
-      'NAME' : DBNAME
+      'NAME' : DBNAME,
+      "APPS" : ['user_profile']
     }
 }
 
@@ -32,7 +33,9 @@ INSTALLED_APPS += (
 )
 
 # for allauth requiring site_id
-SITE_ID = u"8fe7aa759e654e2662000000"
+SITE_ID = 1
 
 #EMAIL BACKEND FOR DJANGO-ALLAUTH
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+TEST_RUNNER = get_project_app_qulified_name("projtest.ProjTestRunner")
