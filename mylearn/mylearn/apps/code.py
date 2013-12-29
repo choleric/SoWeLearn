@@ -26,10 +26,11 @@ SigninFailure = 11
 SigninInvalidField = 12
 
 SocialAccountSignupFailure = 1001
-SocialConnectionFailed = 1002
-SocialConnectionFailedNoPassword = 1003
-SocialConnectionFailedNoVerifiedEmail = 1004
-SocialAccountLoginCancelled = 1005
+DuplicateEmailSocialAccount=1002
+SocialConnectionFailed = 1003
+SocialConnectionFailedNoPassword = 1004
+SocialConnectionFailedNoVerifiedEmail = 1005
+SocialAccountLoginCancelled = 1006
 SocialAccountLoginFailed = 1011
 
 # app customize codes

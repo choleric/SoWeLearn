@@ -70,7 +70,7 @@ class OAuth2GenericTestCase(TestCase):
                           % self.provider.id)
             return
         resp = self.login(resp_mock,)
-        self.assertTrue(0>resp['location'].find(reverse('socialaccount_signup')))
+        self.assertRedirects(resp, reverse('socialaccount_signup'))
 
     def test_login_error_response(self):
         response = self.client.get(reverse('socialaccount_login_error'))
@@ -156,7 +156,7 @@ class FacebookTests(OAuth2GenericTestCase):
         self._test_for_models_after_signup(uid="630595557", email = email)
 
 
-    def test_signup_failure(self):
+    def test_signin_email_already_exist(self):
         acc = 'raymond.penners@gmail.com'
         pwd = 'password'
         user = BaseTestUtil.create_user(
@@ -170,12 +170,10 @@ class FacebookTests(OAuth2GenericTestCase):
                 email=acc,
                 verified=True
                 )
-        response = self.login(self.get_mocked_response())
+        response = self.login(self.get_mocked_response(acc))
+        user = User.objects.filter(email=acc)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(0>response['location'].find(reverse('socialaccount_signup_learn')), response)
-
-        signup_response = self.post(response['location'], {"email":"%s" %acc})
-        self.assertEqual(signup_response.status_code, 302, signup_response)
+        self.assertTrue(0<response['location'].find(reverse('socialaccount_signup_learn')), response)
 
 
 class GoogleTests(OAuth2GenericTestCase):
@@ -234,12 +232,12 @@ class GoogleTests(OAuth2GenericTestCase):
                                     verified=True)
         #ret = self.client.login(username=email,
         #                  password=password)
-        response = self.client.post(reverse('account_signin_learn'), {
+        self.client.post(reverse('account_signin_learn'), {
             'login': email,
             'password': password,
             })
 
-        self.login(self.get_mocked_response(given_name='user'),
+        response = self.login(self.get_mocked_response(given_name='user'),
                    process='connect')
         # Check if we connected...
         self.assertTrue(SocialAccount.objects.filter(user=user,

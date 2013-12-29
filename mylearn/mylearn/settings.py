@@ -121,7 +121,7 @@ ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_SIGNUP_FORM_CLASS = get_project_app_qulified_name('allauth_override_template.forms.SignupFormAdd')
   #Specifies the adapter class to use, allowing you to alter certain default behaviour.
-SOCIALACCOUNT_ADAPTER = "allauth.socialaccount.adapter.DefaultSocialAccountAdapter"
+SOCIALACCOUNT_ADAPTER = get_project_app_qulified_name("allauth_socialaccount.adapter.SocialAccountAdapterLearn")
 
 SOCIALACCOUNT_PROVIDERS = \
     {
