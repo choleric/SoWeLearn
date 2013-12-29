@@ -2,7 +2,6 @@ import json
 import models
 
 from django.shortcuts import render
-from django.views.generic.edit import ProcessFormView
 from django.http import HttpResponse, Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -13,8 +12,9 @@ from .forms import UserQuoteForm, WorkAndEducationCredentialForm, LocationAndCon
 from forms import UserProfileForm
 from models import UserPersonalProfile
 from django.contrib.auth.decorators import login_required
-import code
-from ..response import JsonResponse
+from mylearn.apps import errcode
+from mylearn.apps import JsonResponse
+from mylearn.apps.baseviews import UserRelatedFormView
 # Create your views here.
 
 def getUserProfile(user_email):
@@ -52,7 +52,7 @@ def getUserProfile(user_email):
 
 def profile2(request):
     userProfile = getUserProfile('test@test.com')
-    return JsonResponse(code.SUCCESS, userProfile)
+    return JsonResponse(errcode.SUCCESS, userProfile)
 
 def getUserTopicourses(userID,type,number):
     userTopicoursesList = []
@@ -74,7 +74,7 @@ def getUserTopicourses(userID,type,number):
 
 def topicourses(request):
     userTopicourses = getUserTopicourses("1146","teaching","2")
-    return JsonResponse(code.SUCCESS, userTopicourses)
+    return JsonResponse(errcode.SUCCESS, userTopicourses)
 
 #user_db = models.User()
 
@@ -193,26 +193,17 @@ def edit_teaching_profile_form(request):
     raise Http404()
 
 
-class ProfileView(ProcessFormView) :
-    paramToFieldMap = {
-            "skypeID" : "userSkypeID"
-            }
-    from_class = UserProfileForm
-
-    def get(self, request, *args, **kwargs):
-        profile = UserPersonalProfile(userID = request.user.pk)
-        profile.reload()
-        return JsonResponse(code.SUCCESS, profile)
+class ProfileView(UserRelatedFormView) :
+    form_class = UserProfileForm
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        if form.is_valid():
-# TODO  save model and update
-            pass
-        else:
-# TODO update values
-            pass
+        if not form.is_valid():
+            print form.errors
+        else :
+            form.update()
+        return JsonResponse(errcode.SUCCESS)
 
 
 profile = ProfileView.as_view()

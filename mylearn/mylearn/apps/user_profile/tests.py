@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from .forms import UserQuoteForm
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
-from .. import code
+from mylearn.apps import errcode
 
 
 class UserPersonalProfileTestCase(BaseTest):
@@ -30,7 +30,8 @@ class UserPersonalProfileTestCase(BaseTest):
         user = self._create_user()
         response = self.client.post(reverse('account_login'),
                                     {'login': user.email,
-                                     'password': user.password})
+                                     'password': "password"})
+        self.assertEquals(302, response.status_code, "login with status: %d" % (response.status_code))
         return user
 
     def _create_user_profile(self) :
@@ -56,10 +57,10 @@ class UserPersonalProfileTestCase(BaseTest):
 
     @property
     def profile(self) :
-        self.__profile.reload()
         return self.__profile
 
     def test_profile_field_update(self) :
+        profileURL = reverse("profile_url")
         # paramName, data
         expectedPairs = (
                 ('skypeID', "13"),
@@ -71,21 +72,16 @@ class UserPersonalProfileTestCase(BaseTest):
         for paramName, data in expectedPairs :
             params[paramName] = data
 
-        response = self.client.post(
-                    reverse('editProfile'),
-                    params
-                    )
-        self.assertEquals(200, response.status_code, "editProfile post status code %d" %(response.status_code))
+        response = self.client.post(profileURL, params)
+        self.assertEquals(200, response.status_code, "editProfile post status errcode %d" %(response.status_code))
         ret = json.loads(response.content)
-        self.assertEquals(code.SUCCESS, ret["c"], "editProfile post code %d" %(ret["c"]))
+        self.assertEquals(errcode.SUCCESS, ret["c"], "editProfile post errcode %d" %(ret["c"]))
 
         # check profile value
-        response = self.client.get(
-                    reverse('editProfile')
-                    )
-        self.assertEquals(200, response.status_code, "editProfile get status code %d" %(response.status_code))
+        response = self.client.get(profileURL)
+        self.assertEquals(200, response.status_code, "editProfile get status errcode %d" %(response.status_code))
         ret = json.loads(response.content)
-        self.assertEquals(code.SUCCESS, ret["c"], "editProfile get code %d" %(ret["c"]))
+        self.assertEquals(errcode.SUCCESS, ret["c"], "editProfile get errcode %d" %(ret["c"]))
 
         profileData = ret["d"]
         for paramName, data in expectedPairs :

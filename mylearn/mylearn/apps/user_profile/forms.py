@@ -1,4 +1,5 @@
 from django import forms
+from models import UserPersonalProfile
 
 class UserQuoteForm(forms.Form):
     aboutUserQuote= forms.CharField(max_length=10)
@@ -21,7 +22,7 @@ class TutorHourlyRateForm(forms.Form):
     tutorTuitionAverageHourlyRateHighSchool = forms.DecimalField(decimal_places=2,required=False)
     tutorTuitionAverageHourlyRateCollege = forms.DecimalField(decimal_places=2,required=False)
 
-class UserProfileForm(forms.Form):
-    skypeID = forms.IntegerField(
-            required = False
-            )
+class UserProfileForm(forms.ModelForm):
+    class Meta :
+        model = UserPersonalProfile
+        fields = ['userID', 'skypeID']
