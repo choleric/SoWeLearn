@@ -17,7 +17,6 @@ from django.test.utils import override_settings
 
 from allauth.tests import MockedResponse, mocked_response
 from allauth.account.models import EmailAddress
-from allauth.socialaccount.tests import create_oauth2_tests
 from allauth.socialaccount.models import SocialAccount, SocialApp
 from allauth.socialaccount import providers
 from allauth.socialaccount.providers import registry
@@ -70,6 +69,17 @@ class OAuth2GenericTestCase(TestCase):
         resp = self.login(resp_mock,)
         self.assertTrue(0>resp['location'].find(reverse('socialaccount_signup')))
 
+    def test_login_error_response(self):
+        response = self.client.get(reverse('socialaccount_login_error'))
+        self.assertEqual(response.status_code, 200)
+        content = json.loads(response.content)
+        self.assertEqual(content["c"], code.SocialAccountLoginFailed, content)
+
+    def test_login_cancelled_response(self):
+        response = self.client.get(reverse('socialaccount_login_cancelled_learn'))
+        content = json.loads(response.content)
+        self.assertEqual(content["c"], code.SocialAccountLoginCancelled, content)
+
     def login(self, resp_mock, process='login',
               with_refresh_token=True):
         resp = self.client.get(reverse(self.provider.id + '_login'),
@@ -92,20 +102,31 @@ class OAuth2GenericTestCase(TestCase):
                                     'state': q['state'][0]})
         return resp
 
-
+    def _test_for_models_after_signup(self, uid, email):
+        # Social account model
+        socialaccount = SocialAccount.objects.get(uid=uid)
+        self.assertEqual(socialaccount.user.email, email)
+        self.assertEqual(socialaccount.user.username, 'raymond.penners')
+        # User model
+        user = User.objects.get(id=socialaccount.user_id)
+        self.assertEqual(user.email, email, user)
+        #Emailaddress model(
+        emailAddress = EmailAddress.objects.get(user_id=user.id)
+        self.assertEqual(emailAddress.email, email ,emailAddress)
+        self.assertEqual(emailAddress.verified, True)
 
 class FacebookTests(OAuth2GenericTestCase):
 
     provider = registry.by_id(FacebookProvider.id)
 
-    def get_mocked_response(self):
+    def get_mocked_response(self, email="raymond.penners@gmail.com"):
         return MockedResponse(200, """
         {
            "id": "630595557",
            "name": "Raymond Penners",
            "first_name": "Raymond",
            "last_name": "Penners",
-           "email": "raymond.penners@gmail.com",
+           "email": "%s",
            "link": "https://www.facebook.com/raymond.penners",
            "username": "raymond.penners",
            "birthday": "07/17/1973",
@@ -121,12 +142,38 @@ class FacebookTests(OAuth2GenericTestCase):
            "locale": "nl_NL",
            "verified": true,
            "updated_time": "2012-11-30T20:40:33+0000"
-        }""")
+        }""" % (email))
 
-    def test_username_based_on_provider(self):
-        self.login(self.get_mocked_response())
-        socialaccount = SocialAccount.objects.get(uid='630595557')
-        self.assertEqual(socialaccount.user.username, 'raymond.penners')
+    def test_username_auto_singup(self):
+        # When the email was not registered before, as SOCIALACCOUNT_AUTO_SIGNUP=True, the user is automatically
+        # signed up.
+        email = "raymond.penners@gmail.com"
+        self.login(self.get_mocked_response(email = email))
+        # Test models
+        self._test_for_models_after_signup(uid="630595557", email = email)
+
+
+    def test_signup_failure(self):
+        acc = 'raymond.penners@gmail.com'
+        pwd = 'password'
+        user = BaseTestUtil.create_user(
+                email= acc,
+                password = pwd,
+                is_active=True
+                )
+
+        BaseTestUtil.create_email(
+                user=user,
+                email=acc,
+                verified=True
+                )
+        response = self.login(self.get_mocked_response())
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(0>response['location'].find(reverse('socialaccount_signup_learn')), response)
+
+        signup_response = self.post(response['location'], {"email":"%s" %acc})
+        self.assertEqual(signup_response.status_code, 302, signup_response)
+
 
 class GoogleTests(OAuth2GenericTestCase):
 

@@ -25,6 +25,8 @@ InvalidConfirmationEmail = 10
 SigninFailure = 11
 SigninInvalidField = 12
 SocialAccountLoginFailed = 13
+SocialAccountLoginCancelled = 14
+SocialAccountSignupFailure = 15
 # app customize codes
 
 AllAuthErrorMessageMap = {

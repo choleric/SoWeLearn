@@ -98,7 +98,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"

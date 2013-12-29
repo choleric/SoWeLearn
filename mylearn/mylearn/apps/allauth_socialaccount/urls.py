@@ -6,4 +6,6 @@ from ...settings import PROJECT_APP_PREFIX
 
 urlpatterns = patterns(PROJECT_APP_PREFIX + '.allauth_socialaccount.views',
     url(r'^login/error/$', 'login_error_learn', name="socialaccount_login_error_learn"),
+    url(r'^login/cancelled/$', 'login_cancelled_learn', name='socialaccount_login_cancelled_learn'),
+    url(r'^signup/$', 'signup_learn', name='socialaccount_signup_learn'),
 )
