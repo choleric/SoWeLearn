@@ -9,7 +9,18 @@ from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 
 from ... import settings
 from ..response import JsonResponse
-from .. import code
+from mylearn.apps import errcode
+
+class DuplicateEmail(Exception):
+    pass
+
+class ImmediateHttpResponse(Exception):
+    """
+    This exception is used to interrupt the flow of processing to immediately
+    return a custom HttpResponse.
+    """
+    def __init__(self, response):
+        self.response = response
 
 class SocialAccountAdapterLearn(DefaultSocialAccountAdapter):
     def is_auto_signup_allowed(self, request, sociallogin):
@@ -18,13 +29,16 @@ class SocialAccountAdapterLearn(DefaultSocialAccountAdapter):
         if auto_signup:
             email = user_email(sociallogin.account.user)
             # Let's check if auto_signup is really possible...
-            if email:
-                if account_settings.UNIQUE_EMAIL:
-                    if email_address_exists(email):
-                        #Todo: modify request.
-                        requenst = request
-                        auto_signup = False
-            elif app_settings.EMAIL_REQUIRED:
-                # Nope, email is required and we don't have it yet...
-                auto_signup = False
+            try:
+                if email:
+                    if account_settings.UNIQUE_EMAIL:
+                        if email_address_exists(email):
+                            state = email_address_exists(email)
+                            auto_signup = False
+                            raise DuplicateEmail
+                elif app_settings.EMAIL_REQUIRED:
+                    # Nope, email is required and we don't have it yet...
+                    auto_signup = False
+            except DuplicateEmail:
+                return auto_signup
         return auto_signup

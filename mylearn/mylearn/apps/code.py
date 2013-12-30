@@ -32,6 +32,7 @@ SocialConnectionFailedNoPassword = 1004
 SocialConnectionFailedNoVerifiedEmail = 1005
 SocialAccountLoginCancelled = 1006
 SocialAccountLoginFailed = 1011
+SocialAccountAuthenticationFailure = 1012
 
 # app customize codes
 
