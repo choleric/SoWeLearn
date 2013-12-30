@@ -199,10 +199,14 @@ class ProfileView(UserRelatedFormView) :
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+        form.instance.userID = request.user.pk
+
         if not form.is_valid():
+# TODO errors 
             print form.errors
-        else :
-            form.update()
+            return JsonResponse(errcode.SUCCESS)
+
+        form.save()
         return JsonResponse(errcode.SUCCESS)
 
 

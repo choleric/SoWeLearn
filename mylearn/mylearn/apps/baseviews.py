@@ -3,16 +3,17 @@ from mylearn.apps import JsonResponse
 from mylearn.apps import errcode
 
 class UserRelatedFormView(BaseFormView) :
-    def get_form_kwargs(self):
-        postData = self.request.POST.copy()
-        postData["userID"] = self.request.user.pk
-        self.request.POST = postData
-        return super(UserRelatedFormView, self).get_form_kwargs()
-
     def get(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        ins = form._meta.model.objects.get(userID = request.user.pk)
-        return JsonResponse(errcode.SUCCESS, ins)
+        data = form._meta.model.objects.get(userID = request.user.pk)
+        return JsonResponse(errcode.SUCCESS, self.format_model(form, data))
 
+    def format_model(self, form, data) :
+        if not form._meta.fields :
+            return data
 
+        formatedData = {}
+        for field in form._meta.fields :
+            formatedData[field] = getattr(data, field, "default invalid value from baseviews")
+        return formatedData

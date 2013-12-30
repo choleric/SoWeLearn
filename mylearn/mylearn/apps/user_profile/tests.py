@@ -85,8 +85,8 @@ class UserPersonalProfileTestCase(BaseTest):
 
         profileData = ret["d"]
         for paramName, data in expectedPairs :
-            self.assertEquals(oldData, profileData[paramsName],
-                    "profile data check field '%s' is %s, expected %s" %(paramsName, profileData[paramsName], oldData))
+            self.assertEquals(data, profileData[paramName],
+                    "profile data check field '%s' is %s, expected %s" %(paramName, profileData[paramName], data))
 
 
     def test_change_about_user_quote(self):

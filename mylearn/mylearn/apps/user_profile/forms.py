@@ -25,4 +25,4 @@ class TutorHourlyRateForm(forms.Form):
 class UserProfileForm(forms.ModelForm):
     class Meta :
         model = UserPersonalProfile
-        fields = ['userID', 'skypeID']
+        fields = ['skypeID']
