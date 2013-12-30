@@ -74,7 +74,7 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_signup_learn'),data)
         self.assertEqual(response.status_code, 200, response)
         content = json.loads(response.content)
-        self.assertEqual(content["c"],3,content)
+        self.assertEqual(content["c"], code.DifferentPassword, content)
 
     def test_signup_email_already_taken(self):
         User.objects.create(email='signup@signup.com',password='pass')
@@ -83,7 +83,7 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_signup_learn'),data2)
         self.assertEqual(response.status_code, 200, response)
         content = json.loads(response.content)
-        self.assertEqual(content["c"],2,content)
+        self.assertEqual(content["c"], code.UserExist, content)
 
     def test_signup_common_mistakes(self):
         data ={'email': "signup.com",'password1':"2",'password2':"2",
@@ -91,7 +91,7 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_signup_learn'),data)
         self.assertEqual(response.status_code, 200, response)
         content = json.loads(response.content)
-        self.assertEqual(content["c"],1,content)
+        self.assertEqual(content["c"],code.SignupFailure,content)
 
     def test_email_verification_mandatory(self):
         c = Client()

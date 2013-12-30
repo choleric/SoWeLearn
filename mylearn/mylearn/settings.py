@@ -57,6 +57,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = PROJECT_NAME + ".urls"
 WSGI_APPLICATION = PROJECT_NAME + '.wsgi.application'
 
+#CSRF Settings
+CSRF_COOKIE_NAME = "_t"
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -94,29 +96,30 @@ AUTHENTICATION_BACKENDS = (
 )
 
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_NAME = "_l"
-SESSION_EXPIRE_AT_BROWSER_CLOSE =True
-ANONYMOUS_USER_ID=-1
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+ANONYMOUS_USER_ID = -1
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
 # allauth settings
 #ACCOUNT_ADAPTER = get_project_app_qulified_name('allauth_override_template.adapter.AccountAdapter') #can be customized
-ACCOUNT_AUTHENTICATION_METHOD="email"
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=3
-ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION= "mandatory"
-ACCOUNT_USERNAME_REQUIRED=False
-ACCOUNT_PASSWORD_MIN_LENGTH=6
+SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_PASSWORD_MIN_LENGTH = 6
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_SIGNUP_FORM_CLASS = get_project_app_qulified_name('allauth_override_template.forms.SignupFormAdd')
   #Specifies the adapter class to use, allowing you to alter certain default behaviour.
-SOCIALACCOUNT_ADAPTER="allauth.socialaccount.adapter.DefaultSocialAccountAdapter"
+SOCIALACCOUNT_ADAPTER = get_project_app_qulified_name("allauth_socialaccount.adapter.SocialAccountAdapterLearn")
 
 SOCIALACCOUNT_PROVIDERS = \
     {
@@ -130,7 +133,11 @@ SOCIALACCOUNT_PROVIDERS = \
     #Settings for Google
     'google':
         { 'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile'],
-          'AUTH_PARAMS': { 'access_type': 'online' } }
+          'AUTH_PARAMS': { 'access_type': 'online' } },
+    #Settings for Linkedin
+    'linkedin':
+      {'SCOPE': ['r_emailaddress'],
+       'PROFILE_FIELDS': ['id','first-name','last-name','email-address','picture-url','public-profile-url']}
     }
 
 DATABASE_ROUTERS = [get_project_app_qulified_name('DBRouter')]

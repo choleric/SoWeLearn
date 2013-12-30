@@ -32,7 +32,7 @@ INSTALLED_APPS += (
     'django.contrib.admin',
 )
 
-# for allauth requiring site_id
+# for allauth requiring site_id(to match localhost:7000)
 SITE_ID = 1
 
 #EMAIL BACKEND FOR DJANGO-ALLAUTH
