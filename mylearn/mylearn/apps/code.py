@@ -38,4 +38,6 @@ SigninFormField = ['login', 'password']
 
 
 # below is error code for user_profile, from 100 - 200
-profileSkypeIDInvalid = 100
+profileUnknown = 100
+profileUserIDInvalid = 101
+profileSkypeIDInvalid = 102

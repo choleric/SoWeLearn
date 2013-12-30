@@ -202,9 +202,14 @@ class ProfileView(UserRelatedFormView) :
         form.instance.userID = request.user.pk
 
         if not form.is_valid():
-# TODO errors 
-            print form.errors
-            return JsonResponse(errcode.SUCCESS)
+            err = errcode.profileUnknown
+            for field, v in form.errors.iteritems() :
+                if 1 > len(v) :
+                    continue
+                err = v[0]
+                break
+
+            return JsonResponse(err)
 
         form.save()
         return JsonResponse(errcode.SUCCESS)
