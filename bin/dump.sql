@@ -5,8 +5,8 @@ CREATE TABLE "django_site" (
     "domain" varchar(100) NOT NULL,
     "name" varchar(50) NOT NULL
 );
-INSERT INTO "django_site" VALUES(1,'example.com','example.com');
-INSERT INTO "django_site" VALUES(2,'localhost:7000','Dev Domain');
+DELETE FROM "django_site" WHERE "id" != 0;
+INSERT INTO "django_site" VALUES(1,'localhost:7000','Dev Domain');
 COMMIT;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
@@ -18,6 +18,7 @@ CREATE TABLE "socialaccount_socialapp" (
     "key" varchar(100) NOT NULL,
     "secret" varchar(100) NOT NULL
 );
+DELETE FROM "socialaccount_socialapp" WHERE "id" != 0;
 INSERT INTO "socialaccount_socialapp" VALUES(3,'twitter','Twitter login','a4PAin0cDtFQ2ig1egl0A','','FuRAGOhUAjaNBioOmkXEg3vEygpSAUzxcXyNsU8d4Y');
 INSERT INTO "socialaccount_socialapp" VALUES(4,'linkedin','LinkedIn login','77dmfxvujdlsh0','','rz0NtfmFizNOqpMM');
 INSERT INTO "socialaccount_socialapp" VALUES(6,'google','Google+ login','428825681483.apps.googleusercontent.com','','rzdIFZSWZXslUuUOvU15Ai4x');
@@ -29,10 +30,11 @@ CREATE TABLE "socialaccount_socialapp_sites" (
     "site_id" integer NOT NULL REFERENCES "django_site" ("id"),
     UNIQUE ("socialapp_id", "site_id")
 );
-INSERT INTO "socialaccount_socialapp_sites" VALUES(12,8,2);
-INSERT INTO "socialaccount_socialapp_sites" VALUES(13,6,2);
-INSERT INTO "socialaccount_socialapp_sites" VALUES(14,4,2);
-INSERT INTO "socialaccount_socialapp_sites" VALUES(15,3,2);
+DELETE FROM "socialaccount_socialapp_sites" WHERE "id" != 0;
+INSERT INTO "socialaccount_socialapp_sites" VALUES(12,8,1);
+INSERT INTO "socialaccount_socialapp_sites" VALUES(13,6,1);
+INSERT INTO "socialaccount_socialapp_sites" VALUES(14,4,1);
+INSERT INTO "socialaccount_socialapp_sites" VALUES(15,3,1);
 CREATE INDEX "socialaccount_socialapp_sites_f2973cd1" ON "socialaccount_socialapp_sites" ("socialapp_id");
 CREATE INDEX "socialaccount_socialapp_sites_99732b5c" ON "socialaccount_socialapp_sites" ("site_id");
 COMMIT;
