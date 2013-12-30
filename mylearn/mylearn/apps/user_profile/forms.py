@@ -1,5 +1,8 @@
 from django import forms
 
+from models import UserPersonalProfile
+from mylearn.apps import errcode
+
 class UserQuoteForm(forms.Form):
     aboutUserQuote= forms.CharField(max_length=10)
 
@@ -20,3 +23,20 @@ class TutorHourlyRateForm(forms.Form):
     tutorTuitionAverageHourlyRateMiddleSchool = forms.DecimalField(decimal_places=2,required=False)
     tutorTuitionAverageHourlyRateHighSchool = forms.DecimalField(decimal_places=2,required=False)
     tutorTuitionAverageHourlyRateCollege = forms.DecimalField(decimal_places=2,required=False)
+
+class UserProfileForm(forms.ModelForm):
+    userID = forms.IntegerField(
+            required = False,
+            error_messages={
+        "required" : errcode.profileUserIDInvalid,
+        "invalid" : errcode.profileUserIDInvalid,
+        })
+    skypeID = forms.CharField(
+            required=False,
+            error_messages={
+        "invalid" : errcode.profileSkypeIDInvalid,
+        })
+
+    class Meta :
+        model = UserPersonalProfile
+        fields = ['skypeID']

@@ -46,3 +46,9 @@ AllAuthErrorMessageMap = {
 # we will refer this when returning error to frontend
 # every field has a number: 0,1,2,3....
 SigninFormField = ['login', 'password']
+
+
+# below is error code for user_profile, from 100 - 200
+profileUnknown = 100
+profileUserIDInvalid = 101
+profileSkypeIDInvalid = 102

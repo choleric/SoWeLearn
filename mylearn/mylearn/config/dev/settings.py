@@ -4,19 +4,12 @@ This is django setting.py for development
 import os
 import logging
 
-from mongoengine import connect
 __log = logging.getLogger(__name__)
 
 DEBUG = True
 TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
-
 DBNAME = 'mylearn'
-try :
-    connect(DBNAME, host='localhost', port=27017)
-except Exception as e :
-    __log.error("mongodb connnect: %s", e)
-
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -24,7 +17,12 @@ except Exception as e :
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '.sqlite3.tmp'),
+        'NAME': os.path.join(BASE_DIR, '.sqlite3.tmp')
+    },
+    'mongodb' : {
+      'ENGINE' : 'django_mongodb_engine',
+      'NAME' : DBNAME,
+      "APPS" : ['user_profile']
     }
 }
 
@@ -39,3 +37,5 @@ SITE_ID = 1
 
 #EMAIL BACKEND FOR DJANGO-ALLAUTH
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+TEST_RUNNER = get_project_app_qulified_name("projtest.ProjTestRunner")
