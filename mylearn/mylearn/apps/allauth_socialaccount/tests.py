@@ -80,7 +80,7 @@ class OAuth2GenericTestCase(TestCase):
 
     def _create_user_and_login(self,login = 'raymond.penners@gmail.com', pwd = 'password'):
         user = self._create_user(login, pwd)
-        response = self.client.post(reverse('account_login'),
+        response = self.client.post(reverse('account_signin_learn'),
                                     {'login': login,
                                      'password': pwd})
         return user
@@ -98,8 +98,7 @@ class OAuth2GenericTestCase(TestCase):
     def test_login_error_response(self):
         response = self.client.get(reverse('socialaccount_login_error'))
         self.assertEqual(response.status_code, 200)
-        #content = json.loads(response.content)
-        #self.assertEqual(content["c"], code.SocialAccountLoginFailed, content)
+        self.assertTemplateUsed(response, 'socialaccount/authentication_error.html')
 
     def test_login_cancelled_response(self):
         response = self.client.get(reverse('socialaccount_login_cancelled_learn'))
@@ -141,12 +140,25 @@ class OAuth2GenericTestCase(TestCase):
         self.assertEqual(emailAddress.email, email ,emailAddress)
         self.assertEqual(emailAddress.verified, True)
 
-    def test_account_connect(self):
+    def _test_account_connect(self):
         email = "raymond.penners@gmail.com"
+        username = "user"
         password = '123456'
-        user = self._create_user_and_login(login=email, pwd = password)
+        user = User.objects.create(username=username,
+                                   is_active=True,
+                                   email=email)
+        user.set_password(password)
+        user.save()
+        EmailAddress.objects.create(user=user,
+                                    email=email,
+                                    primary=True,
+                                    verified=True)
+        self.client.post(reverse('account_signin_learn'), {
+            'login': email,
+            'password': password,
+            })
 
-        response = self.login(self.get_mocked_response,
+        response = self.login(self.get_mocked_response(),
                    process='connect')
         social = SocialAccount.objects.filter(provider = self.provider.id)
         # Check if we connected...
@@ -209,6 +221,9 @@ class FacebookTests(OAuth2GenericTestCase):
         self.assertEqual(content['c'], code.DuplicateEmailSocialAccount)
         self.assertEqual(content['d'], reverse('account_signin_learn'))
 
+    def test_account_connect(self):
+        return super(FacebookTests,self)._test_account_connect()
+
 class GoogleTests(OAuth2GenericTestCase):
 
     provider = registry.by_id(GoogleProvider.id)
@@ -254,33 +269,7 @@ class GoogleTests(OAuth2GenericTestCase):
         email = 'some@mail.com'
         username = 'user'
         password = '123456'
-        user = User.objects.create(username=username,
-                                   is_active=True,
-                                   email=email)
-        user.set_password(password)
-        user.save()
-        EmailAddress.objects.create(user=user,
-                                    email=email,
-                                    primary=True,
-                                    verified=True)
-        #ret = self.client.login(username=email,
-        #                  password=password)
-        self.client.post(reverse('account_signin_learn'), {
-            'login': email,
-            'password': password,
-            })
-
-
-        response = self.login(self.get_mocked_response(given_name='user'),
-                   process='connect')
-        social = SocialAccount.objects.filter(provider = GoogleProvider.id)
-        # Check if we connected...
-        self.assertTrue(SocialAccount.objects.filter(user=user,
-                                                     provider=GoogleProvider.id).exists())
-        # For now, we do not pick up any new e-mail addresses on connect
-        self.assertEqual(EmailAddress.objects.filter(user=user).count(), 1)
-        self.assertEqual(EmailAddress.objects.filter(user=user,
-                                                      email=email).count(), 1)
+        return super(GoogleTests,self)._test_account_connect()
 
     def test_account_connection_remove_no_password(self):
         self.assertFalse(SocialAccount.objects.filter(
