@@ -148,10 +148,10 @@ class OAuth2GenericTestCase(TestCase):
 
         response = self.login(self.get_mocked_response,
                    process='connect')
-        social = SocialAccount.objects.filter(provider = provider.id)
+        social = SocialAccount.objects.filter(provider = self.provider.id)
         # Check if we connected...
         self.assertTrue(SocialAccount.objects.filter(user=user,
-                                                     provider=GoogleProvider.id).exists())
+                                                     provider=self.provider.id).exists())
         # For now, we do not pick up any new e-mail addresses on connect
         self.assertEqual(EmailAddress.objects.filter(user=user).count(), 1)
         self.assertEqual(EmailAddress.objects.filter(user=user,
