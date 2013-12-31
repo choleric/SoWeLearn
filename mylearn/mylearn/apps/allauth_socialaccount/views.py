@@ -14,12 +14,6 @@ from .. import code
 
 logger = logging.getLogger(__name__)
 
-class LoginErrorViewLearn(LoginErrorView):
-    def get(self, request):
-        return JsonResponse(code.SocialAccountLoginFailed)
-
-login_error_learn = LoginErrorViewLearn.as_view()
-
 class LoginCancelledViewLearn(LoginCancelledView):
     def get(self, request):
         return JsonResponse(code.SocialAccountLoginCancelled)
@@ -36,12 +30,12 @@ class SignupViewLearn(SignupView):
         if email:
             if email_address_exists(email):
                 status = email_address_exists(email)
-                return JsonResponse(code.DuplicateEmailSocialAccount)
+                return JsonResponse(code.DuplicateEmailSocialAccount, reverse('account_signin_learn'))
         return super(SignupView, self).dispatch(request, *args, **kwargs)
 
     def form_invalid(self, form):
         data = dict(form.errors.items())
-        return JsonResponse(code.SocialAccountSignupFailure, data)
+        return JsonResponse(code.SocialAccountSignupFailure)
 
 signup_learn = SignupViewLearn.as_view()
 

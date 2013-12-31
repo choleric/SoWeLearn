@@ -141,6 +141,22 @@ class OAuth2GenericTestCase(TestCase):
         self.assertEqual(emailAddress.email, email ,emailAddress)
         self.assertEqual(emailAddress.verified, True)
 
+    def test_account_connect(self):
+        email = "raymond.penners@gmail.com"
+        password = '123456'
+        user = self._create_user_and_login(login=email, pwd = password)
+
+        response = self.login(self.get_mocked_response,
+                   process='connect')
+        social = SocialAccount.objects.filter(provider = provider.id)
+        # Check if we connected...
+        self.assertTrue(SocialAccount.objects.filter(user=user,
+                                                     provider=GoogleProvider.id).exists())
+        # For now, we do not pick up any new e-mail addresses on connect
+        self.assertEqual(EmailAddress.objects.filter(user=user).count(), 1)
+        self.assertEqual(EmailAddress.objects.filter(user=user,
+                                                      email=email).count(), 1)
+
 class FacebookTests(OAuth2GenericTestCase):
 
     provider = registry.by_id(FacebookProvider.id)
@@ -191,6 +207,7 @@ class FacebookTests(OAuth2GenericTestCase):
         self.assertEqual(signup_response.status_code, 200)
         content = json.loads(signup_response.content)
         self.assertEqual(content['c'], code.DuplicateEmailSocialAccount)
+        self.assertEqual(content['d'], reverse('account_signin_learn'))
 
 class GoogleTests(OAuth2GenericTestCase):
 
