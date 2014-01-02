@@ -11,10 +11,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns(PROJECT_APP_PREFIX + '.user_profile.views',
-    url(r'^$', 'welcome'),
-    url(r'^test/', 'test'),
-    url(r'^register/', 'register_'),
-    url(r'^login/', 'login'),
     url(r'^profile/', 'profile', name="profile_url"),
     url(r'^topicourses/', 'topicourses'),#test topicourses -zhouwei
     url(r'^modify-user-quote/', 'modify_user_quote'),

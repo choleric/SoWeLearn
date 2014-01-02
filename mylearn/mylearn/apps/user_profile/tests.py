@@ -1,6 +1,7 @@
 import json
 from models import *
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 from .forms import UserQuoteForm
 from ..projtest import BaseTest
@@ -213,3 +214,12 @@ class UserProfileFormTestCase(BaseTest):
         responseDict = json.loads(response.content)
         self.assertEquals(responseDict['success'], False)
 
+
+class UserPersonalProfileNotLoginTestCase(BaseTest):
+    def test_no_login_redirect_to_login_url(self) :
+        profileURL = reverse("profile_url")
+
+        response = self.client.post(profileURL, {"skypeID" : 1})
+        self.assertEquals(302, response.status_code, "editProfile no login status errcode %d" %(response.status_code))
+        self.assertTrue(0 < response["location"].find(settings.LOGIN_URL),
+                "editProfile no login location %s" %(response["location"]))
