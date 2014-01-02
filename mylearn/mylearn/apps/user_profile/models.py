@@ -1,5 +1,6 @@
 from mongoengine import *
 from django.db import models
+from mylearn.apps import errcode
 
 # Create your models here.
 
@@ -36,7 +37,10 @@ class UserWorkCredential(UserVerified):
 
 class UserPersonalProfile(models.Model):
     userID = models.BigIntegerField(primary_key=True)
-    skypeID = models.CharField(max_length=20)
+    skypeID = models.CharField(max_length=1,
+            error_messages={
+        "max_length" : str(errcode.profileQuoteInvalid),
+    })
     quote = models.CharField(max_length=200)
 
 """
