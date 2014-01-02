@@ -37,9 +37,9 @@ class UserWorkCredential(UserVerified):
 class UserPersonalProfile(models.Model):
     userID = models.BigIntegerField(primary_key=True)
     skypeID = models.CharField(max_length=20)
+    quote = models.CharField(max_length=200)
 
 """
-    aboutUserQuote = StringField()
     userEducationCredential = ListField(
                                 EmbeddedDocumentField(UserEducationCredential))
     userWorkCredential = ListField(EmbeddedDocumentField(UserWorkCredential))

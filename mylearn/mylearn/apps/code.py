@@ -53,3 +53,4 @@ SigninFormField = ['login', 'password']
 profileUnknown = 100
 profileUserIDInvalid = 101
 profileSkypeIDInvalid = 102
+profileQuoteInvalid = 103
