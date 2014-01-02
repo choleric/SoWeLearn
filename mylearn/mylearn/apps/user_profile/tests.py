@@ -65,6 +65,7 @@ class UserPersonalProfileTestCase(BaseTest):
         # paramName, data
         expectedPairs = (
                 ('skypeID', "13"),
+                ('quote', ""),
                 )
 
         # update profile info
@@ -88,6 +89,25 @@ class UserPersonalProfileTestCase(BaseTest):
         for paramName, data in expectedPairs :
             self.assertEquals(data, profileData[paramName],
                     "profile data check field '%s' is %s, expected %s" %(paramName, profileData[paramName], data))
+
+    def test_profile_2field_1none_update(self) :
+        profileURL = reverse("profile_url")
+        params = {"skypeID": "15", "quote": "This is quote from A"}
+        response = self.client.post(profileURL, params)
+        self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
+
+        # check update value
+        response = self.client.get(profileURL)
+        self.assertEquals(200, response.status_code, "get status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "get errcode %d" %(ret["c"]))
+
+        profileData = ret["d"]
+        for name,data in params.iteritems():
+            v = profileData[name]
+            self.assertEquals(data, v, "field '%s': %s, expected %s, json: %s" % (name, v, data, ret["d"]))
 
 
     def test_change_about_user_quote(self):

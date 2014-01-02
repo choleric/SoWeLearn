@@ -1,5 +1,6 @@
 from django.db import models
 from djangotoolbox.fields import EmbeddedModelField, ListField
+from mylearn.apps import errcode
 
 # Create your models here.
 
@@ -21,8 +22,18 @@ class TutorHourlyRate(models.Model):
 
 class UserPersonalProfile(models.Model):
     userID = models.BigIntegerField(primary_key=True)
-    skypeID = models.CharField(max_length=20, blank=True)
-    aboutUserQuote = models.CharField(blank=True, max_length=100)
+
+    skypeID = models.CharField(max_length=200,
+            blank = True,
+            error_messages={
+        "max_length" : str(errcode.profileQuoteInvalid),
+    })
+    aboutUserQuote = models.CharField(max_length=200,
+            blank = True,
+            error_messages={
+        "invalid" : errcode.profileQuoteInvalid,
+    })
+
     userEducationCredential = ListField(EmbeddedModelField('UserEducationCredential'), blank=True)
     userWorkCredential = ListField(EmbeddedModelField('UserWorkCredential'), blank=True)
     userLocation = models.CharField(max_length=50)
