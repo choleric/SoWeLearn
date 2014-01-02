@@ -11,6 +11,8 @@ __staticDir = os.path.join(BASE_DIR, os.pardir, "static")
 __htmlDir = os.path.join(__staticDir, "html")
 
 urlpatterns += patterns('',
+    (r'^$', 'django.views.static.serve',
+            {'document_root': __htmlDir, 'path': "main.html"}),
     (r'^(?P<path>[^.]+\.html)$', 'django.views.static.serve',
             {'document_root': __htmlDir}),
     (r'^(?P<path>.+?\.css)$', 'django.views.static.serve',
