@@ -10,17 +10,15 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-urlpatterns = patterns(PROJECT_APP_PREFIX + '.user_profile.views',
-    url(r'^$', 'welcome'),
-    url(r'^test/', 'test'),
-    url(r'^register/', 'register_'),
-    url(r'^login/', 'login'),
-    url(r'^profile/', 'profile', name="profile_url"),
+__profileURLPatterns = patterns(PROJECT_APP_PREFIX + '.user_profile.views',
+    url(r'^info/', 'profile', name="profile_url"),
     url(r'^topicourses/', 'topicourses'),#test topicourses -zhouwei
     url(r'^modify-user-quote/', 'modify_user_quote'),
     url(r'^modify_work_and_education_credential/','modify_work_and_education_credential'),
     url(r'^modify_work_and_education_credential/','modify_work_and_education_credential'),
 )
+# make all profile related url under '/profile'
+urlpatterns = patterns('', url(r'^profile/', include(__profileURLPatterns)))
 
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.topicourse.views',
     url(r'^userTopicourses/', 'user_topicourses'),
