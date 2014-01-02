@@ -37,7 +37,7 @@ class SignupViewLearn(SignupView):
         data = dict(form.errors.items())
         return JsonResponse(code.SocialAccountSignupFailure)
 
-signup_learn = SignupViewLearn.as_view()
+signup_learn = ensure_csrf_cookie(SignupViewLearn.as_view())
 
 class ConnectionsViewLearn(ConnectionsView):
     def form_invalid(self, form):

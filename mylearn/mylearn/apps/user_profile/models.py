@@ -1,5 +1,6 @@
 from mongoengine import *
 from django.db import models
+from djangotoolbox.fields import EmbeddedModelField
 
 # Create your models here.
 
@@ -28,15 +29,24 @@ class UserVerified(EmbeddedDocument):
 
     meta = {'allow_inheritance': True}
 
+class UserVerified(models.Model):
+    IsVerified = BooleanField(default=False)
+    verifiedTimeStamp = LongField()
+    verifiedStaffId = LongField()
+
 class UserEducationCredential(UserVerified):
     userEducationInfo = StringField()
 
 class UserWorkCredential(UserVerified):
     userWorkInfo = StringField()
 
+
+
 class UserPersonalProfile(models.Model):
     userID = models.BigIntegerField(primary_key=True)
     skypeID = models.CharField(max_length=20)
+    aboutUserQuote = models.CharField(required = False)
+
 
 """
     aboutUserQuote = StringField()
