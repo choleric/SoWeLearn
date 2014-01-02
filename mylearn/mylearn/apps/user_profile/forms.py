@@ -1,8 +1,8 @@
 from django import forms
 
 from models import UserPersonalProfile
-from mylearn.apps import errcode
 from mylearn.apps.forms import AutoCreateUpdateModelForm
+from mylearn.apps.forms import convert_model_field_to_for_field 
 
 class UserQuoteForm(forms.Form):
     aboutUserQuote= forms.CharField(max_length=10)
@@ -25,33 +25,9 @@ class TutorHourlyRateForm(forms.Form):
     tutorTuitionAverageHourlyRateHighSchool = forms.DecimalField(decimal_places=2,required=False)
     tutorTuitionAverageHourlyRateCollege = forms.DecimalField(decimal_places=2,required=False)
 
-def a (f, **kwargs) :
-    args = {"error_messages":f.error_messages}
-    args.update(kwargs)
-    print "cb", kwargs, args
-    return f.formfield(**args)
 
 class UserProfileForm(AutoCreateUpdateModelForm) :
-    formfield_callback = a
-
-    """
-    userID = forms.IntegerField(
-            required = False,
-            error_messages={
-        "required" : errcode.profileUserIDInvalid,
-        "invalid" : errcode.profileUserIDInvalid,
-        })
-    skypeID = forms.CharField(
-            required=False,
-            error_messages={
-        "invalid" : errcode.profileSkypeIDInvalid,
-        })
-    quote = forms.CharField(
-            required=False,
-            error_messages={
-        "invalid" : errcode.profileQuoteInvalid,
-    })
-    """
+    formfield_callback = convert_model_field_to_for_field
 
     class Meta :
         model = UserPersonalProfile

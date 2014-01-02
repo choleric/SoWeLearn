@@ -37,11 +37,16 @@ class UserWorkCredential(UserVerified):
 
 class UserPersonalProfile(models.Model):
     userID = models.BigIntegerField(primary_key=True)
-    skypeID = models.CharField(max_length=1,
+    skypeID = models.CharField(max_length=200,
+            blank = True,
             error_messages={
         "max_length" : str(errcode.profileQuoteInvalid),
     })
-    quote = models.CharField(max_length=200)
+    quote = models.CharField(max_length=200,
+            blank = True,
+            error_messages={
+        "invalid" : errcode.profileQuoteInvalid,
+    })
 
 """
     userEducationCredential = ListField(
