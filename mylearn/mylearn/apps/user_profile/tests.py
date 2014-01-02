@@ -65,7 +65,7 @@ class UserPersonalProfileTestCase(BaseTest):
         # paramName, data
         expectedPairs = (
                 ('skypeID', "13"),
-                ('quote', ""),
+                ('aboutUserQuote', ""),
                 )
 
         # update profile info

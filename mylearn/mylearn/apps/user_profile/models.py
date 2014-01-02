@@ -7,18 +7,33 @@ from mylearn.apps import errcode
 class UserVerified(models.Model):
     IsVerified = models.BooleanField(default=False)
     verifiedTimeStamp = models.DateTimeField(auto_now=True)
-    verifiedStaffId = models.BigIntegerField()
+    verifiedStaffId = models.BigIntegerField(null=True)
 
 class UserEducationCredential(UserVerified):
-    userEducationInfo = models.CharField(max_length=100)
+    userEducationInfo = models.CharField(max_length=100,
+            error_messages={
+                "invalid" :errcode.profileEducationCredentialInvalid
+            })
 
 class UserWorkCredential(UserVerified):
-    userWorkInfo = models.CharField(max_length=100)
+    userWorkInfo = models.CharField(max_length=100,
+            error_messages={
+                "invalid" :errcode.profileEducationCredentialInvalid
+            })
 
 class TutorHourlyRate(models.Model):
-    tutorTuitionAverageHourlyRateMiddleSchool = models.PositiveSmallIntegerField(blank=True)
-    tutorTuitionAverageHourlyRateHighSchool = models.PositiveSmallIntegerField(blank=True)
-    tutorTuitionAverageHourlyRateCollege = models.PositiveSmallIntegerField(blank=True)
+    tutorTuitionAverageHourlyRateMiddleSchool = models.PositiveSmallIntegerField(blank=True, null=True,
+            error_messages={
+                "invalid" : errcode.profileTutorHourlyRateInvalid,
+            })
+    tutorTuitionAverageHourlyRateHighSchool = models.PositiveSmallIntegerField(blank=True, null=True,
+            error_messages={
+                "invalid" : errcode.profileTutorHourlyRateInvalid,
+            })
+    tutorTuitionAverageHourlyRateCollege = models.PositiveSmallIntegerField(blank=True, null=True,
+            error_messages={
+                "invalid" : errcode.profileTutorHourlyRateInvalid,
+            })
 
 class UserPersonalProfile(models.Model):
     userID = models.BigIntegerField(primary_key=True)
@@ -37,9 +52,13 @@ class UserPersonalProfile(models.Model):
     #
     userEducationCredential = ListField(EmbeddedModelField('UserEducationCredential'), blank=True)
     userWorkCredential = ListField(EmbeddedModelField('UserWorkCredential'), blank=True)
-    userLocation = models.CharField(max_length=50)
+    userLocation = models.CharField(max_length=50,
+            blank=True,
+            error_messages={
+                "max_length" : errcode.profilelocationInvalid,
+            })
     #whether user is verified as a tutor
     verifiedTutor= models.BooleanField(default=False)
     #Only available if user is verified as a tutor
-    tutorTuitionTopics = ListField()
-    tutorTuitionAverageHourlyRate = EmbeddedModelField('TutorHourlyRate')
+    tutorTuitionTopics = ListField(blank=True)
+    tutorTuitionAverageHourlyRate = EmbeddedModelField('TutorHourlyRate', null=True)

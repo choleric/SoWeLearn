@@ -54,3 +54,7 @@ profileUnknown = 100
 profileUserIDInvalid = 101
 profileSkypeIDInvalid = 102
 profileQuoteInvalid = 103
+profileEducationCredentialInvalid = 104
+profileEducationCredentialInvalid = 105
+profilelocationInvalid = 106
+profileTutorHourlyRateInvalid = 107

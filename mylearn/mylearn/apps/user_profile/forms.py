@@ -30,4 +30,4 @@ class UserProfileForm(AutoCreateUpdateModelForm) :
 
     class Meta :
         model = UserPersonalProfile
-        fields = ['skypeID', 'quote']
+        fields = ['skypeID', 'aboutUserQuote']
