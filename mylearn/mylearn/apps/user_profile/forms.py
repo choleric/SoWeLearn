@@ -25,7 +25,6 @@ class TutorHourlyRateForm(forms.Form):
     tutorTuitionAverageHourlyRateHighSchool = forms.DecimalField(decimal_places=2,required=False)
     tutorTuitionAverageHourlyRateCollege = forms.DecimalField(decimal_places=2,required=False)
 
-
 class UserProfileForm(AutoCreateUpdateModelForm) :
     formfield_callback = convert_model_field_to_for_field
 

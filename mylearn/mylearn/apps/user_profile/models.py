@@ -34,6 +34,7 @@ class UserPersonalProfile(models.Model):
         "invalid" : errcode.profileQuoteInvalid,
     })
 
+    #
     userEducationCredential = ListField(EmbeddedModelField('UserEducationCredential'), blank=True)
     userWorkCredential = ListField(EmbeddedModelField('UserWorkCredential'), blank=True)
     userLocation = models.CharField(max_length=50)
