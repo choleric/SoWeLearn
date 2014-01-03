@@ -12,13 +12,15 @@ class AutoCreateUpdateModelForm(forms.ModelForm) :
         """
         auto update non-None Field by pk
         """
+        #self._clean_fields()
+        nonNoneFields = self.nonNoneFields
         if self.instance.pk is None:
             fail_message = 'created'
         else:
             fail_message = 'changed'
-        ins = forms.save_instance(self, self.instance, self._meta.fields,
-                             fail_message, False, construct=False)
-        ins.save(update_fields=self.nonNoneFields)
+        ins = forms.save_instance(self, self.instance, self._meta.fields, fail_message, False, construct=False)
+        #Todo update_fields does not work for mongodb
+        ins = self.instance.save(update_fields=self.nonNoneFields)
         return ins
 
     def _clean_fields(self):

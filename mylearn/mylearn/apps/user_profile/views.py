@@ -1,17 +1,14 @@
-import json
-import models
-
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
-
-from .forms import UserQuoteForm, WorkAndEducationCredentialForm, LocationAndContactForm
-from forms import UserProfileForm
-from models import UserPersonalProfile
 from django.contrib.auth.decorators import login_required
+
+from forms import UserProfileForm, TutorProfileForm
+from models import UserPersonalProfile
+
 from mylearn.apps import errcode
 from mylearn.apps import JsonResponse
 from mylearn.apps.baseviews import UserRelatedFormView
@@ -79,7 +76,16 @@ def topicourses(request):
 class ProfileView(UserRelatedFormView) :
     form_class = UserProfileForm
 
+    def get(self, request, *args, **kwargs):
+        user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
+        if user_profile.verifiedTutor:
+            self.form_class = TutorProfileForm
+        return super(ProfileView, self).get(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
+        user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
+        if user_profile.verifiedTutor:
+            self.form_class = TutorProfileForm
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         form.instance.userID = request.user.pk

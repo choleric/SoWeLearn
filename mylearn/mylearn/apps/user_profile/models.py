@@ -22,15 +22,15 @@ class UserWorkCredential(UserVerified):
             })
 
 class TutorHourlyRate(models.Model):
-    tutorTuitionAverageHourlyRateMiddleSchool = models.PositiveSmallIntegerField(blank=True, null=True,
+    tutorTuitionAverageHourlyRateMiddleSchool = models.PositiveSmallIntegerField(null=True,
             error_messages={
                 "invalid" : errcode.profileTutorHourlyRateInvalid,
             })
-    tutorTuitionAverageHourlyRateHighSchool = models.PositiveSmallIntegerField(blank=True, null=True,
+    tutorTuitionAverageHourlyRateHighSchool = models.PositiveSmallIntegerField(null=True,
             error_messages={
                 "invalid" : errcode.profileTutorHourlyRateInvalid,
             })
-    tutorTuitionAverageHourlyRateCollege = models.PositiveSmallIntegerField(blank=True, null=True,
+    tutorTuitionAverageHourlyRateCollege = models.PositiveSmallIntegerField(null=True,
             error_messages={
                 "invalid" : errcode.profileTutorHourlyRateInvalid,
             })
@@ -61,4 +61,4 @@ class UserPersonalProfile(models.Model):
     verifiedTutor= models.BooleanField(default=False)
     #Only available if user is verified as a tutor
     tutorTuitionTopics = ListField(blank=True)
-    tutorTuitionAverageHourlyRate = EmbeddedModelField('TutorHourlyRate', null=True)
+    tutorTuitionAverageHourlyRate = EmbeddedModelField('TutorHourlyRate', null=True, blank=True)
