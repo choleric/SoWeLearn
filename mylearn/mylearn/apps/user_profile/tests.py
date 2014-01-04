@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 
 from models import *
-from .forms import UserQuoteForm
+from .forms import UserProfileForm
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
 from mylearn.apps import errcode
@@ -61,6 +61,21 @@ class UserPersonalProfileTestCase(BaseTest):
     def profile(self) :
         return self.__profile
 
+    def test_profile_model(self):
+        UserPersonalProfile.objects.create(userID = 20, userSkypeID='skype_id001', aboutUserQuote='my quote')
+        user = UserPersonalProfile.objects.get(userID = 20)
+        self.assertEqual(user.userSkypeID, 'skype_id001')
+
+    def test_profile_form(self):
+        data = {'userID':30, 'userSkypeID':'skype_id001', 'aboutUserQuote':'my quote'}
+        editProfileForm = UserProfileForm(data)
+        self.assertEqual(editProfileForm.is_valid(), True)
+        if editProfileForm.is_valid():
+            editProfileForm.save()
+        user = UserPersonalProfile.objects.get(userID = 30)
+        self.assertEqual(user.userSkypeID, 'skype_id001')
+
+
     def test_profile_field_update(self) :
         profileURL = reverse("profile_url")
         # paramName, data
@@ -104,7 +119,7 @@ class UserPersonalProfileTestCase(BaseTest):
 
         #Set the user to be tutor
         self.__profile.verifiedTutor=True
-        self.__profile.tutorTuitionAverageHourlyRate = {'tutorTuitionAverageHourlyRateMiddleSchool': 20}
+        self.__profile.tutorTuitionAverageHourlyRateMiddleSchool=20
         self.__profile.save()
 
         # update profile info
