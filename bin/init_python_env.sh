@@ -26,15 +26,16 @@ function uninstallPack() {
 }
 
 function install() {
-  installPack Django 1.5.5 git+https://github.com/django-nonrel/django@nonrel-1.5
+  installPack Django "" Django
   installPack djangotoolbox "" git+https://github.com/django-nonrel/djangotoolbox
   installPack django-mongodb-engine "" git+https://github.com/django-nonrel/mongodb-engine
   installPack django-allauth "" django-allauth
   installPack mongoengine "" mongoengine
+  installPack django-mongodbforms "" git+https://github.com/jschrewe/django-mongodbforms
 }
 
 function uninstall() {
-  uninstallPack Django 1.5.5 Django
+  uninstallPack Django "" Django
   uninstallPack djangotoolbox "" djangotoolbox
   uninstallPack django-mongodb-engine "" django-mongodb-engine
   uninstallPack oauthlib "" oauthlib
@@ -44,6 +45,7 @@ function uninstall() {
   uninstallPack pymongo "" pymongo
   uninstallPack django-allauth "" django-allauth
   uninstallPack mongoengine "" mongoengine
+  uninstallPack django-mongodbforms "" django-mongodbforms
 }
 
 case $1 in
