@@ -32,11 +32,11 @@ class UserProfileForm(DocumentForm) :
 
     class Meta :
         model = UserPersonalProfile
-        fields = ['userSkypeID', 'aboutUserQuote', 'userLocation']
+        #fields = ['userSkypeID', 'aboutUserQuote', 'userLocation']
 
 class TutorProfileForm(DocumentForm):
     #formfield_callback = convert_model_field_to_for_field
 
     class Meta :
         model = UserPersonalProfile
-        fields = ['userSkypeID', 'aboutUserQuote', 'userLocation','tutorTuitionAverageHourlyRateMiddleSchool']
+        fields = ['userSkypeID', 'aboutUserQuote', 'userLocation','tutorTuitionTopics']
