@@ -35,6 +35,7 @@ class UserWorkCredential(UserVerified):
     userWorkInfo = StringField()
 
 class UserPersonalProfile(Document):
+    userID = LongField(primary_key=True)
     userEmail = StringField(unique=True)
     userSkypeID = StringField()
     aboutUserQuote = StringField()
@@ -42,6 +43,8 @@ class UserPersonalProfile(Document):
                                 EmbeddedDocumentField(UserEducationCredential))
     userWorkCredential = ListField(EmbeddedDocumentField(UserWorkCredential))
     userLocation = StringField()
+
+    verifiedTutor = LongField()
 
     # only for tutor
     tutorTuitionTopics = StringField()

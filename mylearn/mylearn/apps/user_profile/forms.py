@@ -28,15 +28,15 @@ class TutorHourlyRateForm(forms.Form):
     tutorTuitionAverageHourlyRateCollege = forms.DecimalField(decimal_places=2,required=False)
 
 class UserProfileForm(DocumentForm) :
-    formfield_callback = convert_model_field_to_for_field
+    #formfield_callback = convert_model_field_to_for_field
 
     class Meta :
         model = UserPersonalProfile
-        fields = ['skypeID', 'aboutUserQuote', 'userLocation',]
+        #fields = ['userSkypeID', 'aboutUserQuote', 'userLocation']
 
 class TutorProfileForm(DocumentForm):
-    formfield_callback = convert_model_field_to_for_field
+    #formfield_callback = convert_model_field_to_for_field
 
     class Meta :
         model = UserPersonalProfile
-        fields = ['skypeID', 'aboutUserQuote', 'userLocation','tutorTuitionAverageHourlyRate']
+        fields = ['userSkypeID', 'aboutUserQuote', 'userLocation','tutorTuitionTopics']

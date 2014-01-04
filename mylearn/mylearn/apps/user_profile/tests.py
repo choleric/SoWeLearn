@@ -8,6 +8,7 @@ from .forms import UserQuoteForm
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
 from mylearn.apps import errcode
+from .forms import UserProfileForm
 
 
 class UserPersonalProfileTestCase(BaseTest):
@@ -39,6 +40,7 @@ class UserPersonalProfileTestCase(BaseTest):
     def _create_user_profile(self) :
         self.__profile = UserPersonalProfile(
                 userID=self.user.pk,
+                userEmail = 'test@test.com'
                 )
         self.__profile.save()
 
@@ -131,7 +133,7 @@ class UserPersonalProfileTestCase(BaseTest):
 
     def test_profile_2field_1none_update(self) :
         profileURL = reverse("profile_url")
-        params = {"skypeID": "15", "quote": "This is quote from A"}
+        params = {"userSkypeID": "15", "aboutUserQuote": "This is quote from A"}
         response = self.client.post(profileURL, params)
         self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
         ret = json.loads(response.content)
@@ -149,131 +151,6 @@ class UserPersonalProfileTestCase(BaseTest):
             self.assertEquals(data, v, "field '%s': %s, expected %s, json: %s" % (name, v, data, ret["d"]))
 
 
-    def test_change_about_user_quote(self):
-        #create test user
-        new_quote = 'new quote'
-
-        #test before changing
-        self.assertNotEqual(self.profile.aboutUserQuote, new_quote)
-
-        self.profile.change_about_user_quote(new_quote)
-
-        #test after changing
-        self.assertEqual(self.profile.aboutUserQuote, new_quote)
-
-    def test_change_education_info(self):
-        #create test user
-        userEducationCredential=[]
-        for i in range(0,1):
-            educationCredential={}
-            educationCredential['userEducationInfo']='test education info'
-            educationCredential['IsVerified']=True
-            educationCredential['verifiedTimeStamp']=11110
-            educationCredential['verifiedStaffId']=11
-            userEducationCredential.append(educationCredential)
-        
-        self.profile.update(userEducationCredential=userEducationCredential)
-
-        new_userEducationCredential=[]
-        for i in range(0,2):
-            educationCredential={}
-            educationCredential['userEducationInfo']='new education info'
-            educationCredential['IsVerified']=True
-            educationCredential['verifiedTimeStamp']=11110
-            educationCredential['verifiedStaffId']=11
-            new_userEducationCredential.append(educationCredential)
-        #test before changing
-        user = UserPersonalProfile(userID=self.profile.userID)
-        for i in range(0,1):
-            self.assertNotEqual(user.userEducationCredential[i].userEducationInfo,new_userEducationCredential[i]['userEducationInfo'])
-
-        user.change_education_info(new_userEducationCredential)
-        #test after changing
-        newuser = UserPersonalProfile.objects.get(userEmail=self.user.pk)
-        for i in range(0,1):
-            self.assertEqual(newuser.userEducationCredential[i].userEducationInfo,new_userEducationCredential[i]['userEducationInfo'])
-
-    def test_change_work_info(self):
-        #create test user
-        userWorkCredential=[]
-        for i in range(0,2):
-            workCredential={}
-            workCredential['userWorkInfo']='test work info'
-            workCredential['IsVerified']=True
-            workCredential['verifiedTimeStamp']=22220+i
-            workCredential['verifiedStaffId']=22
-            userWorkCredential.append(workCredential)
-        UserPersonalProfile.objects.create(userSkypeID='skypei_id001', aboutUserQuote='my quote', userEmail='009',userWorkCredential=userWorkCredential)
-
-        new_userWorkCredential=[]
-        for i in range(0,1):
-            workCredential={}
-            workCredential['userWorkInfo']='new work info'
-            workCredential['IsVerified']=True
-            workCredential['verifiedTimeStamp']=11110+i
-            workCredential['verifiedStaffId']=11
-            new_userWorkCredential.append(workCredential)
-        #test before changing
-        user = UserPersonalProfile.objects.get(userEmail=self.user.pk)
-        for i in range(0,1):
-            self.assertNotEqual(user.userWorkCredential[i].userWorkInfo,new_userWorkCredential[i]['userWorkInfo'])
-
-        user.change_work_info(new_userWorkCredential)
-        #test after changing
-        newuser = UserPersonalProfile.objects.get(userEmail=self.user.pk)
-        for i in range(0,1):
-            self.assertEqual(newuser.userWorkCredential[i].userWorkInfo,new_userWorkCredential[i]['userWorkInfo'])
-
-
-
-class UserProfileFormTestCase(BaseTest):
-    def test_user_quote_form(self):
-        quote = UserQuoteForm(data={'aboutUserQuote': 'hello world'})
-
-        self.assertEqual(quote.is_valid(), False)
-
-    def test_modify_user_quote(self):
-        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello'})
-
-        self.assertEqual(response.status_code, 302)
-
-
-    def test_modify_user_quote_length(self):
-        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
-
-        quote = UserQuoteForm(data={'aboutUserQuote': 'hello world'})
-        self.assertEqual(quote.is_valid(), False)
-
-    def test_modify_user_quote(self):
-        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello'})
-        self.assertEqual(response.status_code, 200)
-        responseDict = json.loads(response.content)
-        self.assertEquals(responseDict['success'], True)
-
-    def test_modify_user_quote_length(self):
-        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
-        self.assertEqual(response.status_code, 200)
-        responseDict = json.loads(response.content)
-        self.assertEquals(responseDict['success'], False)
-
-    def test_modify_user_quote_empty(self):
-        response = self.client.post('/modify-user-quote/',{'aboutUserQuote': ''})
-
-        self.assertEqual(response.status_code, 200)
-        responseDict = json.loads(response.content)
-        self.assertEquals(responseDict['success'], False)
-
-    def test_modify_user_quote_invalid_request(self):
-        response = self.client.get('/modify-user-quote/',{'aboutUserQuote': 'hello world'})
-        self.assertEqual(response.status_code, 404, response.status_code)
-
-    def test_modify_work_and_edu_empty(self):
-        response = self.client.post('/modify_work_and_education_credential/',{'userEducationCredential': '','userWorkCredential':''})
-        self.assertEqual(response.status_code, 200)
-        responseDict = json.loads(response.content)
-        self.assertEquals(responseDict['success'], False)
-
-
 class UserPersonalProfileNotLoginTestCase(BaseTest):
     def test_no_login_redirect_to_login_url(self) :
         profileURL = reverse("profile_url")
@@ -282,3 +159,19 @@ class UserPersonalProfileNotLoginTestCase(BaseTest):
         self.assertEquals(302, response.status_code, "editProfile no login status errcode %d" %(response.status_code))
         self.assertTrue(0 < response["location"].find(settings.LOGIN_URL),
                 "editProfile no login location %s" %(response["location"]))
+
+def display_all_profile():
+    print '==========='
+    for i in UserPersonalProfile.objects.all():
+            print 'profile', i.userID, i.userSkypeID, i.userEmail
+    print '==========='
+
+class UserProfileFormTest(BaseTest):
+    def test_profile(self):
+        display_all_profile()
+        params = {"userSkypeID": "15", "aboutUserQuote": "This is quote from A", 'userID':1, 'userEmail':'test@test.com'}
+        profile = UserProfileForm(params)
+        self.assertEqual( profile.is_valid(),True)
+        profile.save()
+        display_all_profile()
+
