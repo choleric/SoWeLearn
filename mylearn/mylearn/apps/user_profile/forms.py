@@ -38,10 +38,3 @@ class TutorProfileForm(AutoCreateUpdateModelForm):
     class Meta :
         model = UserPersonalProfile
         fields = ['skypeID', 'aboutUserQuote', 'userLocation','tutorTuitionAverageHourlyRate']
-
-class UserEducationForm(AutoCreateUpdateModelForm):
-    formfield_callback = convert_model_field_to_for_field
-
-    class Meta :
-        model = UserEducationCredential
-        fields = ['userEducationInfo']
