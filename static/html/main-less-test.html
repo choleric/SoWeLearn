@@ -3,7 +3,7 @@
 	<head>
 		<title>SoWeLearn</title>
 		<meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="../css/mainless.css">
         <link href="/css/jquery.bxslider.css" rel="stylesheet" />
         <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
 	</head>
@@ -53,7 +53,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div id="teaching"  class="contsDetail hide">
+                        <div id="teaching"  class="contsDetail HIDE">
                             <!-- <div class="title">
                                 <span class="info">My Topicourses</span>
                             </div>
@@ -67,7 +67,7 @@
                             <ul id="teachingHistory"></ul>
                             <p>Statics</p> -->
                         </div>
-                        <div id="personal" class="contsDetail hide">
+                        <div id="personal" class="contsDetail HIDE">
                             <div class="title"><span>About Myself</span><span class="arrow-right"></span></div>
                             <div class="detailContApp"></div>
                             <div class="title"><span>Shan</span></div>
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="teachingBox hide box">
+                <div class="teachingBox HIDE box">
                     <div class="contBox">
                         <span class="cardTitle">My Topicourses</span>
                         <div class="conts">
@@ -188,7 +188,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="personalInfoBox hide box">
+                <div class="personalInfoBox HIDE box">
                     <div class="education contBox">
                         <span class="cardTitle">Education</span>
                         <div class="conts">
@@ -254,15 +254,25 @@
                     </div>
                 </div>
             </div>
-        </div>     
+        </div>  
         <section class="login">
             <div class="black_overlay" id="overlay_login"></div>
             <div class="loginBox">
                 <div class="loginForm">
-                    
+                    <form class="" action="" >
+                        <input type="text" class="inputEmail" name="email" placeholder="Email  Address" value="">
+                        <input type="password" class="inputPassword" name="password" placeholder="Password" value="">
+                        <a href="" class="loginBtn"><span class=""></span></a>
+                        <p class="moreInfo clearfix">
+                            <a class="signup" href="/signup">Signup</a>
+                            <a class="forgetPassword" href="/forgetPassword">Forgot Password?</a>
+                        </p>
+                        <p class="otherLogin"><span class="text">Login with</span> <a href=""><img src="../images/facebook.jpg"></a><a href=""><img src="../images/google+.png"></a><a href=""><img src="../images/twitter.png"></a></p>
+                    </form>
                 </div>
+                <P class="info">By login, I accept SoWeLearn's Terms of Service and Privacy Policy.</P>
             </div>
-        </section>           
+        </section>                  
         <script type="text/javascript" src="/js/jquery.bxslider.min.js"></script>
         <script type="text/javascript" src="/js/jquery.slimscroll.js"></script>
         <script type="text/javascript" src="/js/jquery.tipTip.js"></script>

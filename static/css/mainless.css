@@ -108,6 +108,16 @@ ul {
 .HIDE {
   display: none;
 }
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.clearfix {
+  zoom: 1;
+}
 .left {
   width: 420px;
   height: 100%;
@@ -294,7 +304,7 @@ ul {
   border: 1px solid rgba(119, 149, 175, 0.7);
   background-color: #007fea;
   background: -webkit-gradient(linear, 0 0, 0 100%, from(#007fea), color-stop(50%, #007fea), color-stop(51%, #2a94ed), color-stop(100%, #6eb6f3));
-  background: -moz-gradient(linear, 0 0, 0 100%, from(#007fea), color-stop(50%, #007fea), color-stop(51%, #2a94ed), color-stop(100%, #6eb6f3));
+  background: -moz-linear-gradient(top, #007fea, #007fea 50%, #2a94ed 51%, #6eb6f3 100%);
   -webkit-box-shadow: 0px 1px 4px #7795af inset;
   -moz-box-shadow: 0px 1px 4px #7795af inset;
   box-shadow: 0px 1px 4px #7795af inset;
@@ -312,7 +322,7 @@ ul {
   border: 1px solid rgba(163, 163, 163, 0.7);
   background-color: #eeeeee;
   background: -webkit-gradient(linear, 0 0, 0 100%, from(#eeeeee), color-stop(50%, #eeeeee), color-stop(51%, #f8f8f8), color-stop(100%, #fefefe));
-  background: -moz-gradient(linear, 0 0, 0 100%, from(#eeeeee), color-stop(50%, #eeeeee), color-stop(51%, #f8f8f8), color-stop(100%, #fefefe));
+  background: -moz-linear-gradient(top, #eeeeee, #eeeeee 50%, #f8f8f8 51%, #fefefe 100%);
   -webkit-box-shadow: 0px 1px 4px rgba(163, 163, 163, 0.7) inset;
   -moz-box-shadow: 0px 1px 4px rgba(163, 163, 163, 0.7) inset;
   box-shadow: 0px 1px 4px rgba(163, 163, 163, 0.7) inset;
@@ -796,4 +806,264 @@ ul {
   -ms-animation-duration: 1s;
   -o-animation-duration: 1s;
   animation-duration: 1s;
+}
+.login .black_overlay {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  z-index: 999;
+  -webkit-opacity: 0.8;
+  -moz-opacity: 0.8;
+  opacity: 0.8;
+}
+.login .loginBox {
+  position: absolute;
+  top: 100px;
+  left: 480px;
+  z-index: 1000;
+  width: 400px;
+  height: 380px;
+  background-color: #f5f5f5;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 40px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.login .loginBox .loginForm {
+  position: relative;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: url("../images/bg.png");
+  width: 340px;
+  height: 257px;
+  padding: 100px 30px 0 30px;
+}
+.login .loginBox .loginForm .inputEmail,
+.login .loginBox .loginForm .inputPassword {
+  background-color: #130c0e;
+  width: 330px;
+  height: 30px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 0px 0px 0px 10px;
+  margin-bottom: 15px;
+  color: #bbb;
+  border: 1px solid #000;
+  -webkit-opacity: 0.5;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  -webkit-box-shadow: inset 0 1px 3px #000000;
+  -moz-box-shadow: inset 0 1px 3px #000000;
+  box-shadow: inset 0 1px 3px #000000;
+}
+.login .loginBox .loginForm .loginBtn span {
+  position: absolute;
+  right: 36px;
+  top: 156px;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: url(../images/rightArrow.png);
+  -webkit-opacity: 0.7;
+  -moz-opacity: 0.7;
+  opacity: 0.7;
+}
+.login .loginBox .loginForm .moreInfo {
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+}
+.login .loginBox .loginForm .moreInfo a {
+  text-decoration: underline;
+  color: #fff;
+  text-shadow: 0 1px 0px rgba(0, 0, 0, 0.3);
+}
+.login .loginBox .loginForm .moreInfo .signup {
+  float: left;
+  padding-left: 3px;
+}
+.login .loginBox .loginForm .moreInfo .forgetPassword {
+  float: right;
+}
+.login .loginBox .loginForm .otherLogin {
+  height: 40px;
+  line-height: 40px;
+  margin: 50px 0 0 65px;
+}
+.login .loginBox .loginForm .otherLogin .text {
+  position: relative;
+  top: -3px;
+}
+.login .loginBox .loginForm .otherLogin img {
+  margin: 0 5px;
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.login .loginBox .info {
+  padding: 5px 5px 0 17px;
+  color: #d3d3d3;
+  font-family: Arial, sans-serif, Microsoft Yahei;
+  text-shadow: 0px 1px 0px #ffffff;
+}
+.signup .black_overlay {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  z-index: 999;
+  -webkit-opacity: 0.8;
+  -moz-opacity: 0.8;
+  opacity: 0.8;
+}
+.signup .signupBox {
+  position: absolute;
+  top: 100px;
+  left: 480px;
+  z-index: 1000;
+  width: 400px;
+  height: 380px;
+  background-color: #f5f0eb;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 40px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.signup .signupBox .signupForm {
+  position: relative;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: #fefefe;
+  width: 340px;
+  height: 277px;
+  padding: 80px 30px 0 30px;
+  -webkit-box-shadow: 0px 3px 2px 1px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 3px 2px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 3px 2px 1px rgba(0, 0, 0, 0.3);
+}
+.signup .signupBox .signupForm .inputEmail,
+.signup .signupBox .signupForm .inputPassword,
+.signup .signupBox .signupForm .firstName,
+.signup .signupBox .signupForm .lastName {
+  background-color: #fefefe;
+  width: 330px;
+  height: 30px;
+  padding: 0px 0px;
+  margin-bottom: 15px;
+  color: #bbb;
+  border: 0px;
+  border-bottom: 1px solid rgba(187, 187, 187, 0.5);
+}
+.signup .signupBox .signupForm .firstName,
+.signup .signupBox .signupForm .lastName {
+  width: 155px;
+}
+.signup .signupBox .signupForm .lastName {
+  margin-left: 2px;
+}
+.signup .signupBox .signupForm .signupBtn {
+  cursor: pointer;
+  width: 110px;
+  height: 30px;
+  margin-left: 116px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  color: #fff;
+  font-family: Arial, sans-serif, Microsoft Yahei;
+  font-size: 14px;
+  /*.text-shadow(0 -1px 1px rgba(255,255,255,0.45));*/
+  background-color: #ccc;
+  /*.gradient-fourColor(#f3f3f3, 0%, #dddddd, 50%, #d2d2d2, 51%, #dfdfdf, 100%);*/
+}
+.signup .signupBox .signupForm .signupBtn:hover {
+  /*.gradient-fourColor(#e5e5e5, 0%, #d1d1d1, 50%, #c4c4c4, 51%, #b8b8b8, 100%);*/
+}
+.signup .signupBox .signupForm .otherSignup {
+  height: 40px;
+  line-height: 40px;
+  margin: 50px 0 0 40px;
+}
+.signup .signupBox .signupForm .otherSignup .text {
+  position: relative;
+  top: -3px;
+}
+.signup .signupBox .signupForm .otherSignup img {
+  margin: 0 5px;
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.signup .signupBox .info {
+  padding: 10px 5px 0 0px;
+  color: #d3d3d3;
+  font-family: Arial, sans-serif, Microsoft Yahei;
+  text-shadow: 0px 1px 0px #ffffff;
 }

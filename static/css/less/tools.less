@@ -69,6 +69,15 @@
 	background: -ms-linear-gradient(top, @startColor, @endColor);
 	background: -o-linear-gradient(top, @startColor, @endColor);
 }
+.gradient-fourColor (@firstColor: #eee,@firstPercent: 0%, @sencondColor: #eee,@secondPercent: 50%, @thirdColor: #eee,@thirdPercent: 51%, @fourthColor: #eee,@fourthPercent: 100%) {
+	background-color: @firstColor;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(@firstPercent, @firstColor),color-stop(@secondPercent, @sencondColor),color-stop(@thirdPercent, @thirdColor),color-stop(@fourthPercent, @fourthColor));
+	background: -webkit-linear-gradient(top, @firstColor @firstPercent, @sencondColor @secondPercent, @thirdColor @thirdPercent, @fourthColor @fourthPercent);
+	background: -moz-linear-gradient(top, @firstColor @firstPercent, @sencondColor @secondPercent, @thirdColor @thirdPercent, @fourthColor @fourthPercent);
+	background: -ms-linear-gradient(top, @firstColor @firstPercent, @sencondColor @secondPercent, @thirdColor @thirdPercent, @fourthColor @fourthPercent);
+	background: -o-linear-gradient(top, @firstColor @firstPercent, @sencondColor @secondPercent, @thirdColor @thirdPercent, @fourthColor @fourthPercent);
+	background: linear-gradient(top, @firstColor @firstPercent, @sencondColor @secondPercent, @thirdColor @thirdPercent, @fourthColor @fourthPercent);
+}
 .horizontal-gradient (@startColor: #eee, @endColor: white) {
  	background-color: @startColor;
 	background-image: -webkit-gradient(linear, left top, right top, from(@startColor), to(@endColor));
@@ -142,4 +151,7 @@
 .lineHeight(@height: 10px){
 	height: @height;
 	line-height: @height;
+}
+.font-family(){
+  font-family: Arial, sans-serif, Microsoft Yahei;
 }
