@@ -2,6 +2,7 @@ import json
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.test import Client
 
 from models import *
 from .forms import UserProfileForm
@@ -40,7 +41,6 @@ class UserPersonalProfileTestCase(BaseTest):
     def _create_user_profile(self) :
         self.__profile = UserPersonalProfile(
                 userID=self.user.pk,
-                userEmail = 'test@test.com'
                 )
         self.__profile.save()
 
@@ -63,26 +63,21 @@ class UserPersonalProfileTestCase(BaseTest):
     def profile(self) :
         return self.__profile
 
-    def test_profile_model(self):
-        UserPersonalProfile.objects.create(userID = 20, userSkypeID='skype_id001', aboutUserQuote='my quote')
-        user = UserPersonalProfile.objects.get(userID = 20)
-        self.assertEqual(user.userSkypeID, 'skype_id001')
-
-    def test_profile_form(self):
-        data = {'userID':30, 'userSkypeID':'skype_id001', 'aboutUserQuote':'my quote'}
-        editProfileForm = UserProfileForm(data)
-        self.assertEqual(editProfileForm.is_valid(), True)
-        if editProfileForm.is_valid():
-            editProfileForm.save()
-        user = UserPersonalProfile.objects.get(userID = 30)
-        self.assertEqual(user.userSkypeID, 'skype_id001')
+    def test_set_up(self):
+        self.assertEqual(self.user.pk, 1)
+        response = self.client.get(reverse("profile_url"))
+        self.assertEquals(200, response.status_code, "editProfile get status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "editProfile get errcode %d" %(ret["c"]))
+        profileData = ret["d"]
+        self.assertEqual(profileData['userID'], 1, profileData)
 
     def test_profile_field_update(self) :
         profileURL = reverse("profile_url")
         # paramName, data
         expectedPairs = (
-                ('skypeID', "13"),
-                ('aboutUserQuote', ""),
+                ('userSkypeID', "13"),
+                ('aboutUserQuote', "quote"),
                 ('userLocation', "Somewhere"),
                 )
 
@@ -112,15 +107,15 @@ class UserPersonalProfileTestCase(BaseTest):
         profileURL = reverse("profile_url")
         # paramName, data
         expectedPairs = (
-                ('skypeID', "13"),
+                ('userSkypeID', "13"),
                 ('aboutUserQuote', "About user"),
                 ('userLocation', "Somewhere"),
-                ('tutorTuitionAverageHourlyRate', {'tutorTuitionAverageHourlyRateMiddleSchool': 20})
+                ('tutorTuitionAverageHourlyRateMiddleSchool', 20),
                 )
 
         #Set the user to be tutor
         self.__profile.verifiedTutor=True
-        self.__profile.tutorTuitionAverageHourlyRateMiddleSchool=20
+        self.__profile.tutorTuitionAverageHourlyRateHighSchool=20
         self.__profile.save()
 
         # update profile info
@@ -174,18 +169,23 @@ class UserPersonalProfileNotLoginTestCase(BaseTest):
         self.assertTrue(0 < response["location"].find(settings.LOGIN_URL),
                 "editProfile no login location %s" %(response["location"]))
 
-def display_all_profile():
-    print '==========='
-    for i in UserPersonalProfile.objects.all():
-            print 'profile', i.userID, i.userSkypeID, i.userEmail
-    print '==========='
-
 class UserProfileFormTest(BaseTest):
-    def test_profile(self):
-        display_all_profile()
-        params = {"userSkypeID": "15", "aboutUserQuote": "This is quote from A", 'userID':1, 'userEmail':'test@test.com'}
+    def test_user_profile(self):
+        #test creating a profile via form
+        params = {"userSkypeID": "15", "aboutUserQuote": "This is quote from A", 'userID':1}
         profile = UserProfileForm(params)
-        self.assertEqual( profile.is_valid(),True)
+        self.assertEqual(profile.is_valid(),True)
         profile.save()
-        display_all_profile()
+        user = UserPersonalProfile.objects.get(userID = 1)
+        self.assertEqual(user.userSkypeID, '15', user)
+        self.assertEqual(user.aboutUserQuote, 'This is quote from A', user)
+
+        #test update selected fields of a form
+        update_pramas = {"userSkypeID" : "16", "userID":1}
+        profile_update = UserProfileForm(update_pramas)
+        if profile_update.is_valid():
+            profile_update.save()
+        user_update = UserPersonalProfile.objects.get(userID = 1)
+        self.assertEqual(user_update.userSkypeID, '16', user)
+        self.assertEqual(user_update.aboutUserQuote, 'This is quote from A', user)
 

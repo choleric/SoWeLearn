@@ -1,25 +1,25 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
+from mongodbforms import DocumentForm
+
 def convert_model_field_to_for_field(f, **kwargs) :
     args = {"error_messages":f.error_messages}
     args.update(kwargs)
     return f.formfield(**args)
 
-class AutoCreateUpdateModelForm(forms.ModelForm) :
+class AutoCreateUpdateModelForm(DocumentForm) :
 
     def save(self, commit=True):
         """
         auto update non-None Field by pk
         """
-        #self._clean_fields()
         nonNoneFields = self.nonNoneFields
         if self.instance.pk is None:
             fail_message = 'created'
         else:
             fail_message = 'changed'
         ins = forms.save_instance(self, self.instance, self._meta.fields, fail_message, False, construct=False)
-        #Todo update_fields does not work for mongodb
         ins = self.instance.save(update_fields=self.nonNoneFields)
         return ins
 
