@@ -32,6 +32,7 @@ function uninstallPack() {
 function install() {
   installPack Django "" Django
   installPack django-allauth "" django-allauth
+  installPack mock "" mock # for allauth test
   installPack mongoengine "" mongoengine
   installPack mongodbforms "" git+https://github.com/jschrewe/django-mongodbforms
 }
