@@ -5,7 +5,7 @@ function AJAXOptions(data, success, type, url, dataType, cache, error)
     this.dataType = dataType || "json";
     this.cache = cache || false;
     this.success = success || function(){};
-    this.error = error || function(){alert("操作失败!求提交失");};
+    this.error = error || function(){alert("操作失败!提交失败");};
 }
 
 AJAXOptions.prototype.setSuccess = function(sucCallback)
@@ -21,15 +21,18 @@ AJAXOptions.prototype.setSuccess = function(sucCallback)
 
 AJAXOptions.prototype.setData = function(inputJSONObject)
 {
-    this.data = {"dictData" : JSON.stringify(inputJSONObject)};
+    this.data =  JSON.stringify(inputJSONObject);
 }
 
-function sendAjaxRequest(inputJsonData, url, successCallback)
+function sendAjaxRequest(inputJsonData, url, successCallback,csrftoken)
 {
     var ajaxOptions = new AJAXOptions();
     ajaxOptions.url = url || "../profile2/";
     ajaxOptions.setData(inputJsonData);
     ajaxOptions.setSuccess(successCallback);
+    ajaxOptions.beforeSend = function(xhr,csrftoken){
+        xhr.setRequestHeader("X-CSRFToken",csrftoken);
+    }
     $.ajax(ajaxOptions);
 }
 

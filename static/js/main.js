@@ -34,6 +34,14 @@ function init(){
 	$(".leftUp").mouseup(function(e){
 		$(this).removeClass("press");
 	});
+	//open the login box
+	$(".rightUp").bind("click",function(e){
+		$(".login").fadeIn();
+	});
+	//close the login box
+	$(".black_overlay").bind("click",function(e){
+		$(".login").fadeOut();
+	});
 	$(".rightBottom").bind("click",function(e){
 		if($(".right").hasClass("transformLeft")){
 			back();
@@ -85,6 +93,9 @@ function init(){
 		else if($(this).hasClass("teaching")){$(".basicInfo #teaching").show(); $(".teachingBox").show();}
 		else if($(this).hasClass("personal")){$(".basicInfo #personal").show(); $(".personalInfoBox").show();}
 	});
+
+	//login
+	$(".loginBtn").bind("click",login);
 }
 
 function leftInit(){
@@ -195,3 +206,13 @@ function back(){
 	$(".main").removeClass("transformLeft");
 	$(".main").removeClass("transformRight");				
 }
+
+function login(){
+	var accounts = $("#loginForm").serializeJson();
+	accounts._t = $.cookie("_t");
+	accounts.csrftoken = $.cookie("csrftoken");
+	accounts.remember = "False";
+	sendAjaxRequest(accounts,"/accounts/login/",function(){},$.cookie("csrftoken"));
+}
+
+

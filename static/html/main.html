@@ -3,7 +3,7 @@
 	<head>
 		<title>SoWeLearn</title>
 		<meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/mainless.css">
         <link href="/css/jquery.bxslider.css" rel="stylesheet" />
         <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
 	</head>
@@ -254,18 +254,28 @@
                     </div>
                 </div>
             </div>
-        </div>     
-        <section class="login">
+        </div>   
+        <section class="login HIDE">
             <div class="black_overlay" id="overlay_login"></div>
             <div class="loginBox">
                 <div class="loginForm">
-                    
+                    <form class="" id="loginForm" action="post" >
+                        <input type="text" id="loginEmail" class="inputEmail" name="email" placeholder="Email  Address" value="">
+                        <input type="password" id="loginPassword" class="inputPassword" name="password" placeholder="Password" value="">
+                        <a href="" class="loginBtn"><span class=""></span></a>
+                        <p class="moreInfo clearfix">
+                            <a class="signup" href="/signup">Signup</a>
+                            <a class="forgetPassword" href="/forgetPassword">Forgot Password?</a>
+                        </p>
+                        <p class="otherLogin"><span class="text">Login with</span> <a href=""><img src="../images/facebook.jpg"></a><a href=""><img src="../images/google+.png"></a><a href=""><img src="../images/twitter.png"></a></p>
+                    </form>
                 </div>
+                <P class="info">By signing in, I accept SoWeLearn's Terms of Service and Privacy Policy.</P>
             </div>
-        </section>           
+        </section>          
         <script type="text/javascript" src="/js/jquery.bxslider.min.js"></script>
         <script type="text/javascript" src="/js/jquery.slimscroll.js"></script>
-        <script type="text/javascript" src="/js/jquery.tipTip.js"></script>
+        <script type="text/javascript" src="/js/jquery.cookie.js"></script>
         <script type="text/javascript" src="/js/tools.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
 	</body>

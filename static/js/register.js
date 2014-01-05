@@ -18,8 +18,28 @@ function signup(){
 	$("#signupForm").validate();
 
 	var accounts = $("#signupForm").serializeJson();
+	accounts._t = $.cookie("_t");
 
-	sendAjaxRequest(accounts,"/accounts/signup/",function(){});
+	// sendAjaxRequest(accounts,"/accounts/signup/",function(){},$.cookie("_t"));
+	$.ajax({
+		url: '/accounts/signup/',
+		type: 'post',
+		dataType: 'json',
+		data: accounts,
+		beforeSend: function(xhr){
+			xhr.setRequestHeader("X-CSRFToken",accounts._t);
+		}
+	})
+	.done(function() {
+		console.log("success");
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+	
 }
 
 //validate the userEmail

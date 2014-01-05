@@ -736,7 +736,7 @@ ul {
   font-family: STHeiti, 微软雅黑, "Microsoft Yahei", Helmet, Freesans, sans-serif;
 }
 .searchBtn {
-  background-image: url("/images/schBtns.png}");
+  background-image: url("/images/schBtns.png");
   background-position: top right;
   position: absolute;
   right: 10px;
@@ -939,7 +939,7 @@ ul {
   background-clip: padding-box;
 }
 .login .loginBox .info {
-  padding: 5px 5px 0 17px;
+  padding: 5px 5px 0px 0px;
   color: #d3d3d3;
   font-family: Arial, sans-serif, Microsoft Yahei;
   text-shadow: 0px 1px 0px #ffffff;
@@ -1004,9 +1004,12 @@ ul {
   height: 30px;
   padding: 0px 0px;
   margin-bottom: 15px;
-  color: #bbb;
+  color: #b5b5b5;
   border: 0px;
   border-bottom: 1px solid rgba(187, 187, 187, 0.5);
+  -webkit-box-shadow: 0px 1px 0px 0px rgba(186, 186, 186, 0.5);
+  -moz-box-shadow: 0px 1px 0px 0px rgba(186, 186, 186, 0.5);
+  box-shadow: 0px 1px 0px 0px rgba(186, 186, 186, 0.5);
 }
 .signup .signupBox .signupForm .firstName,
 .signup .signupBox .signupForm .lastName {
