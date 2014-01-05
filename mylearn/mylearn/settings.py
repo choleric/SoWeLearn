@@ -133,7 +133,6 @@ SOCIALACCOUNT_PROVIDERS = \
        'PROFILE_FIELDS': ['id','first-name','last-name','email-address','picture-url','public-profile-url']}
     }
 
-DATABASE_ROUTERS = [get_project_app_qulified_name('DBRouter')]
 
 # Load settings.py(development or production) file based on os environment variable "MYLEARN_MODE", default production mode
 __MODE_DEV= "dev"
