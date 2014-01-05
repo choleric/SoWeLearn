@@ -14,13 +14,17 @@ function isPackInstalled() {
   fi
 }
 
-# name version installName
+# name from cmd `pip list`, version installName
 function installPack() {
-  echo "Installing packs ${1}(${2})"
-  [ "0" == $(isPackInstalled ${1} ${2}) ] && pip install ${3}
+  [ "0" == $(isPackInstalled ${1} ${2}) ] && echo "Installing packs ${1}(${2})" && pip install ${3}
+
+  while [ "0" == $(isPackInstalled ${1} ${2}) ]; do
+    echo "Retry installing packs ${1}(${2})"
+    pip install ${3}
+  done
 }
 
-# name version installName
+# name from cmd `pip list`, version installName
 function uninstallPack() {
   [ "1" == $(isPackInstalled ${1} ${2}) ] && pip uninstall -y ${3}
 }
@@ -29,7 +33,7 @@ function install() {
   installPack Django "" Django
   installPack django-allauth "" django-allauth
   installPack mongoengine "" mongoengine
-  installPack django-mongodbforms "" git+https://github.com/jschrewe/django-mongodbforms
+  installPack mongodbforms "" git+https://github.com/jschrewe/django-mongodbforms
 }
 
 function uninstall() {
