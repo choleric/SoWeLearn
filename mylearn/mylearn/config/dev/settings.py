@@ -39,5 +39,3 @@ SITE_ID = 1
 
 #EMAIL BACKEND FOR DJANGO-ALLAUTH
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-#TEST_RUNNER = get_project_app_qulified_name("projtest.ProjTestRunner")
