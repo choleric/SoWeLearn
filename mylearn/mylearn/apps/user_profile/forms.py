@@ -2,42 +2,21 @@ from django import forms
 
 from mongodbforms import DocumentForm
 
-from models import UserPersonalProfile, UserEducationCredential
-from mylearn.apps.forms import AutoCreateUpdateModelForm
-from mylearn.apps.forms import convert_model_field_to_for_field 
-
-class UserQuoteForm(forms.Form):
-    aboutUserQuote= forms.CharField(max_length=10)
-
-    #def __unicode__(self):
-
-class WorkAndEducationCredentialForm(forms.Form):
-    userEducationCredential = forms.CharField()
-    userWorkCredential = forms.CharField()
-
-class LocationAndContactForm(forms.Form):
-    userLocation = forms.CharField(required=False)
-    userSkypeID = forms.CharField(required=False)
-
-class TutorTuitionTopicsForm(forms.Form):
-    tutorTuitionTopics = forms.CharField(required=False)  #should be chosen from predefined lists!
-
-class TutorHourlyRateForm(forms.Form):
-    tutorTuitionAverageHourlyRateMiddleSchool = forms.DecimalField(decimal_places=2,required=False)
-    tutorTuitionAverageHourlyRateHighSchool = forms.DecimalField(decimal_places=2,required=False)
-    tutorTuitionAverageHourlyRateCollege = forms.DecimalField(decimal_places=2,required=False)
+from models import UserPersonalProfile
 
 class UserProfileForm(DocumentForm) :
-    #formfield_callback = convert_model_field_to_for_field
 
     class Meta :
         document = UserPersonalProfile
         fields = ['userSkypeID', 'aboutUserQuote', 'userLocation']
 
-class TutorProfileForm(AutoCreateUpdateModelForm):
-    #formfield_callback = convert_model_field_to_for_field
+class TutorProfileForm(DocumentForm):
 
     class Meta :
         document = UserPersonalProfile
         fields = ['userSkypeID', 'aboutUserQuote', 'userLocation',
-                  'tutorTuitionTopics','tutorTuitionAverageHourlyRateMiddleSchool']
+                  'tutorTuitionTopics',
+                  'tutorMiddleSchoolHourlyRate',
+                  'tutorHighSchoolHourlyRate',
+                  'tutorCollegeHourlyRate',
+                  ]

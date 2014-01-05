@@ -74,7 +74,13 @@ def topicourses(request):
     return JsonResponse(errcode.SUCCESS, userTopicourses)
 
 class ProfileView(UserRelatedFormView) :
-    form_class = TutorProfileForm
+    form_class = UserProfileForm
+
+    def get(self, request, *args, **kwargs):
+        user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
+        if user_profile.verifiedTutor:
+            self.form_class = TutorProfileForm
+        return super(ProfileView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
@@ -82,7 +88,6 @@ class ProfileView(UserRelatedFormView) :
             self.form_class = TutorProfileForm
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        form.instance.userID = request.user.pk
 
         if not form.is_valid():
             err = errcode.profileUnknown
@@ -94,6 +99,7 @@ class ProfileView(UserRelatedFormView) :
 
             return HttpResponse(err)
 
+        form.instance.userID = request.user.pk
         form.save()
         return JsonResponse(errcode.SUCCESS)
 

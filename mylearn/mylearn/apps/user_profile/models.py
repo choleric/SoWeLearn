@@ -26,12 +26,12 @@ class UserPersonalProfile(Document):
     userLocation = StringField()
 
     #If user is tutor
-    verifiedTutor = BooleanField(default=False)
+    verifiedTutor = BooleanField()
     # only for tutor
     tutorTuitionTopics = StringField()
-    tutorTuitionAverageHourlyRateMiddleSchool = LongField()
-    tutorTuitionAverageHourlyRateHighSchool = LongField()
-    tutorTuitionAverageHourlyRateCollege = LongField()
+    tutorMiddleSchoolHourlyRate = LongField()
+    tutorHighSchoolHourlyRate = LongField()
+    tutorCollegeHourlyRate = LongField()
 
     def change_about_user_quote(self, new_quote):
         self.aboutUserQuote = new_quote

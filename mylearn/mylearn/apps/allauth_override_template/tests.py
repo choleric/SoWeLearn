@@ -143,7 +143,7 @@ class UserAllAuthTestCase(BaseTest):
     def test_email_verification_expires(self):
         c = Client()
         # Signup
-        self.client.get(reverse('account_signup_learn'))
+        response = self.client.get(reverse('account_signup_learn'))
         c.post(reverse('account_signup_learn'),
                       {'email': 'john@doe.com',
                        'password1': 'johndoe',
@@ -171,7 +171,8 @@ class UserAllAuthTestCase(BaseTest):
 
     def test_signinview(self):
         data = {'login': 'test@test.com', 'password': 'test'}
-        response = self.client.post(reverse('account_signin_learn'),data)
+        response = self.client.post(reverse('account_signin_lea'
+                                            'rn'),data)
         content = json.loads(response.content)
         self.assertEqual(response.status_code, 200,response)
         self.assertEqual(content['c'], code.SigninFailure, content)
