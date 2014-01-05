@@ -34,6 +34,9 @@ urlpatterns += patterns('',
     (r'^accounts/', include('allauth.urls')),
 )
 
+urlpatterns += patterns(PROJECT_APP_PREFIX + '.general.views',
+        url(r'^_t/', "csrf_token_fetch", name="csrf_fetch"),
+)
 #To test allauth
 urlpatterns += patterns('',
     (r'^admin/', include(admin.site.urls)),
