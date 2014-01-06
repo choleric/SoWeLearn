@@ -61,6 +61,14 @@ class UserPersonalProfileTestCase(BaseTest):
     def profile(self) :
         return self.__profile
 
+    def test_get_personal_profile(self):
+        profileURL = reverse("personal_profile_url")
+
+        response = self.client.get(profileURL)
+        self.assertEquals(200, response.status_code, "get status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "get errcode %d" %(ret["c"]))
+
     def _update_result_test(self, profileURL, params):
 
         response = self.client.post(profileURL, params)
@@ -80,11 +88,11 @@ class UserPersonalProfileTestCase(BaseTest):
             self.assertEquals(data, v, "field '%s': %s, expected %s, json: %s" % (name, v, data, ret["d"]))
 
     def test_tutor_profile_field_update(self) :
-        profileURL = reverse("profile_url")
+        profileURL = reverse("tutor_profile_url")
         # paramName, data
         expectedPairs = (
                 ('tutorTuitionTopics', "Chemistry"),
-                ('tutorMiddleSchoolHourlyRate', 20),
+                ('tutorMiddleSchoolHourlyRate', "invalid"),
                 ('tutorHighSchoolHourlyRate', 30),
                 ('tutorCollegeHourlyRate', 40),
                 )
@@ -106,7 +114,7 @@ class UserPersonalProfileTestCase(BaseTest):
             self._update_result_test(profileURL, params)
 
     def test_profile_field_update(self) :
-        profileURL = reverse("profile_url")
+        profileURL = reverse("personal_profile_url")
         # paramName, data
         expectedPairs = (
                 ('userSkypeID', "13"),
@@ -149,13 +157,13 @@ class UserPersonalProfileTestCase(BaseTest):
                     "profile data check field '%s' is %s, expected %s" %(paramName, profileData_new[paramName], data))
 
     def test_profile_2field_1none_update(self) :
-        profileURL = reverse("profile_url")
+        profileURL = reverse("personal_profile_url")
         params = {"userSkypeID": "15", "aboutUserQuote": "This is quote from A"}
 
         self._update_result_test(profileURL, params)
 
     def test_profile_update_error(self):
-        profileURL = reverse("profile_url")
+        profileURL = reverse("personal_profile_url")
         # paramName, data
         expectedPairs = (
                 ('userSkypeID', "This_user_skype_ID_is_going_to_be_too_long"),
@@ -175,7 +183,7 @@ class UserPersonalProfileTestCase(BaseTest):
         self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
 
     def test_edu_profile_update(self):
-        profileURL = reverse("edu_profile_url")
+        profileURL = reverse("personal_profile_url")
         params = {'userEducationInfo':"EducationInformation"}
 
         response = self.client.post(profileURL, params)
@@ -190,10 +198,10 @@ class UserPersonalProfileTestCase(BaseTest):
         self.assertEquals(errcode.SUCCESS, ret["c"], "get errcode %d" %(ret["c"]))
 
         # returned data as a list
-        profileData = ret["d"][0]
+        profileData = ret["d"]
+        v = profileData['UserEducationCredential'][0]
         for name,data in params.iteritems():
-            v = profileData[name]
-            self.assertEquals(data, v, "field '%s': %s, expected %s, json: %s" % (name, v, data, ret["d"]))
+            self.assertEquals(data, v[name], "field '%s': %s, expected %s, json: %s" % (name, v, data, ret["d"]))
 
 
 class UserPersonalProfileNotLoginTestCase(BaseTest):

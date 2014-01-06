@@ -3,6 +3,7 @@ from django import forms
 from mongodbforms import DocumentForm, EmbeddedDocumentForm
 
 from models import UserPersonalProfile, UserEducationCredential, UserWorkCredential
+from mylearn.apps import errcode
 
 class UserProfileForm(DocumentForm) :
 
@@ -14,12 +15,17 @@ class TutorProfileForm(DocumentForm):
 
     class Meta :
         document = UserPersonalProfile
-        fields = ['userSkypeID', 'aboutUserQuote', 'userLocation',
-                  'tutorTuitionTopics',
+        fields = ['tutorTuitionTopics',
                   'tutorMiddleSchoolHourlyRate',
                   'tutorHighSchoolHourlyRate',
                   'tutorCollegeHourlyRate',
                   ]
+        err_maps = {'tutorTuitionTopics': errcode.profileTutorTopicsInvalid,
+                    'tutorMiddleSchoolHourlyRate': errcode.middleSchoolHourlyRateInvalid,
+                    'tutorHighSchoolHourlyRate': errcode.highSchoolHourlyRateInvalid,
+                    'tutorCollegeHourlyRate': errcode.collegeHourlyRateInvalid,
+                    '__all__': errcode.TutorProfileFormInvalid
+                    }
 
 class UserEducationForm(EmbeddedDocumentForm):
 
