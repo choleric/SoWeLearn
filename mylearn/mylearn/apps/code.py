@@ -46,6 +46,7 @@ AllAuthErrorMessageMap = {
 #
 # we will refer this when returning error to frontend
 # every field has a number: 0,1,2,3....
+SignupFormField = ['email', 'password1', 'password2', 'userFirstName' 'userLastName']
 SigninFormField = ['login', 'password']
 
 
@@ -54,7 +55,8 @@ profileUnknown = 100
 profileUserIDInvalid = 101
 profileSkypeIDInvalid = 102
 profileQuoteInvalid = 103
-profileEducationCredentialInvalid = 104
-profileEducationCredentialInvalid = 105
-profilelocationInvalid = 106
-profileTutorHourlyRateInvalid = 107
+profilelocationInvalid = 104
+profileEduInvalid = 105
+profileWorkInvalid = 106
+profileTutorTopicsInvalid = 107
+profileTutorHourlyRateInvalid = 108

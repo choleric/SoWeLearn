@@ -12,6 +12,7 @@ admin.autodiscover()
 
 __profileURLPatterns = patterns(PROJECT_APP_PREFIX + '.user_profile.views',
     url(r'^info/', 'profile', name="profile_url"),
+    url(r'^eduinfo/', 'edu_profile', name="edu_profile_url"),
     url(r'^topicourses/', 'topicourses'),#test topicourses -zhouwei
 )
 # make all profile related url under '/profile'

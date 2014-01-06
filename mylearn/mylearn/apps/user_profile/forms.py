@@ -1,8 +1,8 @@
 from django import forms
 
-from mongodbforms import DocumentForm
+from mongodbforms import DocumentForm, EmbeddedDocumentForm
 
-from models import UserPersonalProfile
+from models import UserPersonalProfile, UserEducationCredential, UserWorkCredential
 
 class UserProfileForm(DocumentForm) :
 
@@ -20,3 +20,18 @@ class TutorProfileForm(DocumentForm):
                   'tutorHighSchoolHourlyRate',
                   'tutorCollegeHourlyRate',
                   ]
+
+class UserEducationForm(EmbeddedDocumentForm):
+
+    class Meta :
+        document = UserEducationCredential
+        embedded_field_name = 'userEducationCredential'
+
+        fields = ['userEducationInfo']
+
+class UserWorkForm(EmbeddedDocumentForm):
+
+    class Meta :
+        document = UserWorkCredential
+        embedded_field_name = 'userworCredential'
+        fields = ['userWorkInfo']

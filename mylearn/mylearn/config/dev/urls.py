@@ -21,4 +21,6 @@ urlpatterns += patterns('',
             {'document_root': __staticDir}),
     (r'^(?P<path>[^.]+\.(png|jpg|jpeg|gif))$', 'django.views.static.serve',
             {'document_root': __staticDir}),
+    (r'^(?P<path>[^.]+\.map)$', 'django.views.static.serve',
+            {'document_root': __staticDir}),
 )

@@ -1,11 +1,13 @@
 from mongoengine import *
 from django.db import models
 
+from mylearn.apps import errcode
+
 # Create your models here.
 
 class UserVerified(EmbeddedDocument):
     IsVerified = BooleanField(default=False)
-    verifiedTimeStamp = LongField()
+    verifiedTimeStamp = DateTimeField()
     verifiedStaffId = LongField()
 
     meta = {'allow_inheritance': True}
@@ -18,7 +20,7 @@ class UserWorkCredential(UserVerified):
 
 class UserPersonalProfile(Document):
     userID = LongField(primary_key=True)
-    userSkypeID = StringField()
+    userSkypeID = StringField(max_length=40)
     aboutUserQuote = StringField()
     userEducationCredential = ListField(
                                 EmbeddedDocumentField(UserEducationCredential))

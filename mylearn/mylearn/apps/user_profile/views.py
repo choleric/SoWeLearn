@@ -5,8 +5,9 @@ from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import BaseFormView
 
-from forms import UserProfileForm, TutorProfileForm
+from forms import UserProfileForm, TutorProfileForm, UserEducationForm
 from models import UserPersonalProfile
 
 from mylearn.apps import errcode
@@ -105,3 +106,36 @@ class ProfileView(UserRelatedFormView) :
 
 
 profile = ProfileView.as_view()
+
+class ProfileEducationView(UserRelatedFormView) :
+    form_class = UserEducationForm
+
+    def get_form_kwargs(self, request):
+        kwargs = super(ProfileEducationView, self).get_form_kwargs()
+        user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
+        kwargs.update(
+            {'parent_document': user_profile}
+        )
+        return kwargs
+
+    def get(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = form_class(**self.get_form_kwargs(request))
+        data = UserPersonalProfile.objects.get(userID = request.user.pk)['userEducationCredential']
+        ret = []
+        for data in data:
+            ret.append(self.format_model(form, data))
+        return JsonResponse(errcode.SUCCESS, ret)
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = form_class(**self.get_form_kwargs(request))
+
+        if not form.is_valid():
+            return JsonResponse(errcode.profileEduInvalid)
+
+        form.save()
+        return JsonResponse(errcode.SUCCESS)
+
+
+edu_profile = ProfileEducationView.as_view()
