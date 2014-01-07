@@ -60,10 +60,10 @@ function init(){
 	//body綁定mousemove事件
 	$("body").bind("mousemove",function(){
 		$(".leftUp").removeClass("opacity40").addClass("opacity100");
-		setTimeout(returnDefault,3000);
+		setTimeout(returnDefaultOpacity,3000);
 	});
 
-	function returnDefault(){
+	function returnDefaultOpacity(){
 		$(".leftUp").removeClass("opacity100").addClass("opacity40");
 	}
 	
