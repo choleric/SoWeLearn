@@ -7,7 +7,7 @@ import datetime
 # put all vote into this table
 class UserReview(Document):
     reviewedSubjectID = ObjectIdField()
-    reviewedSubjectType = StringField() #topicourse, topiquit, discussion
+    reviewedSubjectType = StringField() #topicourse, topiquiz, discussion
     reviewCreatorUserID = ObjectIdField()
     reviewVote = IntField()
     reviewContent = StringField()
@@ -18,20 +18,25 @@ class TopicoursesReview(EmbeddedDocument):
     topicoursesReviewContent = StringField()
 
 class Topiquiz(EmbeddedDocument):
-    topiquizId = ObjectIdField()
+    #Todo: is this necessary?
+    topiquizId = ObjectIdField(primary_key=True)
     topiquizType = IntField()
     topiquizQuestion = StringField()
     topiquizOption = ListField(StringField())
     topiquizAnswer = StringField()
     topiquizExplanation = StringField()
+    #Todo this should not change when being edited
     topiquizCreatedTimeStamp = DateTimeField(default=datetime.datetime.now)
     topiquizCreatorUserID = LongField(required=True)
     topiquizErrorFlag = BooleanField()
     topiquizErrorFlagUserID = ObjectIdField()
     topiquizErrorFlagTimeStamp = DateTimeField()
+    #Topiquiz active or not
+    topiquizState = BooleanField()
 
 class Topicourses(Document):
-    topicourseId = StringField()
+    topicourseId = ObjectIdField(primary_key=True)
+    #Todo this should not change when being edited
     topicoursesUploadTimeStamp = DateTimeField(default=datetime.datetime.now)
     topicoursesCreatorUserID = LongField(required=True)
     topicoursesTitle = StringField(required=True)
