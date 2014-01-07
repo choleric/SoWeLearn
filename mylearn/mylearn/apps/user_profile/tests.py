@@ -2,7 +2,6 @@ import json
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.test import Client
 
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
@@ -87,32 +86,6 @@ class UserPersonalProfileTestCase(BaseTest):
             v = profileData[name]
             self.assertEquals(data, v, "field '%s': %s, expected %s, json: %s" % (name, v, data, ret["d"]))
 
-    def test_tutor_profile_field_update(self) :
-        profileURL = reverse("tutor_profile_url")
-        # paramName, data
-        expectedPairs = (
-                ('tutorTuitionTopics', "Chemistry"),
-                ('tutorMiddleSchoolHourlyRate', "invalid"),
-                ('tutorHighSchoolHourlyRate', 30),
-                ('tutorCollegeHourlyRate', 40),
-                )
-
-        #Set the user to be tutor
-        self.__profile.verifiedTutor=True
-        self.__profile.tutorTuitionAverageHourlyRateHighSchool=20
-        self.__profile.save()
-
-        # update profile info
-        profile = self.profile
-
-        for paramName, data in expectedPairs :
-            params = {}
-            params[paramName] = data
-
-            #Test post data and check status, get the data
-            #Make sure the update has been done
-            self._update_result_test(profileURL, params)
-
     def test_profile_field_update(self) :
         profileURL = reverse("personal_profile_url")
         # paramName, data
@@ -180,7 +153,7 @@ class UserPersonalProfileTestCase(BaseTest):
         response = self.client.post(profileURL, params)
         self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
         ret = json.loads(response.content)
-        self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
+        self.assertEquals(errcode.profileSkypeIDInvalid, ret["c"], "post errcode %d" %(ret["c"]))
 
     def test_edu_profile_update(self):
         profileURL = reverse("personal_profile_url")
@@ -197,16 +170,102 @@ class UserPersonalProfileTestCase(BaseTest):
         ret = json.loads(response.content)
         self.assertEquals(errcode.SUCCESS, ret["c"], "get errcode %d" %(ret["c"]))
 
-        # returned data as a list
         profileData = ret["d"]
-        v = profileData['UserEducationCredential'][0]
+        v = profileData['userEducationCredential'][0]
         for name,data in params.iteritems():
             self.assertEquals(data, v[name], "field '%s': %s, expected %s, json: %s" % (name, v, data, ret["d"]))
+
+        #now edit the edu info
+        params_edit = {'userEducationInfo':"new info", 'position': 0}
+        response = self.client.post(profileURL, params_edit)
+        self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
+
+         # check update value
+        response = self.client.get(profileURL)
+        self.assertEquals(200, response.status_code, "get status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "get errcode %d" %(ret["c"]))
+
+        profileData = ret["d"]
+        v = profileData['userEducationCredential'][0]
+        self.assertEqual("new info", v['userEducationInfo'], v)
+
+    def test_work_profile_update(self):
+        profileURL = reverse("personal_profile_url")
+        params = {'userWorkInfo':"part-time tutor"}
+
+        response = self.client.post(profileURL, params)
+        self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
+
+        # check update value
+        response = self.client.get(profileURL)
+        self.assertEquals(200, response.status_code, "get status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "get errcode %d" %(ret["c"]))
+
+        # returned data as a list
+        profileData = ret["d"]
+        v = profileData['userWorkCredential'][0]
+        for name,data in params.iteritems():
+            self.assertEquals(data, v[name], "field '%s': %s, expected %s, json: %s" % (name, v, data, ret["d"]))
+
+    def test_unverified_tutor(self):
+        profileURL = reverse("tutor_profile_url")
+
+        response = self.client.get(profileURL)
+        self.assertEquals(200, response.status_code, "get status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.UserNotVerifiedAsTutor, ret["c"], "get errcode %d" %(ret["c"]))
+
+    def test_tutor_profile_field_update(self) :
+        profileURL = reverse("tutor_profile_url")
+        # paramName, data
+        expectedPairs = (
+                ('tutorTuitionTopics', "Chemistry"),
+                ('tutorMiddleSchoolHourlyRate', 20),
+                ('tutorHighSchoolHourlyRate', 30),
+                ('tutorCollegeHourlyRate', 40),
+                )
+
+        #Set the user to be tutor
+        self.__profile.verifiedTutor=True
+        self.__profile.tutorTuitionAverageHourlyRateHighSchool=20
+        self.__profile.save()
+
+        # update profile info
+        profile = self.profile
+
+        for paramName, data in expectedPairs :
+            params = {}
+            params[paramName] = data
+
+            #Test post data and check status, get the data
+            #Make sure the update has been done
+            self._update_result_test(profileURL, params)
+
+    def test_tutor_profile_update_error(self):
+        #Set the user to be tutor
+        self.__profile.verifiedTutor=True
+        self.__profile.save()
+
+        profileURL = reverse("tutor_profile_url")
+
+        params={}
+        params['tutorMiddleSchoolHourlyRate'] = "Invalid"
+
+        response = self.client.post(profileURL, params)
+        self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.middleSchoolHourlyRateInvalid, ret["c"], "post errcode %d" %(ret["c"]))
 
 
 class UserPersonalProfileNotLoginTestCase(BaseTest):
     def test_no_login_redirect_to_login_url(self) :
-        profileURL = reverse("profile_url")
+        profileURL = reverse("personal_profile_url")
 
         response = self.client.post(profileURL, {"skypeID" : 1})
         self.assertEquals(302, response.status_code, "editProfile no login status errcode %d" %(response.status_code))

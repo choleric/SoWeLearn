@@ -10,6 +10,10 @@ class UserProfileForm(DocumentForm) :
     class Meta :
         document = UserPersonalProfile
         fields = ['userSkypeID', 'aboutUserQuote', 'userLocation']
+        err_maps = {'userSkypeID': errcode.profileSkypeIDInvalid,
+                    'aboutUserQuote': errcode.profileQuoteInvalid,
+                    'userLocation': errcode.profilelocationInvalid,
+                    '__all__': errcode.personalProfileInvalid}
 
 class TutorProfileForm(DocumentForm):
 
@@ -24,8 +28,7 @@ class TutorProfileForm(DocumentForm):
                     'tutorMiddleSchoolHourlyRate': errcode.middleSchoolHourlyRateInvalid,
                     'tutorHighSchoolHourlyRate': errcode.highSchoolHourlyRateInvalid,
                     'tutorCollegeHourlyRate': errcode.collegeHourlyRateInvalid,
-                    '__all__': errcode.TutorProfileFormInvalid
-                    }
+                    '__all__': errcode.TutorProfileFormInvalid}
 
 class UserEducationForm(EmbeddedDocumentForm):
 
@@ -39,5 +42,7 @@ class UserWorkForm(EmbeddedDocumentForm):
 
     class Meta :
         document = UserWorkCredential
-        embedded_field_name = 'userworCredential'
+        embedded_field_name = 'userWorkCredential'
         fields = ['userWorkInfo']
+
+    #def clean_

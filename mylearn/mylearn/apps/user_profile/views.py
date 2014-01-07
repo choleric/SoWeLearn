@@ -86,27 +86,42 @@ class ProfileViewIntegrated(UserRelatedFormView):
         kwargs.update(
             {'parent_document': user_profile}
         )
+        if 'position' in request.POST:
+            position = int(request.POST['position'])
+            del request.POST['position']
+            kwargs.update(
+                {'position': position,
+                 'data': request.POST}
+            )
         return kwargs
 
     def get(self, request, *args, **kwargs):
         user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
-        data = user_profile.to_json()
+        include_fields = ['userSkypeID', 'aboutUserQuote', 'userLocation',
+                           'userEducationInfo', 'userWorkInfo', 'IsVerified']
+        data = self.from_object_to_dict(user_profile, include_fields)
         return JsonResponse(code = errcode.SUCCESS, data = data, isHTMLEncode = False)
 
     def post(self, request, *args, **kwargs):
         if 'userEducationInfo' in request.POST:
             self.form_class = UserEducationForm
             form_class = self.get_form_class()
-            form = form_class(**self.get_form_parent_document(request))
-            if not form.is_valid():
-                return JsonResponse(errcode.profileEduInvalid)
+            try:
+                form = form_class(**self.get_form_parent_document(request))
+                if not form.is_valid():
+                    return JsonResponse(errcode.profileEduInvalid)
+            except IndexError:
+                return JsonResponse(errcode.profielEduEntryNotExist)
 
         elif 'userWorkInfo' in request.POST:
             self.form_class = UserWorkForm
             form_class = self.get_form_class()
-            form = form_class(**self.get_form_parent_document(request))
-            if not form.is_valid():
-                return JsonResponse(errcode.profileWorkInvalid)
+            try:
+                form = form_class(**self.get_form_parent_document(request))
+                if not form.is_valid():
+                    return JsonResponse(errcode.profileWorkInvalid)
+            except IndexError:
+                return JsonResponse(errcode.profileWorkEntryNotExist)
 
         else:
             form_class = self.get_form_class()
@@ -120,7 +135,7 @@ class ProfileViewIntegrated(UserRelatedFormView):
                     err = form.Meta.err_maps[field]
                     break
 
-                return HttpResponse(err)
+                return JsonResponse(err)
             form.instance.userID = request.user.pk
 
         form.save()
@@ -150,34 +165,10 @@ class TutorProfileView(UserRelatedFormView):
                 err = form.Meta.err_maps[field]
                 break
 
-            return HttpResponse(err)
+            return JsonResponse(err)
 
         form.instance.userID = request.user.pk
         form.save()
         return JsonResponse(errcode.SUCCESS)
 
 tutorProfile = TutorProfileView.as_view()
-
-class ProfileView(UserRelatedFormView) :
-    form_class = UserProfileForm
-
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-
-        if not form.is_valid():
-            err = errcode.profileUnknown
-            for field, v in form.errors.iteritems() :
-                if 1 > len(v) :
-                    continue
-                err = v[0]
-                break
-
-            return HttpResponse(err)
-
-        form.instance.userID = request.user.pk
-        form.save()
-        return JsonResponse(errcode.SUCCESS)
-
-
-profile = ProfileView.as_view()
