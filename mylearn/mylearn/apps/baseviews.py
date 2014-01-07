@@ -42,26 +42,26 @@ class UserRelatedFormView(LoginRequriedView, BaseFormView) :
             formatedData[field] = getattr(data, field, "default invalid value from baseviews")
         return formatedData
 
-    def from_object_to_dict(self, object, include_fields = [], exclude_fields = []):
+    def from_object_to_dict(self, obj, include_fields = [], exclude_fields = []):
         '''
         This method returns all non-none values from db according to the defined fields constraint.
-        "object" is the model object containing the expected data
+        "obj" is the model object containing the expected data
         fields defined should be the name of the fields that is not embedded document field.
         '''
         if include_fields!= []:
             self.fields = include_fields
         else:
-            self.fields = list(object._fields_ordered)
+            self.fields = list(obj._fields_ordered)
 
-        return self._get_non_empty_field(object, self.fields, exclude_fields)
+        return self._get_non_empty_field(obj, self.fields, exclude_fields)
 
-    def _get_non_empty_field(self, object, include_fields, exclude_fields):
+    def _get_non_empty_field(self, obj, include_fields, exclude_fields):
         ret = {}
-        for field, type in object._fields.iteritems():
+        for field, typ in obj._fields.iteritems():
             # if the field is a ListField
-            if isinstance(type, ListField):
+            if isinstance(typ, ListField):
                 list_field = []
-                listData = getattr(object, field)
+                listData = getattr(obj, field)
                 if listData != []:
                     for item in listData:
                         # If the item of the field is embedded document
@@ -77,7 +77,7 @@ class UserRelatedFormView(LoginRequriedView, BaseFormView) :
                     continue
 
                 else:
-                    data = getattr(object, field, "default invalid value from baseviews")
+                    data = getattr(obj, field, "default invalid value from baseviews")
                     if data != None:
                         ret[field] = data
         return ret
