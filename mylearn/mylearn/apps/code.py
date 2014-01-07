@@ -12,29 +12,32 @@ SUCCESS = 0x0
 """
 operation error
 """
-# below is error code for user authentication system
-SignupFailure = 1
-UserExist = 2
-DifferentPassword = 3
-ChangePasswordFailure = 4
-WrongOldPassword = 5
-EmailNotRegistered = 6
-ResetPasswordFailure = 7
-ResetpasswordFromKeyCommonFailure = 8
-ResetPasswordFromKeyBadToken = 9
-InvalidConfirmationEmail = 10
-SigninFailure = 11
-SigninInvalidField = 12
+#General erros 2-100
+ListMaxLengthExceeded = 2
 
-# below is error code for user social login system
-SocialAccountSignupFailure = 1001
-DuplicateEmailSocialAccount=1002
-SocialConnectionFailed = 1003
-SocialConnectionFailedNoPassword = 1004
-SocialConnectionFailedNoVerifiedEmail = 1005
-SocialAccountLoginCancelled = 1006
-SocialAccountLoginFailed = 1011
-SocialAccountAuthenticationFailure = 1012
+# below is error code for user authentication system 200-300
+SignupFailure = 201
+UserExist = 202
+DifferentPassword = 203
+ChangePasswordFailure = 204
+WrongOldPassword = 205
+EmailNotRegistered = 206
+ResetPasswordFailure = 207
+ResetpasswordFromKeyCommonFailure = 208
+ResetPasswordFromKeyBadToken = 209
+InvalidConfirmationEmail = 210
+SigninFailure = 211
+SigninInvalidField = 212
+
+# below is error code for user social login system 300-400
+SocialAccountSignupFailure = 301
+DuplicateEmailSocialAccount=302
+SocialConnectionFailed = 303
+SocialConnectionFailedNoPassword = 304
+SocialConnectionFailedNoVerifiedEmail = 305
+SocialAccountLoginCancelled = 306
+SocialAccountLoginFailed = 311
+SocialAccountAuthenticationFailure = 312
 
 # app customize codes
 
@@ -69,5 +72,3 @@ profileTutorTopicsInvalid = 112
 middleSchoolHourlyRateInvalid = 113
 highSchoolHourlyRateInvalid =114
 collegeHourlyRateInvalid = 115
-
-ListMaxLengthExceeded = 200
