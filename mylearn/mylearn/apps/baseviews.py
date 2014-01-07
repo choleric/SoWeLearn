@@ -90,6 +90,7 @@ class UserRelatedFormView(LoginRequriedView, BaseFormView) :
             position = int(request.POST['position'])
             if position > max_length:
                 length_exceeded = True
+                return length_exceeded
 
         # When position parameter is not available in request, get the list_field length in db
         # This is mostly likely a malicious request
@@ -100,7 +101,7 @@ class UserRelatedFormView(LoginRequriedView, BaseFormView) :
         length = len(getattr(obj, list_field))
         if length >= max_length:
             length_exceeded = True
-
+            return length_exceeded
 
         try:
             # The position from request might be wrong
