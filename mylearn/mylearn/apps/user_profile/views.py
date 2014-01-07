@@ -1,3 +1,6 @@
+import json
+
+from django.core import serializers
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from django.http import HttpResponseRedirect
@@ -5,8 +8,9 @@ from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import BaseFormView
 
-from forms import UserProfileForm, TutorProfileForm
+from forms import UserProfileForm, TutorProfileForm, UserEducationForm, UserWorkForm
 from models import UserPersonalProfile
 
 from mylearn.apps import errcode
@@ -73,35 +77,98 @@ def topicourses(request):
     userTopicourses = getUserTopicourses("1146","teaching","2")
     return JsonResponse(errcode.SUCCESS, userTopicourses)
 
-class ProfileView(UserRelatedFormView) :
+class ProfileViewIntegrated(UserRelatedFormView):
     form_class = UserProfileForm
+
+    def get_form_parent_document(self, request):
+        kwargs = super(ProfileViewIntegrated, self).get_form_kwargs()
+        user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
+        kwargs.update(
+            {'parent_document': user_profile}
+        )
+        if 'position' in request.POST:
+            position = int(request.POST['position'])
+            del request.POST['position']
+            kwargs.update(
+                {'position': position,
+                 'data': request.POST}
+            )
+        return kwargs
 
     def get(self, request, *args, **kwargs):
         user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
-        if user_profile.verifiedTutor:
-            self.form_class = TutorProfileForm
-        return super(ProfileView, self).get(request, *args, **kwargs)
+        include_fields = ['userSkypeID', 'aboutUserQuote', 'userLocation',
+                           'userEducationInfo', 'userWorkInfo', 'IsVerified']
+        data = self.from_object_to_dict(user_profile, include_fields)
+        return JsonResponse(code = errcode.SUCCESS, data = data, isHTMLEncode = False)
 
     def post(self, request, *args, **kwargs):
+        if 'userEducationInfo' in request.POST:
+            self.form_class = UserEducationForm
+            form_class = self.get_form_class()
+            try:
+                form = form_class(**self.get_form_parent_document(request))
+                if not form.is_valid():
+                    return JsonResponse(errcode.profileEduInvalid)
+            except IndexError:
+                return JsonResponse(errcode.profielEduEntryNotExist)
+
+        elif 'userWorkInfo' in request.POST:
+            self.form_class = UserWorkForm
+            form_class = self.get_form_class()
+            try:
+                form = form_class(**self.get_form_parent_document(request))
+                if not form.is_valid():
+                    return JsonResponse(errcode.profileWorkInvalid)
+            except IndexError:
+                return JsonResponse(errcode.profileWorkEntryNotExist)
+
+        else:
+            form_class = self.get_form_class()
+            form = self.get_form(form_class)
+
+            if not form.is_valid():
+                err = errcode.TutorProfileUnknown
+                for field, v in form.errors.iteritems() :
+                    if 1 > len(v) :
+                        continue
+                    err = form.Meta.err_maps[field]
+                    break
+
+                return JsonResponse(err)
+            form.instance.userID = request.user.pk
+
+        form.save()
+        return JsonResponse(errcode.SUCCESS)
+
+
+personalProfile = ProfileViewIntegrated.as_view()
+
+class TutorProfileView(UserRelatedFormView):
+    form_class = TutorProfileForm
+
+    def get(self,request, *args, **kwargs):
         user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
-        if user_profile.verifiedTutor:
-            self.form_class = TutorProfileForm
+        if not user_profile.verifiedTutor:
+            return JsonResponse(errcode.UserNotVerifiedAsTutor)
+        return super(TutorProfileView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
         if not form.is_valid():
-            err = errcode.profileUnknown
+            err = errcode.TutorProfileUnknown
             for field, v in form.errors.iteritems() :
                 if 1 > len(v) :
                     continue
-                err = v[0]
+                err = form.Meta.err_maps[field]
                 break
 
-            return HttpResponse(err)
+            return JsonResponse(err)
 
         form.instance.userID = request.user.pk
         form.save()
         return JsonResponse(errcode.SUCCESS)
 
-
-profile = ProfileView.as_view()
+tutorProfile = TutorProfileView.as_view()

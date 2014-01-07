@@ -11,7 +11,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 __profileURLPatterns = patterns(PROJECT_APP_PREFIX + '.user_profile.views',
-    url(r'^info/', 'profile', name="profile_url"),
+    url(r'^personalinfo/', 'personalProfile', name="personal_profile_url"),
+    url(r'^teachinginfo/', 'tutorProfile', name="tutor_profile_url"),
     url(r'^topicourses/', 'topicourses'),#test topicourses -zhouwei
 )
 # make all profile related url under '/profile'
