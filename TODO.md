@@ -1,6 +1,13 @@
 ## TODO List  
 [htmlenti]: http://www.w3schools.com/html/html_entities.asp "HTML Entity Code"
 [entitydesign]: ./todo/simple_entity_design.png "Simple Entity Design"
+#### topicourse
+1. Dicision making：整理需求，确定那些使用第三方app
+2. 根据需要修改定义model和前后端接口
+3. 创建topicourse的参数和传出的数据,单元测试
+4. 创建topiquiz的参数和传出的数据,单元测试
+5. 用户评论的参数和传出的数据,单元测试
+6. 用户观看topicourse和做topiquiz的内容存储：model，interface and unittest.
   
 #### auth  
 1. 整合allauth基本配置，包括cookie时效和名字的配置，匿名用户登录的配置等(status: done, Meichen)
