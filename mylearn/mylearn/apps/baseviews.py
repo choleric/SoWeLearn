@@ -9,6 +9,7 @@ from mongoengine.fields import ListField
 
 from mylearn.apps import JsonResponse
 from mylearn.apps import errcode
+from mylearn.apps.user_profile.models import UserPersonalProfile
 
 """
 any class-based view can inherit this class to get login support
@@ -81,4 +82,31 @@ class UserRelatedFormView(LoginRequriedView, BaseFormView) :
                     if data != None:
                         ret[field] = data
         return ret
+
+    def pre_validation_for_list(self, request, max_length, obj, list_field = None):
+        length_exceeded = False
+        # Cheapest solution: the requested position exceed the max_length
+        if 'position' in request.POST:
+            position = int(request.POST['position'])
+            if position > max_length:
+                length_exceeded = True
+
+        # When position parameter is not available in request, get the list_field length in db
+        # This is mostly likely a malicious request
+        if list_field == None :
+            for field, typ in obj._fields.iteritems():
+                if isinstance(typ, ListField):
+                    list_field = field
+        length = len(getattr(obj, list_field))
+        if length >= max_length:
+            length_exceeded = True
+
+
+        try:
+            # The position from request might be wrong
+            if position > length:
+                del request.POST['position']
+        except NameError:
+            pass
+        return length_exceeded
 

@@ -44,5 +44,3 @@ class UserWorkForm(EmbeddedDocumentForm):
         document = UserWorkCredential
         embedded_field_name = 'userWorkCredential'
         fields = ['userWorkInfo']
-
-    #def clean_

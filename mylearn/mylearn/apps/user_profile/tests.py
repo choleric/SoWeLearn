@@ -192,6 +192,15 @@ class UserPersonalProfileTestCase(BaseTest):
         v = profileData['userEducationCredential'][0]
         self.assertEqual("new info", v['userEducationInfo'], v)
 
+    def test_edu_profile_list_too_long(self):
+        profileURL = reverse("personal_profile_url")
+        params = {'userEducationInfo':"EducationInformation", 'position': 11}
+
+        response = self.client.post(profileURL, params)
+        self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.ListMaxLengthExceeded, ret["c"], "post errcode %d" %(ret["c"]))
+
     def test_work_profile_update(self):
         profileURL = reverse("personal_profile_url")
         params = {'userWorkInfo':"part-time tutor"}

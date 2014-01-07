@@ -12,6 +12,7 @@ SUCCESS = 0x0
 """
 operation error
 """
+# below is error code for user authentication system
 SignupFailure = 1
 UserExist = 2
 DifferentPassword = 3
@@ -25,6 +26,7 @@ InvalidConfirmationEmail = 10
 SigninFailure = 11
 SigninInvalidField = 12
 
+# below is error code for user social login system
 SocialAccountSignupFailure = 1001
 DuplicateEmailSocialAccount=1002
 SocialConnectionFailed = 1003
@@ -67,3 +69,5 @@ profileTutorTopicsInvalid = 112
 middleSchoolHourlyRateInvalid = 113
 highSchoolHourlyRateInvalid =114
 collegeHourlyRateInvalid = 115
+
+ListMaxLengthExceeded = 200

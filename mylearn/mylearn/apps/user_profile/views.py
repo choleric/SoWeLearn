@@ -80,11 +80,10 @@ def topicourses(request):
 class ProfileViewIntegrated(UserRelatedFormView):
     form_class = UserProfileForm
 
-    def get_form_parent_document(self, request):
+    def get_form_parent_document(self, request, parent_document):
         kwargs = super(ProfileViewIntegrated, self).get_form_kwargs()
-        user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
         kwargs.update(
-            {'parent_document': user_profile}
+            {'parent_document': parent_document}
         )
         if 'position' in request.POST:
             position = int(request.POST['position'])
@@ -106,22 +105,26 @@ class ProfileViewIntegrated(UserRelatedFormView):
         if 'userEducationInfo' in request.POST:
             self.form_class = UserEducationForm
             form_class = self.get_form_class()
-            try:
-                form = form_class(**self.get_form_parent_document(request))
-                if not form.is_valid():
-                    return JsonResponse(errcode.profileEduInvalid)
-            except IndexError:
-                return JsonResponse(errcode.profielEduEntryNotExist)
+            user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
+            # validate the data for list
+            if self.pre_validation_for_list(request, 10, user_profile, 'userEducationCredential'):
+                return JsonResponse(errcode.ListMaxLengthExceeded)
+
+            form = form_class(**self.get_form_parent_document(request, user_profile))
+            if not form.is_valid():
+                return JsonResponse(errcode.profileEduInvalid)
 
         elif 'userWorkInfo' in request.POST:
             self.form_class = UserWorkForm
             form_class = self.get_form_class()
-            try:
-                form = form_class(**self.get_form_parent_document(request))
-                if not form.is_valid():
-                    return JsonResponse(errcode.profileWorkInvalid)
-            except IndexError:
-                return JsonResponse(errcode.profileWorkEntryNotExist)
+
+            user_profile = UserPersonalProfile.objects.get(userID = request.user.pk)
+            self.pre_validation_for_list(request, 10, user_profile, 'userWorkCredential')
+
+            form = form_class(**self.get_form_parent_document(request, user_profile))
+            if not form.is_valid():
+                return JsonResponse(errcode.profileWorkInvalid)
+
 
         else:
             form_class = self.get_form_class()
