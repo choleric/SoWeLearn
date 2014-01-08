@@ -2,12 +2,11 @@ define(function(require,exports,module){
 	var $ = require("libs/jquery-1.7.2");
     require('libs/jquery.cookie')($);
     var tools = require('tools');
-
-
+	
+	tools.getToken();
 
 	//login
 	$(".login .loginBtn").bind("click",function(){
-		tools.getToken();
 		login();
 	});
 
@@ -15,6 +14,7 @@ define(function(require,exports,module){
 	$(".login .J_toSignup").bind("click",function(){
 		$(".login").fadeOut();
 		$(".signup").fadeIn();
+		tools.getToken();
 	});
 
 	function login(){
@@ -36,7 +36,6 @@ define(function(require,exports,module){
 	//signup
 	$(".signup .J_signupBtn").bind('click', function(event) {
 	    event.stopPropagation();//阻止冒泡
-	    tools.getToken();
 	    signup();
 	});
 	function signup(){
