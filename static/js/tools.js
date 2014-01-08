@@ -7,10 +7,11 @@ define(function(require,exports,module){
         this.type = option.type || "post";
         this.url = option.url || "../profile2/";
         this.dataType = option.dataType || "json";
-        this.data =  JSON.stringify(option.data) || "";
+        // this.data =  JSON.stringify(option.data) || "";
+        this.data = option.data ||  "";
         this.cache = option.cache || false;
         this.success = option.success || function(){};
-        this.error = option.error || function(){alert("操作失败!提交失败");};
+        this.error = option.error || function(){alert("操作失败!提交失败!");};
     }
 
     AJAXOptions.prototype.setSuccess = function(sucCallback)
@@ -50,7 +51,7 @@ define(function(require,exports,module){
         });
         return serializeObj;
     }
-    
+
     tools.getToken = function(){
         var option = {};//ajax option
         option.url = "_t";
