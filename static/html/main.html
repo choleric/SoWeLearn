@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="/css/mainless.css">
         <link href="/css/jquery.bxslider.css" rel="stylesheet" />
-        <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+        <!-- // <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script> -->
 	</head>
 	<body>
 		<div class="left">
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="teachingBox hide box">
+                <div class="teachingBox HIDE box">
                     <div class="contBox">
                         <span class="cardTitle">My Topicourses</span>
                         <div class="conts">
@@ -188,7 +188,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="personalInfoBox hide box">
+                <div class="personalInfoBox HIDE box">
                     <div class="education contBox">
                         <span class="cardTitle">Education</span>
                         <div class="conts">
@@ -273,10 +273,13 @@
                 <P class="info">By signing in, I accept SoWeLearn's Terms of Service and Privacy Policy.</P>
             </div>
         </section>          
-        <script type="text/javascript" src="/js/jquery.bxslider.min.js"></script>
+        <!-- <script type="text/javascript" src="/js/jquery.bxslider.min.js"></script>
         <script type="text/javascript" src="/js/jquery.slimscroll.js"></script>
         <script type="text/javascript" src="/js/jquery.cookie.js"></script>
-        <script type="text/javascript" src="/js/tools.js"></script>
-        <script type="text/javascript" src="/js/main.js"></script>
+        <script type="text/javascript" src="/js/tools.js"></script>-->
+        <script type="text/javascript" src="/js/seajs/sea.js" id="seajsnode"></script>
+        <script type="text/javascript">
+            seajs.use("/js/main-sea");
+        </script>
 	</body>
 </html>
