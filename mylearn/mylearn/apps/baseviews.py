@@ -52,7 +52,8 @@ class UserRelatedFormView(LoginRequriedView, BaseFormView) :
         if include_fields!= []:
             self.fields = include_fields
         else:
-            self.fields = list(obj._fields_ordered)
+            #all the fields in the object model, including embedded fields
+            self.fields = self._get_all_field_name(obj)
 
         return self._get_non_empty_field(obj, self.fields, exclude_fields)
 
@@ -82,6 +83,22 @@ class UserRelatedFormView(LoginRequriedView, BaseFormView) :
                     if data != None:
                         ret[field] = data
         return ret
+
+    def _get_all_field_name(self,obj):
+        # I think this is very inefficient!
+        field_names = []
+        for field, typ in obj._fields.iteritems():
+            # if the field is a ListField
+            if isinstance(typ, ListField):
+                listData = getattr(obj, field)
+                if listData != []:
+                    if isinstance(listData[0], EmbeddedDocument):
+                        list = self._get_all_field_name(listData[0])
+                        for item in list:
+                            field_names.append(item)
+        for item in obj._fields_ordered:
+            field_names.append(item)
+        return field_names
 
     def pre_validation_for_list(self, request, max_length, obj, list_field = None):
         length_exceeded = False
