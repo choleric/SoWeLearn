@@ -1,5 +1,6 @@
 define(function(require,exports,module){
-    var $ = require("libs/jquery-1.7.2");
+    var $ = jQuerys = require("libs/jquery-1.7.2");
+    var tools = {};
 
     function AJAXOptions(option)
     {
@@ -28,26 +29,35 @@ define(function(require,exports,module){
         this.data =  JSON.stringify(inputJSONObject);
     }
 
-    module.sendAjaxRequest = function (option,csrftoken)
+    function sendAjaxRequest(option,csrftoken)
     {
         var ajaxOptions = new AJAXOptions(option);
-        ajaxOptions.beforeSend = function(xhr,csrftoken){
-            xhr.setRequestHeader("X-CSRFToken",csrftoken);
+        if(csrftoken){
+            ajaxOptions.beforeSend = function(xhr){
+                xhr.setRequestHeader("X-CSRFToken",csrftoken);
+            }
         }
         $.ajax(ajaxOptions);
     }
 
-    //将表单序列化成JSON格式的数据
-    (function($){
-        $.fn.serializeJson=function(){
-            var serializeObj={};
-            $(this.serializeArray()).each(function(){
-                serializeObj[this.name]=this.value;
-            });
-            return serializeObj;
-        };
-    })(jQuery);
+    tools.sendAjaxRequest = sendAjaxRequest;
 
+    //将表单序列化成JSON格式的数据
+    tools.serializeJson = function(obj){
+        var serializeObj={};
+        $(obj.serializeArray()).each(function(){
+            serializeObj[this.name]=this.value;
+        });
+        return serializeObj;
+    }
+    tools.getToken = function(){
+        var option = {};//ajax option
+        option.url = "_t";
+        option.type = "get";
+        sendAjaxRequest(option);
+    }
+
+    module.exports = tools;
 });
 
 

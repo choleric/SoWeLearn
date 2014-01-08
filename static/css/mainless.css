@@ -807,7 +807,7 @@ ul {
   -o-animation-duration: 1s;
   animation-duration: 1s;
 }
-.login .black_overlay {
+.overlay_black {
   position: fixed;
   top: 0%;
   left: 0%;

@@ -29,11 +29,14 @@ function initMainPage(){
      //open the login box
      $(".rightUp").bind("click",function(e){
           $(".login").fadeIn();
-          require("/js/login");
+          $("#overlay_black").fadeIn();
+          require("/js/userinfo");
      });
      //close the login box
-     $(".black_overlay").bind("click",function(e){
+     $("#overlay_black").bind("click",function(e){
           $(".login").fadeOut();
+          $(".signup").fadeOut();
+          $(this).fadeOut();
      });
      $(".rightBottom").bind("click",function(e){
           if($(".right").hasClass("transformLeft")){
@@ -53,10 +56,10 @@ function initMainPage(){
      //body綁定mousemove事件
      $("body").bind("mousemove",function(){
           $(".leftUp").removeClass("opacity40").addClass("opacity100");
-          setTimeout(returnDefault,3000);
+          setTimeout(returnDefaultMain,3000);
      });
 
-     function returnDefault(){
+     function returnDefaultMain(){
           $(".leftUp").removeClass("opacity100").addClass("opacity40");
      }
      
