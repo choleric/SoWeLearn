@@ -50,6 +50,7 @@ define(function(require,exports,module){
         });
         return serializeObj;
     }
+    
     tools.getToken = function(){
         var option = {};//ajax option
         option.url = "_t";

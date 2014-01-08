@@ -7,7 +7,9 @@ define(function(require,exports,module){
 
 	//login
 	$(".login .loginBtn").bind("click",function(){
+		event.stopPropagation();//阻止冒泡
 		login();
+		return false;
 	});
 
 	//bind click event to the signup link
@@ -18,12 +20,15 @@ define(function(require,exports,module){
 	});
 
 	function login(){
-		var accounts = tools.serializeJson($("#loginForm"));
-		accounts._t = $.cookie("_t");
-		accounts.remember = "False";
+		// var accounts = tools.serializeJson($("#loginForm"));
+		var accounts = $("#loginForm").serialize();
+		accounts += "&remember=True&_t="+$.cookie("_t");
+		// accounts._t = $.cookie("_t");
+		// accounts.remember = "True";
 
 		var option = {};//ajax option
 		option.data = accounts;
+		option.type = "post";
 		option.url = "/accounts/login/";
 		option.error = displayLoginErrorInfo;
 		tools.sendAjaxRequest(option,$.cookie("_t"));
@@ -37,6 +42,7 @@ define(function(require,exports,module){
 	$(".signup .J_signupBtn").bind('click', function(event) {
 	    event.stopPropagation();//阻止冒泡
 	    signup();
+	    return false;
 	});
 	function signup(){
 		var accounts = tools.serializeJson($("#signupForm"));
