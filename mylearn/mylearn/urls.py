@@ -29,15 +29,23 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
     url(r'^getTutorReply/', 'get_tutor_reply'),
 )
 
+
+urlpatterns += patterns(PROJECT_APP_PREFIX + '.general.views',
+        url(r'^_t/', "csrf_token_fetch", name="csrf_fetch"),
+)
+
+#url import from allauth apps
 urlpatterns += patterns('',
     (r'^accounts/', include(get_project_app_qulified_name('allauth_override_template.urls'))),
     (r'^accounts/social/', include(get_project_app_qulified_name('allauth_socialaccount.urls'))),
     (r'^accounts/', include('allauth.urls')),
 )
 
-urlpatterns += patterns(PROJECT_APP_PREFIX + '.general.views',
-        url(r'^_t/', "csrf_token_fetch", name="csrf_fetch"),
+#url of django_youtube
+urlpatterns += patterns('',
+    (r'^youtube/', include(get_project_app_qulified_name('youtube_override.urls'))),
 )
+
 #To test allauth
 urlpatterns += patterns('',
     (r'^admin/', include(admin.site.urls)),
