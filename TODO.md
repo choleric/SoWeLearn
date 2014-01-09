@@ -8,6 +8,10 @@
 4. 创建topiquiz的参数和传出的数据,单元测试
 5. 用户评论的参数和传出的数据,单元测试
 6. 用户观看topicourse和做topiquiz的内容存储：model，interface and unittest.
+7. 使用Youtube上传视频的参数和传出的数据,单元测试(status: ongoing, Meichen)
+
+#### user_profile
+1. 用户头像
   
 #### auth  
 1. 整合allauth基本配置，包括cookie时效和名字的配置，匿名用户登录的配置等(status: done, Meichen)
