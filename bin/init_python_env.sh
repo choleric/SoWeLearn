@@ -35,6 +35,7 @@ function install() {
   installPack mock "" mock # for allauth test
   installPack mongoengine "" mongoengine
   installPack mongodbforms "" git+https://github.com/jschrewe/django-mongodbforms
+  installPack django-youtube "" django-youtube
   installPack gdata "" gdata
 }
 
@@ -50,6 +51,7 @@ function uninstall() {
   uninstallPack django-allauth "" django-allauth
   uninstallPack mongoengine "" mongoengine
   uninstallPack django-mongodbforms "" django-mongodbforms
+  uninstallPack django-youtube "" django-youtube
   uninstallPack gdata "" gdata
 }
 

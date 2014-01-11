@@ -72,3 +72,13 @@ profileTutorTopicsInvalid = 112
 middleSchoolHourlyRateInvalid = 113
 highSchoolHourlyRateInvalid =114
 collegeHourlyRateInvalid = 115
+
+#youtube upload error 500-600
+YoutubeAPIError = 501
+YoutubeUploadMetaError = 502
+VideoMetadataError = 503
+youtubeVideoTitleInvalid = 504
+youtubeVideoDescriptionInvalid = 505
+youtubeVideoKeywordsInvalid = 506
+youtubeVideoAccessInvalid = 507
+YoutubeUploadVideoError =508
