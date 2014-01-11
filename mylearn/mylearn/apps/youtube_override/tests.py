@@ -2,10 +2,13 @@ import json
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django_youtube.models import Video
 
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
 from mylearn.apps import errcode
+
+from ...settings import YOUTUBE_UPLOAD_REDIRECT_URL
 
 class YoutubeTestCase(BaseTest):
     def _create_user(self):
@@ -45,28 +48,56 @@ class YoutubeTestCase(BaseTest):
     def user(self) :
         return self.__user
 
-    def test_get_auth_url(self):
-        auth_url = reverse('youtube_auth')
-        response = self.client.get(auth_url)
-
-        self.assertEquals(302, response.status_code,
-                          "get auth url status errcode %d" %(response.status_code))
-        self.assertTrue(0<response['Location'].find('www.google.com/accounts/AuthSubRequest'),
-                          response['Location'])
-
     def test_upload_video_metadata(self):
         metaURL = reverse("youtube_upload_meta")
-        params = {'auth_token': "1%2FJlB16DEhW61_Gwma6ObLWY3bmihXd0mFfHEOpGHI_0s",
-                  'title': "Test Video",
+        params = {'title': "Test Video",
                   'description': "This is a test video",
                   'keywords': "Test, keywords",
                   'access_control': 0}
 
         response = self.client.post(metaURL, params)
-        self.assertEquals(200, response.status_code,
+        self.assertEqual(200, response.status_code,
                           "upload metadata post status errcode %d" %(response.status_code))
         ret = json.loads(response.content)
-        self.assertEquals(errcode.SUCCESS, ret["c"], "post metadata errcode %d" %(ret["c"]))
+        self.assertEqual(errcode.SUCCESS, ret["c"], "post metadata errcode %d" %(ret["c"]))
 
         data = ret["d"]
         self.assertTrue(len(getattr(data, "token"))>0, data)
+        self.assertTrue(len(getattr(data, "post_url"))>0, data)
+        self.assertTrue(len(getattr(data, "next_url"))>0, data)
+
+    def test_upload_return(self):
+        retURL = reverse('youtube_upload_return')
+        params = {"status": 200,
+                  "id": "iddXKy_zAkI"}
+        response = self.client.get(retURL, params)
+        self.assertEqual(302, response.status_code,
+                          "upload return status errcode %d" %(response.status_code))
+        self.assertTrue(0<response['Location'].find(YOUTUBE_UPLOAD_REDIRECT_URL),
+                        "upload return url %s" %response['Location'])
+
+        #Test if the model is working correctly
+        video = Video.objects.get(video_id = "iddXKy_zAkI")
+        self.assertEqual(video.user.pk, 1)
+
+    def test_upload_return_error(self):
+        retURL = reverse('youtube_upload_return')
+        params = {"status": 200,
+                  "id": "wrongID"}
+        response = self.client.get(retURL, params)
+        self.assertEqual(200, response.status_code,
+                          "upload return status code %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEqual(errcode.YoutubeUploadVideoError, ret["c"],
+                         "upload return errcode %d" %(ret["c"]))
+
+    def test_upload_return_wrong_status(self):
+        retURL = reverse('youtube_upload_return')
+        params = {"status": 400,
+                  "id": "iddXKy_zAkI"}
+        response = self.client.get(retURL, params)
+        self.assertEqual(200, response.status_code,
+                          "upload return status code %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEqual(errcode.YoutubeUploadVideoError, ret["c"],
+                         "upload return errcode %d" %(ret["c"]))

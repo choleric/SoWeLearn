@@ -139,7 +139,7 @@ SOCIALACCOUNT_PROVIDERS = \
 YOUTUBE_AUTH_EMAIL = 'SoWeLearn.com@gmail.com'
 YOUTUBE_AUTH_PASSWORD = '140101swl'
 YOUTUBE_DEVELOPER_KEY = 'AI39si5hjixvG_TbDOrLbNQ534Zo-DzIeP2EzLGFcsIKoaHGosm018jiN5fLPZE-13-lJtkEPBb8HH5DWFTolrdtQI_jWAiu_g'
-#YOUTUBE_CLIENT_ID = 'client-id'
+YOUTUBE_CLIENT_ID = '525773080463.apps.googleusercontent.com'
 
 # url to redirect after upload finishes, default is respected `video` page
 YOUTUBE_UPLOAD_REDIRECT_URL = '/youtube/videos/'
