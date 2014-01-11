@@ -20,12 +20,7 @@ define(function(require,exports,module){
 	});
 
 	function login(){
-		// var accounts = tools.serializeJson($("#loginForm"));
 		var accounts = $("#loginForm").serialize();
-		accounts += "&remember=True&_t="+$.cookie("_t");
-		// accounts._t = $.cookie("_t");
-		// accounts.remember = "True";
-
 		var option = {};//ajax option
 		option.data = accounts;
 		option.type = "post";
@@ -45,8 +40,8 @@ define(function(require,exports,module){
 	    return false;
 	});
 	function signup(){
-		var accounts = tools.serializeJson($("#signupForm"));
-		accounts._t = $.cookie("_t");
+		var accounts = $("#signupForm").serialize();
+		// accounts._t = $.cookie("_t");
 
 		var option = {};//ajax option
 		option.data = accounts;
