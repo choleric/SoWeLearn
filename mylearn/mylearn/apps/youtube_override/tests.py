@@ -1,14 +1,13 @@
 import json
 
 from django.core.urlresolvers import reverse
-from django.conf import settings
 from django_youtube.models import Video
 
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
 from mylearn.apps import errcode
-
 from ...settings import YOUTUBE_UPLOAD_REDIRECT_URL
+from .forms import YoutubeMetadataForm
 
 class YoutubeTestCase(BaseTest):
     def _create_user(self):
@@ -101,3 +100,14 @@ class YoutubeTestCase(BaseTest):
         ret = json.loads(response.content)
         self.assertEqual(errcode.YoutubeUploadVideoError, ret["c"],
                          "upload return errcode %d" %(ret["c"]))
+
+class YoutubeFormTest(BaseTest):
+    def test_metadata_form(self):
+        params = {'title': "Test Video",
+                  'description': "This is a test video",
+                  'keywords': "Test, keywords",
+                  'access_control': 0}
+        videoMetadata = YoutubeMetadataForm(params)
+        self.assertEqual(videoMetadata.is_valid(), True)
+        videoMetadata.user = 1
+        videoMetadata.video_id = "This is the video id"
