@@ -1,15 +1,3 @@
-import json
-
-from django.core import serializers
-from django.shortcuts import render
-from django.http import HttpResponse, Http404
-from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.core.context_processors import csrf
-from django.template import RequestContext
-from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import BaseFormView
-
 from forms import UserProfileForm, TutorProfileForm, UserEducationForm, UserWorkForm
 from models import UserPersonalProfile
 
