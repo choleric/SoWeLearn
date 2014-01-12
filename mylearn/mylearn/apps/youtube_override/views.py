@@ -56,7 +56,7 @@ class UploadVideoMetadata(UserRelatedFormView):
 
         protocol = 'https' if request.is_secure() else 'http'
         next_url = "".join([protocol, ":", os.sep, os.sep, request.get_host(),
-                            reverse("django_youtube.views.upload_return"), os.sep])
+                            reverse("youtube_upload_return"), os.sep])
         extractedAPIResponse = {"token": APIResponse["youtube_token"],
                                 "post_url": APIResponse["post_url"],
                                 "next_url": next_url}
@@ -64,7 +64,9 @@ class UploadVideoMetadata(UserRelatedFormView):
 
 upload_meta = UploadVideoMetadata.as_view()
 
+
 class UploadReturnView(LoginRequriedView):
+
     def get(self, request):
         status = request.GET.get("status")
         video_id = request.GET.get("id")
@@ -97,3 +99,35 @@ class UploadReturnView(LoginRequriedView):
             return JsonResponse(errcode.YoutubeUploadVideoError)
 
 upload_return = UploadReturnView.as_view()
+
+
+class VideoView(LoginRequriedView):
+
+    def get(self,request, video_id):
+        api = Api()
+        api.authenticate()
+        availability = api.check_upload_status(video_id)
+
+        if availability is not True:
+            # Video is not available
+            video = Video.objects.filter(video_id=video_id).get()
+
+            state = availability["upload_state"]
+
+            # Add additional states here. I'm not sure what states are available
+            if state == "failed" or state == "rejected":
+                return JsonResponse(errcode.YoutubeInvalidVideo,availability)
+            else:
+                return JsonResponse(errcode.YoutubeVideoProcessed, availability)
+
+        width = request.GET.get("width", "70%")
+        height = request.GET.get("height", "350")
+        origin = request.get_host()
+        video_src = "http://www.youtube.com/embed/%s?autoplay=0&origin=%s&modestbranding=0&showinfo=0" \
+                    %(video_id, origin)
+
+        video_params = {"video_src": video_src, "width": width, "height": height}
+
+        return JsonResponse(errcode.SUCCESS, video_params)
+
+video = VideoView.as_view()

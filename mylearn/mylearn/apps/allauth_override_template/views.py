@@ -14,7 +14,7 @@ from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, L
 
 from ... import settings
 from ..response import JsonResponse
-from .. import code
+from mylearn.apps import errcode
 # Create your views here.
 
 
@@ -24,9 +24,9 @@ class SignupViewLearn(SignupView,AjaxCapableProcessFormViewMixin):
         #return HttpResponse(dict(form.errors.items()))
         data = dict(form.errors.items())
         if "email" in data and data["email"]==["A user is already registered with this e-mail address."]:
-                return JsonResponse(code.UserExist)
+                return JsonResponse(errcode.UserExist)
         elif "__all__" in data and data["__all__"]==["You must type the same password each time."]:
-            return JsonResponse(code.DifferentPassword)
+            return JsonResponse(errcode.DifferentPassword)
         else:
             dataList = []
             for k in data.keys():
@@ -37,7 +37,7 @@ class SignupViewLearn(SignupView,AjaxCapableProcessFormViewMixin):
             for i,v in enumerate(errorList):
                 if v in overlapList:
                     errorData.append(i)
-            return JsonResponse(code.SignupFailure, errorData)
+            return JsonResponse(errcode.SignupFailure, errorData)
 
 signup_learn = ensure_csrf_cookie(SignupViewLearn.as_view())
 
@@ -51,7 +51,7 @@ class ConfirmEmailViewLearn(ConfirmEmailView):
         except Http404:
             self.object = None
         ctx = self.get_context_data()
-        return JsonResponse(code.InvalidConfirmationEmail)
+        return JsonResponse(errcode.InvalidConfirmationEmail)
 
     def post(self, *args, **kwargs):
         self.object = confirmation = self.get_object()
@@ -74,15 +74,15 @@ class SigninViewLearn(LoginView):
         data = dict(form.errors.items())
         #
         if '__all__' in data or len(data) < 1:
-            return JsonResponse(code.SigninFailure)
+            return JsonResponse(errcode.SigninFailure)
         else:
             errorData = []
             # don't care the detail, it's enough to treat all kinds of errors as SigninInvalidField?
             if 'login' in data:
-                errorData.append(code.SigninFormField.index('login'))
+                errorData.append(errcode.SigninFormField.index('login'))
             if 'password' in data:
-                errorData.append(code.SigninFormField.index('password'))
-            return JsonResponse(code.SigninInvalidField, errorData)
+                errorData.append(errcode.SigninFormField.index('password'))
+            return JsonResponse(errcode.SigninInvalidField, errorData)
 
 signin_learn = ensure_csrf_cookie(SigninViewLearn.as_view())
 
@@ -90,9 +90,9 @@ class PasswordChangeViewLearn(PasswordChangeView):
     def form_invalid(self, form):
         data = dict(form.errors.items())
         if "oldpassword" in data and data["oldpassword"]==["Please type your current password."]:
-            return JsonResponse(code.WrongOldPassword)
+            return JsonResponse(errcode.WrongOldPassword)
         elif "password2" in data and data["password2"]==["You must type the same password each time."]:
-            return JsonResponse(code.DifferentPassword)
+            return JsonResponse(errcode.DifferentPassword)
         else:
             dataList = []
             for k in data.keys():
@@ -103,7 +103,7 @@ class PasswordChangeViewLearn(PasswordChangeView):
             for i,v in enumerate(errorList):
                 if v in overlapList:
                     errorData.append(i)
-            return JsonResponse(code.ChangePasswordFailure, errorData)
+            return JsonResponse(errcode.ChangePasswordFailure, errorData)
 
 password_change_learn = ensure_csrf_cookie(login_required(PasswordChangeViewLearn.as_view()))
 
@@ -111,9 +111,9 @@ class PasswordResetViewLearn(PasswordResetView):
     def form_invalid(self,form):
         data = dict(form.errors.items())
         if "email" in data and data["email"]==["The e-mail address is not assigned to any user account"]:
-            return JsonResponse(code.EmailNotRegistered)
+            return JsonResponse(errcode.EmailNotRegistered)
         else:
-            return JsonResponse(code.ResetPasswordFailure)
+            return JsonResponse(errcode.ResetPasswordFailure)
 
 password_reset_learn = ensure_csrf_cookie(PasswordResetViewLearn.as_view())
 
@@ -121,12 +121,12 @@ class PasswordResetFromKeyViewLearn(PasswordResetFromKeyView):
     def form_invalid(self,form):
         data = dict(form.errors.items())
         if "password2" in data and data["password2"]==["You must type the same password each time."]:
-            return JsonResponse(code.DifferentPassword)
+            return JsonResponse(errcode.DifferentPassword)
         else:
-            return JsonResponse(code.ResetpasswordFromKeyCommonFailure)
+            return JsonResponse(errcode.ResetpasswordFromKeyCommonFailure)
 
     def _response_bad_token(self, request, uidb36, key, **kwargs):
-        return JsonResponse(code.ResetPasswordFromKeyBadToken)
+        return JsonResponse(errcode.ResetPasswordFromKeyBadToken)
 
 password_reset_from_key_learn = ensure_csrf_cookie(PasswordResetFromKeyViewLearn.as_view())
 

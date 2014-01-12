@@ -16,7 +16,7 @@ from allauth.account.models import EmailConfirmation
 from .forms import SignupFormAdd
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
-from .. import code
+from mylearn.apps import errcode
 
 User = get_user_model()
 
@@ -74,7 +74,7 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_signup_learn'),data)
         self.assertEqual(response.status_code, 200, response)
         content = json.loads(response.content)
-        self.assertEqual(content["c"], code.DifferentPassword, content)
+        self.assertEqual(content["c"], errcode.DifferentPassword, content)
 
     def test_signup_email_already_taken(self):
         User.objects.create(email='signup@signup.com',password='pass')
@@ -83,7 +83,7 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_signup_learn'),data2)
         self.assertEqual(response.status_code, 200, response)
         content = json.loads(response.content)
-        self.assertEqual(content["c"], code.UserExist, content)
+        self.assertEqual(content["c"], errcode.UserExist, content)
 
     def test_signup_common_mistakes(self):
         data ={'email': "signup.com",'password1':"2",'password2':"2",
@@ -91,7 +91,7 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_signup_learn'),data)
         self.assertEqual(response.status_code, 200, response)
         content = json.loads(response.content)
-        self.assertEqual(content["c"],code.SignupFailure,content)
+        self.assertEqual(content["c"],errcode.SignupFailure,content)
 
     def test_email_verification_mandatory(self):
         c = Client()
@@ -161,7 +161,7 @@ class UserAllAuthTestCase(BaseTest):
                              args=[confirmation.key]))
         self.assertEqual(resp.status_code, 200)
         content = json.loads(resp.content)
-        self.assertEqual(content["c"],code.InvalidConfirmationEmail,content)
+        self.assertEqual(content["c"],errcode.InvalidConfirmationEmail,content)
 
     def test_signinview_csrf(self):
         data = {'login': 'test@test.com', 'password': 'test'}
@@ -175,35 +175,35 @@ class UserAllAuthTestCase(BaseTest):
                                             'rn'),data)
         content = json.loads(response.content)
         self.assertEqual(response.status_code, 200,response)
-        self.assertEqual(content['c'], code.SigninFailure, content)
+        self.assertEqual(content['c'], errcode.SigninFailure, content)
 
     def test_signipview_empty_email(self):
         data = {'login': '', 'password': 'test'}
         response = self.client.post(reverse('account_signin_learn'),data)
         content = json.loads(response.content)
         self.assertEqual(response.status_code, 200,response)
-        self.assertEqual(content['c'], code.SigninInvalidField, content)
+        self.assertEqual(content['c'], errcode.SigninInvalidField, content)
         self.assertEqual(1, len(content['d']), content)
-        self.assertEqual(content['d'][0], code.SigninFormField.index('login'), content)
+        self.assertEqual(content['d'][0], errcode.SigninFormField.index('login'), content)
 
     def test_signipview_empty_password(self):
         data = {'login': 't@t.com', 'password': ''}
         response = self.client.post(reverse('account_signin_learn'),data)
         content = json.loads(response.content)
         self.assertEqual(response.status_code, 200,response)
-        self.assertEqual(content['c'], code.SigninInvalidField, content)
+        self.assertEqual(content['c'], errcode.SigninInvalidField, content)
         self.assertEqual(1, len(content['d']), content)
-        self.assertEqual(content['d'][0], code.SigninFormField.index('password'), content)
+        self.assertEqual(content['d'][0], errcode.SigninFormField.index('password'), content)
 
     def test_signipview_invalid_email(self):
         data = {'login': 't', 'password': ''}
         response = self.client.post(reverse('account_signin_learn'),data)
         content = json.loads(response.content)
         self.assertEqual(response.status_code, 200,response)
-        self.assertEqual(content['c'], code.SigninInvalidField, content)
+        self.assertEqual(content['c'], errcode.SigninInvalidField, content)
         self.assertEqual(2, len(content['d']), content)
-        self.assertEqual(content['d'][0], code.SigninFormField.index('login'), content)
-        self.assertEqual(content['d'][1], code.SigninFormField.index('password'), content)
+        self.assertEqual(content['d'][0], errcode.SigninFormField.index('login'), content)
+        self.assertEqual(content['d'][1], errcode.SigninFormField.index('password'), content)
 
     def _create_user(self):
         acc = 'create@create.com'
@@ -256,28 +256,28 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_change_password_learn'),data)
         self.assertEqual(response.status_code,200)
         content = json.loads(response.content)
-        self.assertEqual(content["c"],5,content)
+        self.assertEqual(content["c"],errcode.WrongOldPassword,content)
 
     def test_password_change_different_password(self):
         self._create_user_and_login()
         data = {"oldpassword":"password", "password1":"newpassword1", "password2":"newpassword2"}
         response = self.client.post(reverse('account_change_password_learn'), data)
         content = json.loads(response.content)
-        self.assertEqual(content["c"],3,content)
+        self.assertEqual(content["c"],errcode.DifferentPassword,content)
 
     def test_password_forgotten_no_account(self):
         data = {"email":"doesNotExist@create.com"}
         response = self.client.post(reverse('account_reset_password_learn'),data)
         self.assertEqual(response.status_code,200,response)
         content = json.loads(response.content)
-        self.assertEqual(content["c"],6,content)
+        self.assertEqual(content["c"],errcode.EmailNotRegistered,content)
 
     def test_password_forgotten_invalid_email(self):
         data = {"email":"create.com"}
         response = self.client.post(reverse('account_reset_password_learn'), data)
         self.assertEqual(response.status_code,200,response)
         content = json.loads(response.content)
-        self.assertEqual(content["c"],7,content)
+        self.assertEqual(content["c"],errcode.ResetPasswordFailure,content)
 
 
     def test_password_forgotten_url_protocol(self):
@@ -317,7 +317,7 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(url, {'password1': 'newpass','password2': 'newpass'})
         self.assertEqual(response.status_code,200)
         content = json.loads(response.content)
-        self.assertEqual(content["c"],9)
+        self.assertEqual(content["c"],errcode.ResetPasswordFromKeyBadToken)
 
     def test_resetpw_fromkey_bad_password(self):
         # Send forgot password request
@@ -332,12 +332,12 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(url, {'password1': 'password1','password2': 'password2'})
         self.assertEqual(response.status_code,200)
         content = json.loads(response.content)
-        self.assertEqual(content["c"],3, response)
+        self.assertEqual(content["c"],errcode.DifferentPassword, response)
         #invalid password
         response2 = self.client.post(url, {'password1': 'pass','password2': 'pass'})
         self.assertEqual(response2.status_code,200)
         content2 = json.loads(response2.content)
-        self.assertEqual(content2["c"],8, response2)
+        self.assertEqual(content2["c"],errcode.ResetpasswordFromKeyCommonFailure, response2)
 
     def test_signout(self) :
         # create user and login
