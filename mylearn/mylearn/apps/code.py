@@ -82,3 +82,5 @@ youtubeVideoDescriptionInvalid = 505
 youtubeVideoKeywordsInvalid = 506
 youtubeVideoAccessInvalid = 507
 YoutubeUploadVideoError =508
+YoutubeInvalidVideo = 511
+YoutubeVideoProcessed = 512
