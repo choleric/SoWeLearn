@@ -2,6 +2,7 @@
 [htmlenti]: http://www.w3schools.com/html/html_entities.asp "HTML Entity Code"
 [entitydesign]: ./todo/simple_entity_design.png "Simple Entity Design"
 [gravatar]: https://en.gravatar.com/ "Global avatar solution"
+[youtubeIssue]: https://github.com/choleric/SoWeLearn/issues/3 "youtube API issues"
   
 #### feed  
 1. feed信息的来源确定，哪些evet会出现在feed上, 哪些操作会让feed消失
@@ -23,12 +24,12 @@
 #### topicourse
 1. Dicision making：整理需求，确定那些使用第三方app
 2. 根据需要修改定义model和前后端接口
-3. 创建topicourse的参数和传出的数据,单元测试
+3. 创建topicourse的参数和传出的数据,单元测试(status: ongoing, Meichen)
 4. 创建topiquiz的参数和传出的数据,单元测试(topiquiz 的抽象处理，允许后台和前端增加不同类型的quiz, 这些quiz有没有可能关联)
 5. 用户评论的参数和传出的数据,单元测试
 6. 用户观看topicourse的内容存储：model，interface and unittest.
 7. 使用Youtube上传视频的参数和传出的数据,单元测试(status: done, Meichen)
-8. Youtube API,Youtube政策分析，[youtube API terms][https://github.com/choleric/SoWeLearn/issues/3]
+8. Youtube API,Youtube政策分析，[youtube API terms][youtubeIssue]
 9. 用户观看topiquiz的内容存储：model，interface and unittest.
 10. 视频的观看模式方案确定，全屏，黑灯效果，自动拉伸，评论在视频内还是和视频分开
 11. 时间表示，根据用户浏览器的时区转换对应的时间
