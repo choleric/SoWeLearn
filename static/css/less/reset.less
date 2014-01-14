@@ -1,3 +1,5 @@
+@import url("tools.less");
+
 html{
 	color:#000;
 	background:#FFF;
@@ -53,4 +55,12 @@ table{
 }
 ol, ul {
 	list-style: none;;
+}
+input[type=text]:focus,input[type=password]:focus,textarea:focus{
+	 transition:border linear .2s,box-shadow linear .5s;
+	 -moz-transition:border linear .2s,-moz-box-shadow linear .5s;
+	 -webkit-transition:border linear .2s,-webkit-box-shadow linear .5s;
+	 outline:none;
+	 border-color:#bce8f1;
+	 .box-shadow(0 0 8px #bce8f1);
 }

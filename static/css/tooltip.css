@@ -60,3 +60,6 @@
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
 }
+.tooltip:hover .tooltipInfo {
+  visibility: visible;
+}

@@ -230,10 +230,14 @@
 		</div>
 		<div class="main">
 			<div class="mockUpImg"><img src="/images/7.jpg"/></div>
-			<div class="leftUp"></div>
-			<div class="rightUp"></div>
-			<div class="leftBottom"></div>
-			<div class="rightBottom"></div>
+			<div class="leftUp ">
+                <a class="tooltip"  href="#" original-title="Please Login"></a>
+            </div>
+			<div class="rightUp J_rightUp">      
+                <a class="tooltip"  href="#" original-title="Login"></a>
+            </div>
+			<div class="leftBottom J_leftBottom"><a class="tooltip"  href="#" original-title="Please Login"></a></div>
+			<div class="rightBottom J_rightBottom"><a class="tooltip"  href="#" original-title="Please Login"></a></div>
 			<div class="bottomSearch">
 				<div class="search">
 					<input type="text" class="searchInput" placeholder="search a topic, tutor, subject"/>
@@ -259,8 +263,13 @@
         <section class="login HIDE">
             <div class="loginBox">
                 <div class="loginForm">
+                    <p class="errorInfo"></p>
                     <form class="" id="loginForm" action="post" >
-                        <input type="text" id="loginEmail" class="inputEmail" name="login" placeholder="Email  Address" value="">
+                        <input type="text" id="loginEmail" class="inputEmail error" name="login" placeholder="Email  Address" value="">
+                        <div class="loginfo-error toRight fade" style="left:382px;top:96px;">
+                            <div class="arrow"></div>
+                            <div class="content">test error info.</div>
+                        </div>
                         <input type="password" id="loginPassword" class="inputPassword" name="password" placeholder="Password" value="">
                         <input type="hidden" id="loginRemember" class="inputRemember" name="remember" value="on">
                         <a href="#" class="loginBtn"><span class=""></span></a>
@@ -277,6 +286,7 @@
         <section class="signup HIDE">
             <div class="signupBox">
                 <div class="signupForm">
+                    <p class="errorInfo"></p>
                     <form class="" id="signupForm" action="post" >
                         <input type="text" class="inputEmail" name="email" placeholder="Email  Address" value="">
                         <input type="password" class="inputPassword" name="password1" placeholder="Password" value="">
@@ -289,7 +299,10 @@
                 </div>
                 <P class="info">By signing in, I accept SoWeLearn's Terms of Service and Privacy Policy.</P>
             </div>
-        </section>     
+        </section>  
+        <section class="tipinfoSection">
+            <div class="tipinfo tipinfo-hint HIDE fade" id="loginHint" style="position:fixed;top:10px;left:50px;">"You need to be logged in to open this part."</div>
+        </section>   
         <!-- <script type="text/javascript" src="/js/jquery.bxslider.min.js"></script>
         <script type="text/javascript" src="/js/jquery.slimscroll.js"></script>
         <script type="text/javascript" src="/js/jquery.cookie.js"></script>

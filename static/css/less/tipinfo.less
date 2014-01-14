@@ -1,0 +1,57 @@
+@import "tools.less";
+
+.tipinfo{
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+.tipinfo-hint{
+	color: #31708f;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+}
+.loginfo-error{
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	.opacity(1);
+	min-width: 130px;
+	padding: 1px;
+	white-space: normal;
+	background-color: #f2dede;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 6px;
+	.box-shadow(0 5px 10px rgba(0,0,0,0.2));
+	.arrow{
+		border-width: 11px;
+	}
+	.arrow, .arrow:after{
+		position: absolute;
+		display: block;
+		width: 0;
+		height: 0;
+		border-color: transparent;
+		border-style: solid;
+	}
+	.content{
+		padding: 9px 14px;
+		color: #a94442;
+	}
+}
+.loginfo-error.toRight{
+	.arrow{
+		top: 50%;
+		left: -11px;
+		margin-top: -11px;
+		border-right-color: #f2dede;
+		border-left-width: 0;
+	}
+	.arrow:after{
+		bottom: -10px;
+		left: 1px;
+		border-right-color: #f2dede;
+		border-left-width: 0;
+	}
+}

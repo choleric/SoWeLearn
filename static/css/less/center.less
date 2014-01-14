@@ -27,15 +27,15 @@
 		cursor: pointer;
 		background-position: -2935px -30px;
 	}
-	.leftUp.opacity40{
+	.opacity40{
 		opacity: 0.4;
 		.transition(all 1s ease-in-out);
 	}
-	.leftUp.opacity100{
+	.opacity100{
 		opacity: 1;
 		.transition(all 1s ease-in-out);
 	}
-	 .rightUp{
+	.rightUp{
 		top: 10px;
 		right: 10px;
 		background-position: -2935px -30px;
@@ -49,6 +49,13 @@
 		bottom: 10px;
 		right: 10px;
 		background-position: -35px -30px;
+	}
+	.unlogin{
+		opacity: 0.6 !important;
+	}
+	.tooltip .tooltipInfo{
+		left: 20px;
+
 	}
 	.mockUpImg,.mockUpImg img{
 		width: 600px;
@@ -68,6 +75,14 @@
 }
 .nonTransform{			
 	.transform(translateX(0));
+	.transition(all 0.2s ease-in-out);
+}
+.transform150{
+	.transform(translateX(150px));
+	.transition(all 0.2s ease-in-out);
+}
+.transform60{
+	.transform(translateX(60px));
 	.transition(all 0.2s ease-in-out);
 }
 .bottomSearch{

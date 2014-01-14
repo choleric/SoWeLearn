@@ -1,6 +1,11 @@
 .HIDE{
 	display: none;
 }
+.tooltip{
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+}
 .clearfix:after{
 	content:".";
 	display:block;
@@ -10,4 +15,17 @@
 }
 .clearfix{
 	zoom: 1;
+}
+
+.opacity40{
+	opacity: 0.4;
+}
+.opacity100{
+	opacity: 1;
+}
+.opacity0{
+	opacity: 0;
+}
+.fade{
+	.transition(all 1s linear);
 }

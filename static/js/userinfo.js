@@ -1,6 +1,7 @@
 define(function(require,exports,module){
 	var $ = require("libs/jquery-1.7.2");
     require('libs/jquery.cookie')($);
+    require('libs/jquery.tipsy')($);
     var tools = require('tools');
 	
 	tools.getToken();
@@ -17,6 +18,7 @@ define(function(require,exports,module){
 		$(".login").fadeOut();
 		$(".signup").fadeIn();
 		tools.getToken();
+		$(".rightUp .tooltip").tipsy("hide");
 	});
 
 	function login(){
