@@ -46,7 +46,7 @@ class TopicourseTestCase(BaseTest):
         self._create_topicourse_at_youtube_callback()
 
     def tearDown(self) :
-        self.client.post(reverse('account_signout_learn'))
+        self.client.get(reverse('account_signout_learn'))
         self.__user = None
 
     @property
@@ -73,8 +73,22 @@ class TopicourseTestCase(BaseTest):
         ret = json.loads(response.content)
         self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
 
+        topicourse = Topicourse.objects.get(topicourseID= self.topicourse.topicourseID)
+        self.assertEqual(topicourse.topicourseVideoID, "videoID", topicourse)
+        self.assertEqual(topicourse.topicourseTitle, "topicourse Title")
+        time = topicourse.topicourseUploadTimeStamp
+
+        params_update = {
+            'topicourseID': self.topicourse.topicourseID,
+            'topicourseTitle': "topicourse Title updated",
+        }
+        response = self.client.post(topicourseURL, params_update)
+        #Test if the update is complete and the date time field is working properly
         topicourseUpdated = Topicourse.objects.get(topicourseID= self.topicourse.topicourseID)
         self.assertEqual(topicourseUpdated.topicourseVideoID, "videoID", topicourseUpdated)
+        self.assertEqual(topicourseUpdated.topicourseTitle, "topicourse Title updated")
+        self.assertEqual(topicourseUpdated.topicourseUploadTimeStamp, time)
+
 
     def test_edit_topicourse_error(self):
         topicourseURL = reverse('topicourse')

@@ -8,7 +8,7 @@ def convert_model_field_to_for_field(f, **kwargs) :
     args.update(kwargs)
     return f.formfield(**args)
 
-class AutoCreateUpdateModelForm(DocumentForm) :
+class AutoCreateUpdateModelForm(forms.ModelForm) :
 
     def save(self, commit=True):
         """
