@@ -2,10 +2,10 @@ from django import forms
 from .models import Topicourse
 
 from mylearn.apps import errcode
-from mylearn.apps.forms import convert_model_field_to_for_field
+from mylearn.apps.forms import convert_model_field_to_for_field, AutoCreateUpdateModelForm
 
 
-class TopicourseInfoForm(forms.ModelForm):
+class TopicourseInfoForm(AutoCreateUpdateModelForm):
     formfield_callback = convert_model_field_to_for_field
 
     class Meta :

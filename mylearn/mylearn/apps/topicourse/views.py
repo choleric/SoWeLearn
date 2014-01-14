@@ -75,10 +75,11 @@ class TopicourseFormView(UserRelatedFormView):
                 err = v[0]
                 break
 
-            return JsonResponse(err)
+            #return JsonResponse(err)
+            return HttpResponse(form.errors)
 
         form.instance.topicourseCreatorUserID = request.user.pk
-        form.instance.topicourseID = request.POST.topicourseID
+        form.instance.topicourseID = request.POST['topicourseID']
         form.save()
         return JsonResponse(errcode.SUCCESS)
 

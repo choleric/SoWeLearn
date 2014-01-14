@@ -49,6 +49,7 @@ class Topicourse(models.Model):
         max_length=1,
         choices=LEVELS,
         null=True,
+        blank=True,
         error_messages={
             "invalid": errcode.topicourseLevelInvalid,
             "invalid_choice": errcode.topicourseLevelInvalid,
