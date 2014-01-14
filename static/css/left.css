@@ -133,9 +133,6 @@
 .left .contsDetail .title .close:hover {
   color: #e43e3e;
 }
-.left .contsDetail .title .tooltip:hover .tooltipInfo {
-  visibility: visible;
-}
 .left .contsDetail .title.editableBox {
   box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.5) inset;
 }

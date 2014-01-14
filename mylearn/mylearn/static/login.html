@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>login</title>
+<style type="text/css">
+	.loginContainer{
+		margin: 0 auto;
+		width: 640px;
+	}
+	.login{
+		position: relative;
+		margin: 0 auto;
+		padding: 20px;
+		width: 310px;
+		background-color: #fff;
+		border-radius: 3px;
+		box-shadow: 0 0 200px rgba(255,255,255,0.5),0 1px 2px rgba(0,0,0,0.3);
+	}
+	.login:before {
+		content: '';
+		position: absolute;
+		top: -8px;
+		right: -8px;
+		bottom: -8px;
+		left: -8px;
+		z-index: -1;
+		background: rgba(0, 0, 0, 0.08);
+		border-radius: 4px;
+	}
+</style>
+	</head>
+	<body>
+		<section class="loginContainer">
+			<div class="login">
+				<h1>Login to SoWeLearn</h1>
+				<form method="post">
+					<p>
+						<input type="text" name="login" value="" placeholder="Username or Email">
+					</P>
+					<p>
+						<input type="password" name="password" value="" placeholder="Password">
+					</P>
+					<p class="remember_me">
+						<label>
+							<input type="checkbox" name="remember_me" id="remember_me">
+							"Remember me on this computer"
+						</label>
+					</P>
+					<p class="submit">
+						<input type="submit" name="commit" value="login">
+					</p>
+				</form>
+			</div>
+		</section>
+	</body>
+</html>

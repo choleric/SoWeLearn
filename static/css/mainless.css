@@ -1,3 +1,4 @@
+@import "tipsy.css";
 html {
   color: #000;
   background: #FFF;
@@ -105,8 +106,25 @@ ol,
 ul {
   list-style: none;
 }
+input[type=text]:focus,
+input[type=password]:focus,
+textarea:focus {
+  transition: border linear 0.2s, box-shadow linear 0.5s;
+  -moz-transition: border linear 0.2s, -moz-box-shadow linear 0.5s;
+  -webkit-transition: border linear 0.2s, -webkit-box-shadow linear 0.5s;
+  outline: none;
+  border-color: #bce8f1;
+  -webkit-box-shadow: 0 0 8px #bce8f1;
+  -moz-box-shadow: 0 0 8px #bce8f1;
+  box-shadow: 0 0 8px #bce8f1;
+}
 .HIDE {
   display: none;
+}
+.tooltip {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
 }
 .clearfix:after {
   content: ".";
@@ -117,6 +135,21 @@ ul {
 }
 .clearfix {
   zoom: 1;
+}
+.opacity40 {
+  opacity: 0.4;
+}
+.opacity100 {
+  opacity: 1;
+}
+.opacity0 {
+  opacity: 0;
+}
+.fade {
+  -webkit-transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -ms-transition: all 1s linear;
+  -o-transition: all 1s linear;
 }
 .left {
   width: 420px;
@@ -252,9 +285,6 @@ ul {
 }
 .left .contsDetail .title .close:hover {
   color: #e43e3e;
-}
-.left .contsDetail .title .tooltip:hover .tooltipInfo {
-  visibility: visible;
 }
 .left .contsDetail .title.editableBox {
   box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.5) inset;
@@ -503,68 +533,6 @@ ul {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.tooltip .tooltipInfo {
-  visibility: hidden;
-  position: absolute;
-  display: inline-block;
-  bottom: 30px;
-  left: -50px;
-  font-size: 12px;
-  padding: 5px;
-  border: 2px solid #ccc;
-  -webkit-opacity: 0.95;
-  -moz-opacity: 0.95;
-  opacity: 0.95;
-  background-color: rgba(255, 255, 255, 0.5);
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.5)), to(rgba(255, 255, 255, 0)));
-  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
-  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
-  background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
-  background: -o-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) inset;
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) inset;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) inset;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
-  z-index: 99;
-  font-size: 12px !important;
-  font-weight: bold !important;
-  text-shadow: none !important;
-  height: 15px !important;
-  line-height: 15px !important;
-  color: #000 !important;
-  margin-left: 12px !important;
-}
-.tooltip .tooltipInfo:before {
-  content: "";
-  position: absolute;
-  border-top-color: #ccc;
-  bottom: -8px;
-  left: 50%;
-  border-top: 8px solid #ddd;
-  border-bottom: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  z-index: 100;
-}
-.tooltip .tooltipInfo.down {
-  top: 30px;
-}
-.tooltip .tooltipInfo.down:before {
-  bottom: 25px;
-  left: 50%;
-  border-bottom: 8px solid #ddd;
-  border-top: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-}
 .right {
   width: 420px;
   height: 100%;
@@ -629,14 +597,14 @@ ul {
   cursor: pointer;
   background-position: -2935px -30px;
 }
-.main .leftUp.opacity40 {
+.main .opacity40 {
   opacity: 0.4;
   -webkit-transition: all 1s ease-in-out;
   -moz-transition: all 1s ease-in-out;
   -ms-transition: all 1s ease-in-out;
   -o-transition: all 1s ease-in-out;
 }
-.main .leftUp.opacity100 {
+.main .opacity100 {
   opacity: 1;
   -webkit-transition: all 1s ease-in-out;
   -moz-transition: all 1s ease-in-out;
@@ -657,6 +625,12 @@ ul {
   bottom: 10px;
   right: 10px;
   background-position: -35px -30px;
+}
+.main .unlogin {
+  opacity: 0.6 !important;
+}
+.main .tooltip .tooltipInfo {
+  left: 20px;
 }
 .main .mockUpImg,
 .main .mockUpImg img {
@@ -691,6 +665,26 @@ ul {
   -moz-transform: translateX(0);
   -ms-transform: translateX(0);
   -o-transform: translateX(0);
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+}
+.transform150 {
+  -webkit-transform: translateX(150px);
+  -moz-transform: translateX(150px);
+  -ms-transform: translateX(150px);
+  -o-transform: translateX(150px);
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+}
+.transform60 {
+  -webkit-transform: translateX(60px);
+  -moz-transform: translateX(60px);
+  -ms-transform: translateX(60px);
+  -o-transform: translateX(60px);
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
   -ms-transition: all 0.2s ease-in-out;
@@ -871,13 +865,17 @@ ul {
   padding: 0px 0px 0px 10px;
   margin-bottom: 15px;
   color: #bbb;
-  border: 1px solid #000;
+  border: 0px solid #000;
   -webkit-opacity: 0.5;
   -moz-opacity: 0.5;
   opacity: 0.5;
-  -webkit-box-shadow: inset 0 1px 3px #000000;
-  -moz-box-shadow: inset 0 1px 3px #000000;
-  box-shadow: inset 0 1px 3px #000000;
+}
+.login .loginBox .loginForm .inputEmail.error,
+.login .loginBox .loginForm .inputPassword.error {
+  border-color: #ebccd1;
+  -webkit-box-shadow: 0 0 10px #ff0000;
+  -moz-box-shadow: 0 0 10px #ff0000;
+  box-shadow: 0 0 10px #ff0000;
 }
 .login .loginBox .loginForm .loginBtn span {
   position: absolute;
@@ -943,6 +941,64 @@ ul {
   color: #d3d3d3;
   font-family: Arial, sans-serif, Microsoft Yahei;
   text-shadow: 0px 1px 0px #ffffff;
+}
+.tipinfo {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.tipinfo-hint {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.loginfo-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+  min-width: 130px;
+  padding: 1px;
+  white-space: normal;
+  background-color: #f2dede;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.loginfo-error .arrow {
+  border-width: 11px;
+}
+.loginfo-error .arrow,
+.loginfo-error .arrow:after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.loginfo-error .content {
+  padding: 9px 14px;
+  color: #a94442;
+}
+.loginfo-error.toRight .arrow {
+  top: 50%;
+  left: -11px;
+  margin-top: -11px;
+  border-right-color: #f2dede;
+  border-left-width: 0;
+}
+.loginfo-error.toRight .arrow:after {
+  bottom: -10px;
+  left: 1px;
+  border-right-color: #f2dede;
+  border-left-width: 0;
 }
 .signup .black_overlay {
   position: fixed;
