@@ -1,5 +1,11 @@
 from django.http import HttpResponse
 import json
+
+from mylearn.apps import errcode
+from mylearn.apps import JsonResponse
+from mylearn.apps.baseviews import UserRelatedFormView, LoginRequriedView
+
+from .forms import TopicourseInfoForm
 # Create your views here.
 
 # [] is list
@@ -50,3 +56,34 @@ def user_topiquestions(request):
     userTopiquestions = getUserTopiquestions('test@test.com','learning',3)
     userTopiquestions = json.dumps(userTopiquestions)
     return HttpResponse(userTopiquestions)
+
+class TopicourseFormView(UserRelatedFormView):
+    form_class = TopicourseInfoForm
+
+    def get(self, request):
+        pass
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if not form.is_valid():
+            err = errcode.profileUnknown
+            for field, v in form.errors.iteritems() :
+                if 1 > len(v) :
+                    continue
+                err = v[0]
+                break
+
+            return JsonResponse(err)
+
+        form.instance.topicourseCreatorUserID = request.user.pk
+        form.instance.topicourseID = request.POST.topicourseID
+        form.save()
+        return JsonResponse(errcode.SUCCESS)
+
+topicourse = TopicourseFormView.as_view()
+
+def create_topicourse(request, topicourseID):
+    HttpResponse("this should be set to html page for creating a topicourse with"
+                 "topicourse id: %s" %topicourseID)

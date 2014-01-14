@@ -1,8 +1,58 @@
+import datetime
+from django.template.defaultfilters import slugify
 from mongoengine import *
 from django.db import models
-import datetime
+
+from mylearn.apps import errcode
+
 
 # Create your models here.
+
+class Topicourse(models.Model):
+    LEVELS=(
+        (0, 'Middle School'),
+        (1, 'High School'),
+        (2, 'College'),
+    )
+    topicourseID = models.AutoField(primary_key=True)
+    topicourseUploadTimeStamp = models.DateTimeField(auto_created=True, auto_now_add=True)
+    topicourseCreatorUserID = models.BigIntegerField()
+    topicourseVideoID = models.CharField(unique=True, max_length=200)
+    topicourseTitle = models.CharField(
+        max_length=200,
+        blank=True,
+        error_messages={
+            "invalid": errcode.topicourseTitleInvalid,
+            })
+    topicourseContent = models.CharField(
+        max_length=1000,
+        blank=True,
+        error_messages={
+            "invalid": errcode.topicourseContentInvalid,
+            })
+    topicourseTag = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Comma seperated keywords",
+        error_messages={
+            "required": errcode.topicourseTagInvalid,
+            "invalid": errcode.topicourseTagInvalid,
+            })
+    topicourseType = models.CharField(
+        max_length=200,
+        blank=True,
+        error_messages={
+            "required": errcode.topicourseTypeInvalid,
+            "invalid": errcode.topicourseTypeInvalid,
+            })
+    topicourseLevel = models.SmallIntegerField(
+        max_length=1,
+        choices=LEVELS,
+        null=True,
+        error_messages={
+            "invalid": errcode.topicourseLevelInvalid,
+            "invalid_choice": errcode.topicourseLevelInvalid,
+            })
 
 # put all vote into this table
 class UserReview(Document):

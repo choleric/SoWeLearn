@@ -1,12 +1,12 @@
 import logging, os
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django_youtube.models import video_created, Video
 from django_youtube.api import Api, ApiError, AccessControl
 from gdata.service import RequestError
 
 from .forms import YoutubeMetadataForm
-
+from .models import VideoTopicourse, video_created
+from mylearn.apps.topicourse.models import Topicourse
 
 from mylearn import settings
 from mylearn.apps import errcode
@@ -34,9 +34,10 @@ class UploadVideoMetadata(UserRelatedFormView):
             return JsonResponse(err)
 
         #get data from form's cleaned_data
-        title = form.cleaned_data.get("title", "%s's video on %s" % (request.user.username, request.get_host()))
-        description = form.cleaned_data.get("description", "")
-        keywords = form.cleaned_data.get("keywords", "")
+        title = "%s's video on %s" % (request.user.username, request.get_host())
+        description = ""
+        keywords = "SoWeLearn"
+        access_control = form.cleaned_data.get("access_control", 0)
 
         try:
             api = Api()
@@ -46,7 +47,7 @@ class UploadVideoMetadata(UserRelatedFormView):
 
             # Customize following line to your needs, you can add description, keywords or developer_keys
             # I prefer to update video information after upload finishes
-            APIResponse = api.upload(title, description, keywords)
+            APIResponse = api.upload(title, description, keywords, access_control)
         except ApiError:
             # An api error happened
             return JsonResponse(errcode.YoutubeAPIError)
@@ -74,10 +75,10 @@ class UploadReturnView(LoginRequriedView):
             # upload is successful
 
             # save the video entry
-            video = Video()
-            video.user = request.user
+            video = VideoTopicourse()
+            video.userID = request.user.pk
             video.video_id = video_id
-            # Todo: would Reuqest really happen?
+            # Todo: would Bad request really happen?
             try:
                 video.save()
             except RequestError:
@@ -86,13 +87,18 @@ class UploadReturnView(LoginRequriedView):
             # send a signal
             video_created.send(sender=video, video=video)
 
-            # Redirect to the video page or the specified page
-            try:
-                next_url = settings.YOUTUBE_UPLOAD_REDIRECT_URL
-            except AttributeError:
-                next_url = reverse(
-                    "django_youtube.views.video", kwargs={"video_id": video_id})
+            # create topicourse entry
+            topicourse = Topicourse()
+            topicourse.topicourseCreatorUserID = request.user.pk
+            topicourse.topicourseVideoID = video_id
+            topicourse.save()
 
+            current_topicourse = Topicourse.objects.get(topicourseVideoID=video_id)
+
+            # Redirect to the page to input topicourse information
+            # Should be an html with video id.
+            next_url = reverse('create_topicourse',
+                               kwargs= {"topicourseID": current_topicourse.topicourseID})
             return HttpResponseRedirect(next_url)
         else:
             # upload failed, redirect to upload page
@@ -110,15 +116,18 @@ class VideoView(LoginRequriedView):
 
         if availability is not True:
             # Video is not available
-            video = Video.objects.filter(video_id=video_id).get()
+            if VideoTopicourse.objects.filter(video_id=video_id).exist():
 
-            state = availability["upload_state"]
+                state = availability["upload_state"]
 
-            # Add additional states here. I'm not sure what states are available
-            if state == "failed" or state == "rejected":
-                return JsonResponse(errcode.YoutubeInvalidVideo,availability)
+                # Add additional states here. I'm not sure what states are available
+                if state == "failed" or state == "rejected":
+                    return JsonResponse(errcode.YoutubeInvalidVideo, availability)
+                else:
+                    return JsonResponse(errcode.YoutubeVideoProcessed, availability)
+
             else:
-                return JsonResponse(errcode.YoutubeVideoProcessed, availability)
+                return JsonResponse(errcode.YoutubeVideoNotExist)
 
         width = request.GET.get("width", "70%")
         height = request.GET.get("height", "350")

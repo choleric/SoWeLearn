@@ -84,6 +84,18 @@ class SigninViewLearn(LoginView):
                 errorData.append(errcode.SigninFormField.index('password'))
             return JsonResponse(errcode.SigninInvalidField, errorData)
 
+    def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests, instantiating a form instance with the passed
+        POST variables and then checked for validity.
+        """
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
 signin_learn = ensure_csrf_cookie(SigninViewLearn.as_view())
 
 class PasswordChangeViewLearn(PasswordChangeView):

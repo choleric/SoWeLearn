@@ -1,13 +1,13 @@
 import json
 
 from django.core.urlresolvers import reverse
-from django_youtube.models import Video
 
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
 from mylearn.apps import errcode
 from ...settings import YOUTUBE_UPLOAD_REDIRECT_URL
 from .forms import YoutubeMetadataForm
+from .models import VideoTopicourse
 
 class YoutubeTestCase(BaseTest):
     def _create_user(self):
@@ -49,10 +49,7 @@ class YoutubeTestCase(BaseTest):
 
     def test_upload_video_metadata(self):
         metaURL = reverse("youtube_upload_meta")
-        params = {'title': "Test Video",
-                  'description': "This is a test video",
-                  'keywords': "Test, keywords",
-                  'access_control': 0}
+        params = {'access_control': 0}
 
         response = self.client.post(metaURL, params)
         self.assertEqual(200, response.status_code,
@@ -73,12 +70,12 @@ class YoutubeTestCase(BaseTest):
         response = self.client.get(retURL, params)
         self.assertEqual(302, response.status_code,
                           "upload return status errcode %d" %(response.status_code))
-        self.assertTrue(0<response['Location'].find(YOUTUBE_UPLOAD_REDIRECT_URL),
+        self.assertTrue(0<response['Location'].find("create_topicourse"),
                         "upload return url %s" %response['Location'])
 
         #Test if the model is working correctly
-        video = Video.objects.get(video_id = "iddXKy_zAkI")
-        self.assertEqual(video.user.pk, 1)
+        video = VideoTopicourse.objects.get(video_id = "iddXKy_zAkI")
+        self.assertEqual(video.userID, 1)
 
     def test_return_private_video(self):
         retURL = reverse('youtube_upload_return')
@@ -87,12 +84,12 @@ class YoutubeTestCase(BaseTest):
         response = self.client.get(retURL, params)
         self.assertEqual(302, response.status_code,
                           "upload return status errcode %d" %(response.status_code))
-        self.assertTrue(0<response['Location'].find(YOUTUBE_UPLOAD_REDIRECT_URL),
+        self.assertTrue(0<response['Location'].find("create_topicourse"),
                         "upload return url %s" %response['Location'])
 
         #Test if the model is working correctly
-        video = Video.objects.get(video_id = "mL2wHL-17A0")
-        self.assertEqual(video.user.pk, 1)
+        video = VideoTopicourse.objects.get(video_id = "mL2wHL-17A0")
+        self.assertEqual(video.userID, 1)
 
     def test_get_private_video(self):
         videoURL = reverse('youtube_video', kwargs={"video_id": "mL2wHL-17A0"})
@@ -128,14 +125,3 @@ class YoutubeTestCase(BaseTest):
         ret = json.loads(response.content)
         self.assertEqual(errcode.YoutubeUploadVideoError, ret["c"],
                          "upload return errcode %d" %(ret["c"]))
-
-class YoutubeFormTest(BaseTest):
-    def test_metadata_form(self):
-        params = {'title': "Test Video",
-                  'description': "This is a test video",
-                  'keywords': "Test, keywords",
-                  'access_control': 0}
-        videoMetadata = YoutubeMetadataForm(params)
-        self.assertEqual(videoMetadata.is_valid(), True)
-        videoMetadata.user = 1
-        videoMetadata.video_id = "This is the video id"

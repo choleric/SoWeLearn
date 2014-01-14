@@ -1,106 +1,93 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
+import json
 
-Replace this with more appropriate tests for your application.
-"""
-from django.test import TestCase
-from mongoengine import connect
-from mongoengine.connection import get_db,disconnect
-from mongoengine.python_support import PY3
-from django.utils.unittest import SkipTest
-import bson
+from django.core.urlresolvers import reverse
 
-# Create your tests here.
+from ..projtest import BaseTest
+from ..projtest import BaseTestUtil
+from mylearn.apps import errcode
+from .models import Topicourse
 
-from models import *
-
-try:
-    from django.test import TestCase
-    from django.conf import settings
-except Exception as err:
-    if PY3:
-        from unittest import TestCase
-        # Dummy value so no error
-        class settings:
-            DBNAME = 'dummy'
-    else:
-        raise err
-
-#
-# WARNING: MUST CLOSE the connection to production database, otherwise all tables will be dropped in _post_teardown function.
-#          Because connection is already set up in settings.py
-#
-disconnect()
-
-class TopicoursesTestCase(TestCase):
-    db_name = 'test_%s' % settings.DBNAME
+class TopicourseTestCase(BaseTest):
+    def _create_user(self):
+        acc = 'create@create.com'
+        pwd = 'password'
+        user = BaseTestUtil.create_user(
+                email= acc,
+                password = pwd,
+                is_active=True
+                )
 
 
-    def __init__(self, methodName='runtest'):
+        BaseTestUtil.create_email(
+                user=user,
+                email=acc,
+                verified=True
+                )
+        return user
 
-        connect(self.db_name)
-        self.db = get_db()
-        super(TopicoursesTestCase, self).__init__(methodName)
+    def _create_user_and_login(self):
+        user = self._create_user()
+        response = self.client.post(reverse('account_login'),
+                                    {'login': user.email,
+                                     'password': "password"})
+        self.assertEquals(302, response.status_code, "login with status: %d" % (response.status_code))
+        return user
 
-    def _post_teardown(self):
-        super(TopicoursesTestCase, self)._post_teardown()
-        for collection in self.db.collection_names():
-            if collection == 'system.indexes':
-                continue
-            self.db.drop_collection(collection)
+    def _create_topicourse_at_youtube_callback(self):
+        self.__topicourse = Topicourse(
+            topicourseVideoID = "videoID",
+            topicourseCreatorUserID = self.user.pk,
+        )
+        self.__topicourse.save()
 
-    def setUp(self):
-        if PY3:
-            raise SkipTest('django does not have Python 3 support')
+    def setUp(self) :
+        super(TopicourseTestCase, self).setUp()
+        self.__user = self._create_user_and_login()
+        self._create_topicourse_at_youtube_callback()
 
-    def test_change_topicourses_title(self):
-        new_title = 'new topicourses title'
-        topicourse = Topicourses.objects.create(topicoursesTitle='test topicourses title', topicoursesCreatorUserID=123)
-        self.assertNotEqual(topicourse.topicoursesTitle, new_title)
-        topicourse.change_topicourses_title(new_title)
-        newtopicourse = Topicourses.objects.get(pk=topicourse.id)
-        self.assertEqual(newtopicourse.topicoursesTitle, new_title)
+    def tearDown(self) :
+        self.client.post(reverse('account_signout_learn'))
+        self.__user = None
 
-    def test_upload_topiquiz(self):
-        topicourse = Topicourses.objects.create(topicoursesTitle='test topicourses title', topicoursesCreatorUserID=123)
-        topiquiz = {}
-        topiquiz['topiquizQuestion'] = 'quiz question'
-        topiquiz['topiquizCreatorUserID'] = 123
-        topiquiz['topiquizId'] = bson.objectid.ObjectId()
-        topicourse.upload_topiquiz(topiquiz)
-        newtopicourse = Topicourses.objects.get(pk=topicourse.id)
+    @property
+    def user(self) :
+        return self.__user
 
-        self.assertEqual(newtopicourse.topiquiz[0].topiquizQuestion, topiquiz['topiquizQuestion'])
-        self.assertEqual(newtopicourse.topiquiz[0].topiquizCreatorUserID, topiquiz['topiquizCreatorUserID'])
+    @property
+    def topicourse(self) :
+        return self.__topicourse
 
-    def test_change_topiquiz(self):
-        topicourse = Topicourses.objects.create(topicoursesTitle='test topicourses title', topicoursesCreatorUserID=123)
-        topiquiz = {}
-        topiquiz['topiquizId'] = bson.objectid.ObjectId()
-        topiquiz['topiquizQuestion'] = 'quiz question'
-        topiquiz['topiquizCreatorUserID'] = 123
-        topicourse.upload_topiquiz(topiquiz)
+    def test_edit_topicourse_info(self):
+        topicourseURL = reverse('topicourse')
+        params = {
+            'topicourseID': self.topicourse.topicourseID,
+            'topicourseTitle': "topicourse Title",
+            'topicourseContent': "topicourse description",
+            'topicourseTag': "tag1, tag2",
+            'topicourseType': "type1",
+            'topicourseLevel': 0,
+        }
 
-        newtopicourse = Topicourses.objects.get(pk=topicourse.id)
-        newtopiquiz = {}
+        response = self.client.post(topicourseURL, params)
+        self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
 
-        #select first quiz to modify, actually we can choose anyone.
-        newtopiquiz['topiquizId'] =  newtopicourse.topiquiz[0].topiquizId
-        newtopiquiz['topiquizQuestion'] = 'new quiz'
-        newtopiquiz['topiquizCreatorUserID'] = 456
-        topicourse.update_topiquiz(newtopiquiz)
+        topicourseUpdated = Topicourse.objects.get(topicourseID= self.topicourse.topicourseID)
+        self.assertEqual(topicourseUpdated.topicourseVideoID, "videoID", topicourseUpdated)
 
-        newtopicourse = Topicourses.objects.get(pk=topicourse.id)
-        self.assertEqual(newtopicourse.topiquiz[0].topiquizQuestion, newtopiquiz['topiquizQuestion'])
-        self.assertEqual(newtopicourse.topiquiz[0].topiquizCreatorUserID, newtopiquiz['topiquizCreatorUserID'])
+    def test_edit_topicourse_error(self):
+        topicourseURL = reverse('topicourse')
+        params = {
+            'topicourseID': self.topicourse.topicourseID,
+            'topicourseTitle': "topicourse Title",
+            'topicourseContent': "topicourse description",
+            'topicourseTag': "tag1, tag2",
+            'topicourseType': "type1",
+            'topicourseLevel': 3,
+        }
 
-    def test_change_tag(self):
-        topicourse = Topicourses.objects.create(topicoursesTitle='test topicourses title', topicoursesCreatorUserID=123, topicourseTag=['testTag1','testTag2'])
-        newTag=['testTag1','newTag1','newTag2']
-        self.assertNotEqual(topicourse.topicourseTag, newTag)
-
-        topicourse.change_tag(newTag)
-
-        newtopicourse = Topicourses.objects.get(pk=topicourse.id)
-        self.assertEqual(newtopicourse.topicourseTag, newTag)
+        response = self.client.post(topicourseURL, params)
+        self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.topicourseLevelInvalid, ret["c"], "post errcode %d" %(ret["c"]))

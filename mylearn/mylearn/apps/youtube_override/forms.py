@@ -1,15 +1,12 @@
 from django import forms
-from django_youtube.models import Video
+from .models import VideoTopicourse
 
 from mylearn.apps import errcode
 
 class YoutubeMetadataForm(forms.ModelForm):
     class Meta :
-        model = Video
+        model = VideoTopicourse
         #do we need access_control here?
-        fields = ['title', 'description', 'keywords', 'access_control']
+        fields = ['access_control']
 
-        err_maps = {'title': errcode.youtubeVideoTitleInvalid,
-                    'description':  errcode.youtubeVideoDescriptionInvalid,
-                    'keywords':  errcode.youtubeVideoKeywordsInvalid,
-                    'access_control' :  errcode.youtubeVideoAccessInvalid}
+        err_maps = {'access_control' :  errcode.youtubeVideoAccessInvalid}

@@ -73,14 +73,20 @@ middleSchoolHourlyRateInvalid = 113
 highSchoolHourlyRateInvalid =114
 collegeHourlyRateInvalid = 115
 
-#youtube upload error 500-600
+#youtube upload error 500-520
 YoutubeAPIError = 501
 YoutubeUploadMetaError = 502
 VideoMetadataError = 503
-youtubeVideoTitleInvalid = 504
-youtubeVideoDescriptionInvalid = 505
-youtubeVideoKeywordsInvalid = 506
-youtubeVideoAccessInvalid = 507
+youtubeVideoAccessInvalid = 504
 YoutubeUploadVideoError =508
 YoutubeInvalidVideo = 511
 YoutubeVideoProcessed = 512
+YoutubeVideoNotExist = 513
+
+
+#Topicourse error 521-600
+topicourseTitleInvalid = 521
+topicourseContentInvalid = 522
+topicourseTagInvalid = 523
+topicourseTypeInvalid = 524
+topicourseLevelInvalid = 525

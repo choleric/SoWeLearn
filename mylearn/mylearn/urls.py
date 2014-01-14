@@ -21,6 +21,9 @@ urlpatterns = patterns('', url(r'^profile/', include(__profileURLPatterns)))
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.topicourse.views',
     url(r'^userTopicourses/', 'user_topicourses'),
     url(r'^userTopiquestions/', 'user_topiquestions'),
+    url(r'^topicourse/', 'topicourse', name="topicourse"),
+    #todo: this is just a fake url for test
+    url(r'^create_topicourse/(?P<topicourseID>[\w.@+-]+)/','create_topicourse', name='create_topicourse'),
 )
 
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
