@@ -90,7 +90,7 @@ class TopicourseTestCase(BaseTest):
         self.assertEqual(topicourseUpdated.topicourseUploadTimeStamp, time)
 
 
-    def test_edit_topicourse_error(self):
+    def test_edit_topicourse_level_error(self):
         topicourseURL = reverse('topicourse')
         params = {
             'topicourseID': self.topicourse.topicourseID,
@@ -105,3 +105,20 @@ class TopicourseTestCase(BaseTest):
         self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
         ret = json.loads(response.content)
         self.assertEquals(errcode.topicourseLevelInvalid, ret["c"], "post errcode %d" %(ret["c"]))
+
+    def test_edit_topicourse_title_error(self):
+        topicourseURL = reverse('topicourse')
+        params = {
+            'topicourseID': self.topicourse.topicourseID,
+            'topicourseTitle': "topicourse Title and This title is absolutely too long"
+                               "If this is not long enough, what about this?",
+            'topicourseContent': "topicourse description",
+            'topicourseTag': "tag1, tag2",
+            'topicourseType': "type1",
+            'topicourseLevel': 1,
+        }
+
+        response = self.client.post(topicourseURL, params)
+        self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.topicourseTitleInvalid, ret["c"], "post errcode %d" %(ret["c"]))

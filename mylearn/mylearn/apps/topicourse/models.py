@@ -19,31 +19,34 @@ class Topicourse(models.Model):
     topicourseCreatorUserID = models.BigIntegerField()
     topicourseVideoID = models.CharField(unique=True, max_length=200)
     topicourseTitle = models.CharField(
-        max_length=200,
+        max_length=80,
         blank=True,
         error_messages={
-            "invalid": errcode.topicourseTitleInvalid,
+            "invalid": str(errcode.topicourseTitleInvalid),
+            "max_length": str(errcode.topicourseTitleInvalid),
             })
     topicourseContent = models.CharField(
         max_length=1000,
         blank=True,
         error_messages={
-            "invalid": errcode.topicourseContentInvalid,
+            "invalid": str(errcode.topicourseContentInvalid),
+            "max_length": str(errcode.topicourseContentInvalid),
             })
     topicourseTag = models.CharField(
         max_length=200,
         blank=True,
         help_text="Comma seperated keywords",
         error_messages={
-            "required": errcode.topicourseTagInvalid,
-            "invalid": errcode.topicourseTagInvalid,
+            "required": str(errcode.topicourseTagInvalid),
+            "invalid": str(errcode.topicourseTagInvalid),
+            "max_length": str(errcode.topicourseTagInvalid),
             })
     topicourseType = models.CharField(
         max_length=200,
         blank=True,
         error_messages={
-            "required": errcode.topicourseTypeInvalid,
-            "invalid": errcode.topicourseTypeInvalid,
+            "required": str(errcode.topicourseTypeInvalid),
+            "invalid": str(errcode.topicourseTypeInvalid),
             })
     topicourseLevel = models.SmallIntegerField(
         max_length=1,
@@ -51,8 +54,8 @@ class Topicourse(models.Model):
         null=True,
         blank=True,
         error_messages={
-            "invalid": errcode.topicourseLevelInvalid,
-            "invalid_choice": errcode.topicourseLevelInvalid,
+            "invalid": str(errcode.topicourseLevelInvalid),
+            "invalid_choice": str(errcode.topicourseLevelInvalid),
             })
 
 # put all vote into this table
