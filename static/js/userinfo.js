@@ -49,45 +49,38 @@ define(function(require,exports,module){
 			var d = data.d;
 			for(var i = 0, l = d.length; i < l; i++){
 				if(d[i]=="0"){
-					$(".J_emailError").val("Your Email Address is incorrectly formatted.").show();
-					$("#loginEmail").addClass('error');
+					showErrorInfo($(".J_emailError"),$("#loginEmail"),"Your Email Address is incorrectly formatted.");
 				}else if(d[i]=="1"){
-					$("#loginPassword").addClass('error');
-					$(".J_passwordError").val("Sorry,wrong password.").show();
+					showErrorInfo($(".J_passwordError"),$("#loginPassword"),"Sorry,wrong password.");
 				}
 			}
 		}else if(errorCode == "211"){
-			$("#loginPassword").addClass('error');
-			$(".J_passwordError").val("Sorry,wrong password.").show();
+			showErrorInfo($(".J_passwordError"),$("#loginPassword"),"Sorry,wrong password.");
 		}
 	}
 	function removeErrorHint(){
-		// $(".loginForm input[type='text']").each(function(index){
-		// 	$("this").bind('focus', function(event) {
-		// 		$(this).removeClass('error');
-		// 		$(this).next().hide();
-		// 	});
-		// });
-		$("#loginEmail").bind('focus', function(event) {
-			$("#loginEmail").removeClass('error');
-			$(".J_emailError").val("Your Email Address is incorrectly formatted.").hide();
+		$(".loginForm input").each(function(index){
+			$(this).bind('focus', function(event) {
+				$(this).removeClass('error');
+				$(this).next().hide();
+			});
 		});
-		$("#loginPassword").bind('focus', function(event) {
-			$("#loginPassword").removeClass('error');
-			$(".J_passwordError").val("Sorry,wrong password.").hide();
+		$(".signupForm input").each(function(index){
+			$(this).bind('focus', function(event) {
+				$(this).removeClass('error');
+				$(this).next().hide();
+			});
 		});
 	}
 	(function validateLoginInput(){
 		$("#loginEmail").bind('blur', function(event) {
 			if(!validate.isEmail(this.value)){
-				$(".J_emailError").val("Your Email Address is incorrectly formatted.").show();
-				$("#loginEmail").addClass('error');
+				showErrorInfo($(".J_emailError"),$("#loginEmail"),"Your Email Address is incorrectly formatted.");
 			}
 		});
 		$("#loginPassword").bind('blur', function(event) {
 			if($.trim(this.value) == "" || $.trim(this.value).length <6 ){
-				$(".J_passwordError").val("Your password must be at least 6 characters long.").show();
-				$("#loginPassword").addClass('error');
+				showErrorInfo($(".J_passwordError"),$("#loginPassword"),"Your password must be at least 6 characters long.");
 			}
 		});	
 	})();
@@ -110,6 +103,44 @@ define(function(require,exports,module){
 		option.success = signupSuccess;
 		tools.sendAjaxRequest(option,$.cookie("_t"));
 	}
+
+	(function validateSigupInput(){
+		$("#signUpEmail").bind('blur', function(event) {
+			if(!validate.isEmail(this.value)){
+				showErrorInfo($(".J_emailSignError"),$("#signUpEmail"),"Your Email Address is incorrectly formatted.");
+			}
+		});
+		$("#signUpPassword1").bind('blur', function(event) {
+			if($.trim(this.value) == "" || $.trim(this.value).length <6 ){
+				showErrorInfo($(".J_passwordSignError1"),$("#signUpPassword1"),"Your password must be at least 6 characters long.");
+			}
+		});	
+		$("#signUpPassword2").bind('blur', function(event) {
+			var pwd1 = $("#signUpPassword1").val();
+			var pwd2 = $("#signUpPassword2").val();
+			if(pwd2 != ""){
+				if(pwd1 != pwd2){
+					showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"Different password.");
+				}else{
+					$(".J_passwordSignError2").hide();
+					$("#signUpPassword2").removeClass('error');
+				}
+			}else{
+				showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"Your password must be at least 6 characters long.");
+
+			}
+		});	
+		$("#signFirstName").bind('blur', function(event) {
+			if($.trim(this.value) == ""){
+				showErrorInfo($(".J_firstNameError"),$("#signFirstName"),"Please enter first name.");
+			}
+		});	
+		$("#signLastName").bind('blur', function(event) {
+			if($.trim(this.value) == ""){
+				showErrorInfo($(".J_lastNameError"),$("#signLastName"),"Please enter last name.");
+			}
+		});	
+	})();
 	function displaySignupErrorInfo(data){
 		console.log(data);
 	}
@@ -124,28 +155,33 @@ define(function(require,exports,module){
 			for(var i = 0, l = d.length; i < l; i++){
 				switch(d[i]){
 					case 0:
-						$(".J_emailSignError").val("Your Email Address is incorrectly formatted.").show();
-						$("#signUpEmail").addClass('error');
+						showErrorInfo($(".J_emailSignError"),$("#signUpEmail"),"Your Email Address is incorrectly formatted.");
 						break;
 					case 1:
-						$(".J_passwordSignError1").val("Your password must be at least 6 characters long.").show();
-						$("#signUpPassword1").addClass('error');
+						showErrorInfo($(".J_passwordSignError1"),$("#signUpPassword1"),"Your password must be at least 6 characters long.");
 						break;
 					case 2:
-						$(".J_passwordSignError2").val("Your password must be at least 6 characters long.").show();
-						$("#signUpPassword2").addClass('error');
+						showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"Your password must be at least 6 characters long.");
 						break;
 					case 3:
-						$(".J_firstNameError").val("Your password must be at least 6 characters long.").show();
-						$("#signFirstName").addClass('error');
+						showErrorInfo($(".J_firstNameError"),$("#signFirstName"),"Please enter first name.");
 						break;
 					case 4:
-						$(".J_lastNameError").val("Your password must be at least 6 characters long.").show();
-						$("#signLastName").addClass('error');
+						showErrorInfo($(".J_lastNameError"),$("#signLastName"),"Please enter last name.");
 						break;
 				}
 			}
+		}else if(errorInfo == "202"){
+			showErrorInfo($(".J_emailSignError"),$("#signUpEmail"),"User Exist.");
+		}else if(errorInfo == "203"){
+			showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"Different password.");
 		}
+	}
+
+	function showErrorInfo(errinfoObj, inputObj, errorInfo){
+		$(errinfoObj).children(".content").html(errorInfo);
+		errinfoObj.show();
+		inputObj.addClass('error');
 	}
 });
 
