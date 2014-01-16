@@ -37,6 +37,7 @@ function install() {
   installPack mongodbforms "" git+https://github.com/jschrewe/django-mongodbforms
   installPack django-youtube "" django-youtube
   installPack gdata "" gdata
+  installPack jsonfield "" jsonfield
 }
 
 function uninstall() {
