@@ -97,6 +97,7 @@ class Topiquiz(models.Model):
         max_length=1000,
         blank=True,
     )
+    """
     #Todo: This flagging system needs to be refined!
     topiquizState = models.BooleanField(
         blank=True
@@ -109,7 +110,7 @@ class Topiquiz(models.Model):
     )
     topiquizErrorFlagTimeStamp = models.DateTimeField(
         blank=True
-    )
+    )"""
 
 # put all vote into this table
 class UserReview(Document):
