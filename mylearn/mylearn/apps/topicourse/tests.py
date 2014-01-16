@@ -46,6 +46,7 @@ class TopicourseTestCase(BaseTest):
         self._create_topicourse_at_youtube_callback()
 
     def tearDown(self) :
+        self.client.get(reverse('account_signout_learn'))
         self.__user = None
 
     @property
