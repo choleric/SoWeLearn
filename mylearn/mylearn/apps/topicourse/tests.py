@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
 from mylearn.apps import errcode
-from .models import Topicourse
+from .models import Topicourse, Topiquiz, QuizType
 
 class TopicourseTestCase(BaseTest):
     def _create_user(self):
@@ -122,3 +122,18 @@ class TopicourseTestCase(BaseTest):
         self.assertEquals(200, response.status_code, "post status errcode %d" %(response.status_code))
         ret = json.loads(response.content)
         self.assertEquals(errcode.topicourseTitleInvalid, ret["c"], "post errcode %d" %(ret["c"]))
+
+    def test_topiquiz_model(self):
+        topiquiz_options = {0:"A", 1:"B", 2:"C", 3: "D"}
+        topiquiz = Topiquiz(
+            topicourseID = 1,
+            topiquizCreatorID = self.user.pk,
+            topiquizType = QuizType.SingleChoice,
+            topiquizOption = topiquiz_options,
+            topiquizAnswer =[0],
+            topiquizExplanation = "Explanation"
+        )
+        topiquiz.save()
+        topiquiz_added = Topiquiz.objects.get(topicourseID=1)
+        self.assertEqual(topiquiz_added.topiquizOption[0], "A")
+        topiquiz.delete()

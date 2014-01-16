@@ -90,3 +90,9 @@ topicourseContentInvalid = 522
 topicourseTagInvalid = 523
 topicourseTypeInvalid = 524
 topicourseLevelInvalid = 525
+
+#Topiquiz error 600-800
+topiquizTypeEmpty = 601
+topiquizTypeInvalid = 602
+topiquizOptionEmpty = 603
+topiquizOptionInvalid = 604

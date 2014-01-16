@@ -1,7 +1,7 @@
 import datetime
-from django.template.defaultfilters import slugify
 from mongoengine import *
 from django.db import models
+from jsonfield import JSONCharField
 
 from mylearn.apps import errcode
 
@@ -15,7 +15,7 @@ class Topicourse(models.Model):
         (2, 'College'),
     )
     topicourseID = models.AutoField(primary_key=True)
-    topicourseUploadTimeStamp = models.DateTimeField(auto_created=True, auto_now_add=True)
+    topicourseUploadTimeStamp = models.DateTimeField(auto_now_add=True)
     topicourseCreatorUserID = models.BigIntegerField()
     topicourseVideoID = models.CharField(unique=True, max_length=200)
     topicourseTitle = models.CharField(
@@ -58,6 +58,59 @@ class Topicourse(models.Model):
             "invalid_choice": str(errcode.topicourseLevelInvalid),
             })
 
+class QuizType:
+    TorF, SingleChoice, MultipleChoice = range(3)
+
+class Topiquiz(models.Model):
+    topiquizId = models.AutoField(primary_key=True)
+    topicourseID = models.BigIntegerField()
+    topiquizCreatorID = models.BigIntegerField()
+    topiquizCreatedTimeStamp = models.DateTimeField(auto_now_add=True)
+
+    QuizTypes=(
+        (QuizType.TorF, "True or False"),
+        (QuizType.SingleChoice, "Single Choice"),
+        (QuizType.MultipleChoice, "Multipel Choice")
+    )
+    topiquizType = models.SmallIntegerField(
+        max_length=1,
+        choices=QuizTypes,
+        null=True,
+        blank=True,
+        error_messages={
+            "required": str(errcode.topiquizTypeEmpty),
+            "invalid": str(errcode.topiquizTypeInvalid),
+            "invalid_choice": str(errcode.topiquizTypeInvalid),
+            }
+    )
+    topiquizOption = JSONCharField(
+        max_length=1000,
+        error_messages={
+            "required": str(errcode.topiquizOptionEmpty),
+            "invalid": str(errcode.topiquizOptionInvalid),
+            }
+    )
+    topiquizAnswer = models.CommaSeparatedIntegerField(
+        max_length=5,
+    )
+    topiquizExplanation = models.CharField(
+        max_length=1000,
+        blank=True,
+    )
+    #Todo: This flagging system needs to be refined!
+    topiquizState = models.BooleanField(
+        blank=True
+    )
+    topiquizErrorFlag = models.PositiveSmallIntegerField(
+        blank=True
+    )
+    topiquizErrorFlagUserID = models.BigIntegerField(
+        blank=True,
+    )
+    topiquizErrorFlagTimeStamp = models.DateTimeField(
+        blank=True
+    )
+
 # put all vote into this table
 class UserReview(Document):
     reviewedSubjectID = ObjectIdField()
@@ -71,7 +124,7 @@ class TopicoursesReview(EmbeddedDocument):
     topicoursesReviewCreatorUserID = ObjectIdField()
     topicoursesReviewContent = StringField()
 
-class Topiquiz(EmbeddedDocument):
+class TopiquizMongo(EmbeddedDocument):
     #Todo: is this necessary?
     topiquizId = ObjectIdField(primary_key=True)
     topiquizType = IntField()
@@ -100,7 +153,7 @@ class Topicourses(Document):
     topicourseLevel = StringField()
     #
     topicoursesReview = ListField(EmbeddedDocumentField(TopicoursesReview))
-    topiquiz = ListField(EmbeddedDocumentField(Topiquiz))
+    topiquiz = ListField(EmbeddedDocumentField(TopiquizMongo))
 
     def change_topicourses_title(self, new_title):
         self.topicoursesTitle = new_title
