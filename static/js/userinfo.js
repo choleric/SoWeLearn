@@ -18,11 +18,20 @@ define(function(require,exports,module){
 	});
 
 	//bind click event to the signup link
+	$(".login .J_toForgotPassword").bind("click",function(){
+		$(".login").fadeOut();
+		$(".forgotPassword").fadeIn();
+		tools.getToken();
+		$(".rightUp .tooltip").tipsy("hide");
+		return false;
+	});
+
 	$(".login .J_toSignup").bind("click",function(){
 		$(".login").fadeOut();
 		$(".signup").fadeIn();
 		tools.getToken();
 		$(".rightUp .tooltip").tipsy("hide");
+		return false;
 	});
 
 	function login(){
@@ -145,7 +154,6 @@ define(function(require,exports,module){
 		console.log(data);
 	}
 	function signupSuccess(data){
-		console.log(data.location);
 		if(data.location){
 			window.location.href = data.location;
 		}
@@ -178,11 +186,44 @@ define(function(require,exports,module){
 		}
 	}
 
+	//forgot password
+	$(".forgotPassword .forgotPasswordBtn").bind('click', function(event) {
+	    event.stopPropagation();//阻止冒泡
+	    fogotPassword();
+	    return false;
+	});
+	function fogotPassword(){
+		var accounts = $("#forgotPasswordForm").serialize();
+		var option = {};//ajax option
+		option.data = accounts;
+		option.type = "post";
+		option.url = "/accounts/password/reset/";
+		option.error = displayForgotPasswordErrorInfo;
+		option.success = forgotPasswordSuccess;
+		tools.sendAjaxRequest(option,$.cookie("_t"));
+	}
+	function displayForgotPasswordErrorInfo(data){
+		console.log(data.responseText);
+	}
+	function forgotPasswordSuccess(data){
+		console.log(data.status);
+		if(data.location){
+			window.location.href = data.location;
+		}
+		var errorCode = data.c || "";
+		if(errorCode == "206"){
+			showErrorInfo($(".J_emailForgotPasswordError"),$("#forgotPasswordEmail"),"Email does not exist.");
+		}else if(errorCode == "207"){
+			showErrorInfo($(".J_emailForgotPasswordError"),$("#forgotPasswordEmail"),"Reset Password Failure.");
+		}
+	}
+
 	function showErrorInfo(errinfoObj, inputObj, errorInfo){
 		$(errinfoObj).children(".content").html(errorInfo);
 		errinfoObj.show();
 		inputObj.addClass('error');
 	}
+
 });
 
 

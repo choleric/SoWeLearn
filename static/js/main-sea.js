@@ -8,11 +8,12 @@ define(function(require,exports,module){
      initMainPage();
      
      if($.cookie("_l")){//判断是否登录
-      $(".leftUp").addClass('J_leftUp');
-      $(".leftBottom").addClass('J_leftBottom');
-      $(".rightBottom").addClass('J_rightBottom');
-      initLeft();
-      initRight();
+        $(".leftUp").addClass('J_leftUp');
+        $(".leftBottom").addClass('J_leftBottom');
+        $(".rightBottom").addClass('J_rightBottom');
+        $(".J_rightBottom .tooltip").attr("original-title","Logout");
+        initLeft();
+        initRight();
     }else{
       //未登陆时的抖动
       $(".leftUp").bind("click",function(e){
@@ -119,14 +120,33 @@ function initMainPage(){
       
      //open the login box
      $(".rightUp").bind("click",function(e){
+      if($.cookie("_l")){//判断是否登录
+          var tools = require('tools');
+          var option = {};//ajax option
+          option.type = "post";
+          option.url = "/accounts/logout/";
+          option.error = displayLogoutErrorInfo;
+          option.success = logoutSuccess;
+          tools.sendAjaxRequest(option,$.cookie("_t"));
+      }else{
           $(".login").fadeIn();
           $("#overlay_black").fadeIn();
           require("/js/userinfo");
+        }
      });
+
+     function displayLogoutErrorInfo(){
+      
+     }
+     function logoutSuccess(){
+        
+     }
+
      //close the login box
      $("#overlay_black").bind("click",function(e){
           $(".login").fadeOut();
           $(".signup").fadeOut();
+          $(".forgotPassword").fadeOut();
           $(this).fadeOut();
      });
      $(".main").bind("click",back);
@@ -140,6 +160,10 @@ function initMainPage(){
      function returnDefaultMain(){
           $(".leftUp").removeClass("opacity100").addClass("opacity40");
      }
+
+     if($.cookie("_l")){//判断是否登录
+          $(".J_rightUp .tooltip").attr("original-title","Logout");
+      }
      $(".leftUp .tooltip").tipsy({
         gravity:'nw',
         delayIn:'500',

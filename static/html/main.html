@@ -263,7 +263,6 @@
         <section class="login HIDE">
             <div class="loginBox">
                 <div class="loginForm">
-                    <p class="errorInfo"></p>
                     <form class="" id="loginForm" action="post" >
                         <input type="text" id="loginEmail" class="inputEmail" name="login" placeholder="Email  Address" value="">
                         <div class="loginfo-error toRight fade J_emailError" style="left:382px;top:87px;">
@@ -279,7 +278,7 @@
                         <a href="#" class="loginBtn"><span class=""></span></a>
                         <p class="moreInfo clearfix">
                             <a class="toSignup J_toSignup" href="#">Signup</a>
-                            <a class="forgetPassword" href="/forgetPassword">Forgot Password?</a>
+                            <a class="forgetPassword J_toForgotPassword" href="#">Forgot Password?</a>
                         </p>
                         <p class="otherLogin"><span class="text">Login with</span> <a href=""><img src="../images/facebook.jpg"></a><a href=""><img src="../images/google+.png"></a><a href=""><img src="../images/twitter.png"></a></p>
                     </form>
@@ -290,7 +289,6 @@
         <section class="signup HIDE">
             <div class="signupBox">
                 <div class="signupForm">
-                    <p class="errorInfo"></p>
                     <form class="" id="signupForm" action="post" >
                         <input type="text" class="inputEmail" id="signUpEmail" name="email" placeholder="Email  Address" value="">
                         <div class="signinfo-error toRight fade J_emailSignError" style="left:371px;top:66px;">
@@ -322,6 +320,22 @@
                     </form>
                 </div>
                 <P class="info">By signing in, I accept SoWeLearn's Terms of Service and Privacy Policy.</P>
+            </div>
+        </section>  
+        <section class="forgotPassword HIDE">
+            <div class="forgotPasswordBox">
+                <div class="forgotPasswordForm">
+                    <form class="" id="forgotPasswordForm" action="post" >
+                        <h3>Reset Your Password</h3>
+                        <p class="info">If you have forgotten your password, you may use the form blow to retrieve your password.</p>
+                        <input type="text" class="inputEmail" id="forgotPasswordEmail" name="email" placeholder="Email Address" value="">
+                        <div class="forgotPasswordinfo-error toRight fade J_emailForgotPasswordError" style="left:382px;top:208px;">
+                            <div class="arrow"></div>
+                            <div class="content">Email does not exist.</div>
+                        </div>
+                        <a href="#" class="forgotPasswordBtn"><span class=""></span></a>
+                    </form>
+                </div>
             </div>
         </section>  
         <section class="tipinfoSection">

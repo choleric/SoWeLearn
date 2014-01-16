@@ -949,6 +949,107 @@ textarea:focus {
   font-family: Arial, sans-serif, Microsoft Yahei;
   text-shadow: 0px 1px 0px #ffffff;
 }
+.forgotPassword .forgotPasswordBox {
+  position: absolute;
+  top: 100px;
+  left: 480px;
+  z-index: 1000;
+  width: 400px;
+  height: 380px;
+  background-color: #f5f5f5;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 40px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.forgotPassword .forgotPasswordBox .forgotPasswordForm {
+  position: relative;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: url("../images/bg.png");
+  width: 340px;
+  height: 257px;
+  padding: 100px 30px 0 30px;
+}
+.forgotPassword .forgotPasswordBox .forgotPasswordForm h3 {
+  font-size: 24px;
+  height: 24px;
+  line-height: 24px;
+  padding-left: 50px;
+  margin-bottom: 20px;
+}
+.forgotPassword .forgotPasswordBox .forgotPasswordForm .info {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+.forgotPassword .forgotPasswordBox .forgotPasswordForm .inputEmail {
+  background-color: #130c0e;
+  width: 330px;
+  height: 30px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 0px 0px 0px 10px;
+  margin-bottom: 15px;
+  color: #bbb;
+  border: 0px solid #000;
+  -webkit-opacity: 0.5;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+}
+.forgotPassword .forgotPasswordBox .forgotPasswordForm .inputEmail:focus,
+.forgotPassword .forgotPasswordBox .forgotPasswordForm .inputPassword:focus {
+  border-color: #00bfff !important;
+  -webkit-box-shadow: 0 0 10px #00bfff !important;
+  -moz-box-shadow: 0 0 10px #00bfff !important;
+  box-shadow: 0 0 10px #00bfff !important;
+}
+.forgotPassword .forgotPasswordBox .forgotPasswordForm .inputEmail.error,
+.forgotPassword .forgotPasswordBox .forgotPasswordForm .inputPassword.error {
+  border-color: #ebccd1;
+  -webkit-box-shadow: 0 0 10px #ff0000;
+  -moz-box-shadow: 0 0 10px #ff0000;
+  box-shadow: 0 0 10px #ff0000;
+}
+.forgotPassword .forgotPasswordBox .forgotPasswordForm .forgotPasswordBtn span {
+  position: absolute;
+  right: 36px;
+  top: 219px;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: url(../images/rightArrow.png);
+  -webkit-opacity: 0.7;
+  -moz-opacity: 0.7;
+  opacity: 0.7;
+}
 .tipinfo {
   padding: 15px;
   margin-bottom: 20px;
@@ -961,7 +1062,8 @@ textarea:focus {
   border-color: #bce8f1;
 }
 .loginfo-error,
-.signinfo-error {
+.signinfo-error,
+.forgotPasswordinfo-error {
   position: absolute;
   top: 0;
   left: 0;
@@ -979,13 +1081,16 @@ textarea:focus {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 .loginfo-error .arrow,
-.signinfo-error .arrow {
+.signinfo-error .arrow,
+.forgotPasswordinfo-error .arrow {
   border-width: 11px;
 }
 .loginfo-error .arrow,
 .signinfo-error .arrow,
+.forgotPasswordinfo-error .arrow,
 .loginfo-error .arrow:after,
-.signinfo-error .arrow:after {
+.signinfo-error .arrow:after,
+.forgotPasswordinfo-error .arrow:after {
   position: absolute;
   display: block;
   width: 0;
@@ -994,12 +1099,14 @@ textarea:focus {
   border-style: solid;
 }
 .loginfo-error .content,
-.signinfo-error .content {
+.signinfo-error .content,
+.forgotPasswordinfo-error .content {
   padding: 9px 14px;
   color: #a94442;
 }
 .loginfo-error.toRight .arrow,
-.signinfo-error.toRight .arrow {
+.signinfo-error.toRight .arrow,
+.forgotPasswordinfo-error.toRight .arrow {
   top: 50%;
   left: -11px;
   margin-top: -11px;
@@ -1007,23 +1114,12 @@ textarea:focus {
   border-left-width: 0;
 }
 .loginfo-error.toRight .arrow:after,
-.signinfo-error.toRight .arrow:after {
+.signinfo-error.toRight .arrow:after,
+.forgotPasswordinfo-error.toRight .arrow:after {
   bottom: -10px;
   left: 1px;
   border-right-color: #f2dede;
   border-left-width: 0;
-}
-.signup .black_overlay {
-  position: fixed;
-  top: 0%;
-  left: 0%;
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  z-index: 999;
-  -webkit-opacity: 0.8;
-  -moz-opacity: 0.8;
-  opacity: 0.8;
 }
 .signup .signupBox {
   position: absolute;
