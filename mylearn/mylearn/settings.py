@@ -35,8 +35,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
+     'django.contrib.comments',
     'mongodbforms',
     'django_youtube',
+    'fluent_comments',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -144,6 +146,15 @@ YOUTUBE_UPLOAD_REDIRECT_URL = '/youtube/videos/'
 # url to redirect after deletion video, default is `upload page`
 YOUTUBE_DELETE_REDIRECT_URL = '/youtube/delete/'
 
+COMMENTS_APP = 'fluent_comments'
+
+# fluent-comments settings:
+FLUENT_COMMENTS_USE_EMAIL_MODERATION = True
+FLUENT_COMMENTS_MODERATE_AFTER_DAYS = 14
+FLUENT_COMMENTS_CLOSE_AFTER_DAYS = 60
+FLUENT_COMMENTS_AKISMET_ACTION = 'moderate'
+AKISMET_API_KEY = None  # Add your Akismet key here to enable Akismet support
+AKISMET_IS_TEST = True  # for development/example apps.
 
 # Load settings.py(development or production) file based on os environment variable "MYLEARN_MODE", default production mode
 __MODE_DEV= "dev"

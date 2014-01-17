@@ -49,6 +49,10 @@ urlpatterns += patterns('',
     (r'^youtube/', include(get_project_app_qulified_name('youtube_override.urls'))),
 )
 
+urlpatterns += patterns('',
+    (r'^discussion/', include(get_project_app_qulified_name('topicourse_comment.urls'))),
+)
+
 #To test allauth
 urlpatterns += patterns('',
     (r'^admin/', include(admin.site.urls)),
