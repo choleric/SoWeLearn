@@ -96,7 +96,6 @@ LOGOUT_URL = '/accounts/logout/'
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = False
 SESSION_COOKIE_NAME = "_l"
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 ANONYMOUS_USER_ID = -1
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
 # allauth settings

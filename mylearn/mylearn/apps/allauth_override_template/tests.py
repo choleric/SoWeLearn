@@ -350,6 +350,10 @@ class UserAllAuthTestCase(BaseTest):
         self.assertTrue(response["location"].find(settings.ACCOUNT_LOGOUT_REDIRECT_URL),
                 response["location"])
 
+        # check cookie is destroy
+        self.assertTrue(settings.SESSION_COOKIE_NAME in response.cookies,
+                "cookie not delete: %(cookie)s" %{"cookie": response.cookies})
+
         # request login_required url
         data = {"oldpassword":"wrongpassword", "password1":"newpassword","password2":"newpassword"}
         response = self.client.post(reverse('account_change_password_learn'),data)
@@ -357,4 +361,5 @@ class UserAllAuthTestCase(BaseTest):
         # assert response 
         self.assertEqual(302, response.status_code, response.status_code)
 
-        self.assertTrue(0 < response["location"].find(settings.LOGIN_URL), "location %s, expected %s" %(response["location"], settings.LOGIN_URL))
+        self.assertTrue(0 < response["location"].find(settings.LOGIN_URL),
+                "location %s, expected %s" %(response["location"], settings.LOGIN_URL))

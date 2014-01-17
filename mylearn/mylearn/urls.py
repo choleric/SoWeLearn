@@ -34,7 +34,7 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
 
 
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.general.views',
-        url(r'^_t/', "csrf_token_fetch", name="csrf_fetch"),
+        url(r'^_t', "csrf_token_fetch", name="csrf_fetch"),
 )
 
 #url import from allauth apps
