@@ -38,6 +38,8 @@ function install() {
   installPack django-youtube "" django-youtube
   installPack gdata "" gdata
   installPack jsonfield "" jsonfield
+  installPack django-fluent-comment "" django-fluent-comment
+  installPack django-threadedcomments "" django-threadedcomments
 }
 
 function uninstall() {
