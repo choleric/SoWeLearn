@@ -346,12 +346,15 @@ class UserAllAuthTestCase(BaseTest):
         response = self.client.post(reverse('account_signout_learn'))
 
         # assert logout response 
-        self.assertEqual(302, response.status_code, response.status_code)
-        self.assertTrue(response["location"].find(settings.ACCOUNT_LOGOUT_REDIRECT_URL),
-                response["location"])
+        self.assertEqual(200, response.status_code, response.status_code)
+        res = json.loads(response.content)
+        self.assertEqual(settings.ACCOUNT_LOGOUT_REDIRECT_URL, res["d"],
+                "%s != %s" % (settings.ACCOUNT_LOGOUT_REDIRECT_URL, response.content))
 
         # check cookie is destroy
-        self.assertTrue(settings.SESSION_COOKIE_NAME in response.cookies,
+        self.assertTrue(
+                settings.SESSION_COOKIE_NAME in response.cookies and
+                        -1 == response.cookies[settings.SESSION_COOKIE_NAME]["max-age"],
                 "cookie not delete: %(cookie)s" %{"cookie": response.cookies})
 
         # request login_required url
