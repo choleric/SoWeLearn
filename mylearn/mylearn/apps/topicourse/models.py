@@ -2,6 +2,7 @@ import datetime
 from mongoengine import *
 from django.db import models
 from jsonfield import JSONCharField
+from jsonfield import JSONField
 
 from mylearn.apps import errcode
 

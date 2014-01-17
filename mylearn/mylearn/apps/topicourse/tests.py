@@ -135,5 +135,5 @@ class TopicourseTestCase(BaseTest):
         )
         topiquiz.save()
         topiquiz_added = Topiquiz.objects.get(topicourseID=1)
-        self.assertEqual(topiquiz_added.topiquizOption[0], "A")
+        self.assertEqual(topiquiz_added.topiquizOption["0"], "A")
         topiquiz.delete()
