@@ -144,7 +144,12 @@ password_reset_from_key_learn = ensure_csrf_cookie(PasswordResetFromKeyViewLearn
 
 
 class SignOutView(LogoutView) :
-    def logout(self):
-        auth_logout(self.request)
+
+    def post(self, *args, **kwargs):
+        url = self.get_redirect_url()
+        if self.request.user.is_authenticated():
+            auth_logout(self.request)
+            self.request.session.set_expiry(-1)
+        return JsonResponse(errcode.SUCCESS, url)
 
 signout_learn = SignOutView.as_view()

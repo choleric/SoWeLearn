@@ -34,7 +34,7 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
 
 
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.general.views',
-        url(r'^_t/', "csrf_token_fetch", name="csrf_fetch"),
+        url(r'^_t', "csrf_token_fetch", name="csrf_fetch"),
 )
 
 #url import from allauth apps
@@ -47,6 +47,10 @@ urlpatterns += patterns('',
 #url of django_youtube
 urlpatterns += patterns('',
     (r'^youtube/', include(get_project_app_qulified_name('youtube_override.urls'))),
+)
+
+urlpatterns += patterns('',
+    (r'^discussion/', include(get_project_app_qulified_name('topicourse_comment.urls'))),
 )
 
 #To test allauth

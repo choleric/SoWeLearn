@@ -96,3 +96,6 @@ topiquizTypeEmpty = 601
 topiquizTypeInvalid = 602
 topiquizOptionEmpty = 603
 topiquizOptionInvalid = 604
+
+topicourseDiscussionQueryInvalid = 900
+topicourseDiscussionFormInvalid = 901
