@@ -162,18 +162,22 @@ class TopicourseCommentTest(BaseTest):
 
         self.assertEqual(resp.status_code, 200)
         resp_data = json.loads(resp.content)
-        self.assertEqual(resp_data['c'], errcode.topicourseDiscussionFormInvalid, resp_data)
+
         self.assertEqual(CommentsModle.objects.count(), 0)
         self.assertEqual(discussion.discussion_comments_set.count(), 0)
+        return resp_data
 
     def test_create_comment_empty_comment(self):
-        self._test_create_comment_empty_field('comment')
+        resp_data = self._test_create_comment_empty_field('comment')
+        self.assertEqual(resp_data['c'], errcode.topicourseDiscussionFormInvalid, resp_data)
 
     def test_create_comment_empty_timestamp(self):
-        self._test_create_comment_empty_field('timestamp')
+        resp_data = self._test_create_comment_empty_field('timestamp')
+        self.assertEqual(resp_data['c'], errcode.topicourseDiscussionCheckSecurityInvalid, resp_data)
 
     def test_create_comment_empty_security_hash(self):
-        self._test_create_comment_empty_field('security_hash')
+        resp_data = self._test_create_comment_empty_field('security_hash')
+        self.assertEqual(resp_data['c'], errcode.topicourseDiscussionCheckSecurityInvalid, resp_data)
 
     def test_create_comment_empty_name(self):
         self._post_discussion()
@@ -205,7 +209,7 @@ class TopicourseCommentTest(BaseTest):
 
         self.assertEqual(resp.status_code, 200)
         resp_data = json.loads(resp.content)
-        self.assertEqual(resp_data['c'], errcode.topicourseDiscussionFormInvalid, resp_data)
+        self.assertEqual(resp_data['c'], errcode.topicourseDiscussionCheckSecurityInvalid, resp_data)
         self.assertEqual(CommentsModle.objects.count(), 0)
         self.assertEqual(discussion.discussion_comments_set.count(), 0)
 

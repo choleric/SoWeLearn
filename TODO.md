@@ -26,7 +26,7 @@
 2. 根据需要修改定义model和前后端接口
 3. 创建topicourse的参数和传出的数据,单元测试(status: ongoing, Meichen)
 4. 创建topiquiz的参数和传出的数据,单元测试(topiquiz 的抽象处理，允许后台和前端增加不同类型的quiz, 这些quiz有没有可能关联)
-5. 用户评论的参数和传出的数据,单元测试
+5. 用户评论的参数和传出的数据,单元测试(status: ongoing, Xiong)
 6. 用户观看topicourse的内容存储：model，interface and unittest.
 7. 使用Youtube上传视频的参数和传出的数据,单元测试(status: done, Meichen)
 8. Youtube API,Youtube政策分析，[youtube API terms][youtubeIssue]

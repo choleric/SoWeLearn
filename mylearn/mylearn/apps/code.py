@@ -97,5 +97,7 @@ topiquizTypeInvalid = 602
 topiquizOptionEmpty = 603
 topiquizOptionInvalid = 604
 
+#TopicourseDiscussion error 900-920
 topicourseDiscussionQueryInvalid = 900
 topicourseDiscussionFormInvalid = 901
+topicourseDiscussionCheckSecurityInvalid = 902
