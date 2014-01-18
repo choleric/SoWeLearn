@@ -108,9 +108,9 @@ class TopicourseDiscussiongCommentView(LoginRequriedView):
         form = comments.get_form()(target, data=data)
 
         # Check security information
-        #if form.security_errors():
-        #    return JsonResponse(errcode.topicourseDiscussionQueryInvalid,
-        #                        "The comment form failed security verification: {0}".format)
+        if form.security_errors():
+            return JsonResponse(errcode.topicourseDiscussionCheckSecurityInvalid,
+                                "The comment form failed security verification")
 
         #TODO 需要确定要返回哪些信息
         resp_data = {}
