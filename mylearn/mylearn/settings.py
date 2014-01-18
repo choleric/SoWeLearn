@@ -48,6 +48,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    PROJECT_APP_PREFIX + '.general.middleware.ProcessAjaxRedirectMiddleware',
 )
 
 ROOT_URLCONF = PROJECT_NAME + ".urls"
