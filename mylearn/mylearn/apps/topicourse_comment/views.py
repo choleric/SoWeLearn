@@ -149,13 +149,11 @@ class TopicourseDiscussiongCommentView(LoginRequriedView):
         # Save the comment and signal that it was saved
         comment.save()
         #
-        """
         signals.comment_was_posted.send(
             sender  = comment.__class__,
             comment = comment,
             request = request
         )
-        """
 
         return JsonResponse(errcode.SUCCESS, resp_data)
 
