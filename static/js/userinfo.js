@@ -40,18 +40,18 @@ define(function(require,exports,module){
 		option.data = accounts;
 		option.type = "post";
 		option.url = "/accounts/login/";
+		option.cache = false;
 		option.error = displayLoginErrorInfo;
 		option.success = loginSuccess;
 		tools.sendAjaxRequest(option,$.cookie("_t"));
 	}
 
 	function displayLoginErrorInfo(data){
-		console.log(data.responseText);
+		console.log(data.c);
 	}
 	function loginSuccess(data){
-		console.log(data.location);
-		if(data.location){
-			window.location.href = data.location;
+		if(data.c == "0"){
+			window.location.href = data.d;
 		}
 		var errorCode = data.c;
 		if(errorCode == "212"){
@@ -129,7 +129,7 @@ define(function(require,exports,module){
 			var pwd2 = $("#signUpPassword2").val();
 			if(pwd2 != ""){
 				if(pwd1 != pwd2){
-					showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"Different password.");
+					showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"The passwords for the two fields are different.");
 				}else{
 					$(".J_passwordSignError2").hide();
 					$("#signUpPassword2").removeClass('error');
@@ -182,7 +182,7 @@ define(function(require,exports,module){
 		}else if(errorInfo == "202"){
 			showErrorInfo($(".J_emailSignError"),$("#signUpEmail"),"User Exist.");
 		}else if(errorInfo == "203"){
-			showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"Different password.");
+			showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"The passwords for the two fields are different.");
 		}
 	}
 
@@ -206,19 +206,72 @@ define(function(require,exports,module){
 		console.log(data.responseText);
 	}
 	function forgotPasswordSuccess(data){
-		console.log(data.status);
-		if(data.location){
-			window.location.href = data.location;
+		var code = data.c || "";
+		if(code == "0"){
+			window.location.href = data.d;
 		}
-		var errorCode = data.c || "";
-		if(errorCode == "206"){
+		if(code == "206"){
 			showErrorInfo($(".J_emailForgotPasswordError"),$("#forgotPasswordEmail"),"Email does not exist.");
-		}else if(errorCode == "207"){
+		}else if(code == "207"){
 			showErrorInfo($(".J_emailForgotPasswordError"),$("#forgotPasswordEmail"),"Reset Password Failure.");
 		}
 	}
 
-	function showErrorInfo(errinfoObj, inputObj, errorInfo){
+	//reset Password
+	function resetPassword(){
+		var accounts = $("#XXXXXXXForm").serialize();
+		var option = {};//ajax option
+		option.data = accounts;
+		option.type = "post";
+		option.url = "/accounts/password/reset/key/(?P[0-9A-Za-z]+)-(?P.+)/";
+		option.error = displayResetPasswordErrorInfo;
+		option.success = resetPasswordSuccess;
+		tools.sendAjaxRequest(option,$.cookie("_t"));
+	}
+	function displayResetPasswordErrorInfo(data){
+		console.log(data.responseText);
+	}
+	function resetPasswordSuccess(data){
+		var code = data.c || "";
+		if(code == "0"){
+			window.location.href = data.d;
+		}else if(code == "203"){
+			console.log("password1 and password2 are different.");
+		}else if(code == "208"){
+			console.log("other problem.");
+		}else if(code == "209"){
+			console.log("request token is invalid.");
+		}
+	}
+
+	//change password
+	function changePassword(){
+		var accounts = $("#*******Form").serialize();
+		var option = {};//ajax option
+		option.data = accounts;
+		option.type = "post";
+		option.url = "/accounts/password/change/";
+		option.error = displayChangePasswordErrorInfo;
+		option.success = changePasswordSuccess;
+		tools.sendAjaxRequest(option,$.cookie("_t"));
+	}
+	function displayChangePasswordErrorInfo(data){
+		console.log(data.responseText);
+	}
+	function changePasswordSuccess(data){
+		var code = data.c || "";
+		if(code == "0"){
+			window.location.href = data.d;
+		}else if(code == "204"){
+			console.log("Common failure: d is the index of the field that went wrong in this list");
+		}else if(code == "205"){
+			console.log("Wrong old password;");
+		}else if(code == "203"){
+			console.log("Different password");
+		}
+	}
+
+	function showErrorInfo(errinfoObj, inputObj, errorInfo){//显示错误信息的通用方法
 		$(errinfoObj).children(".content").html(errorInfo);
 		errinfoObj.show();
 		inputObj.addClass('error');
