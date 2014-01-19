@@ -1,3 +1,4 @@
+import collections
 import datetime
 from mongoengine import *
 from django.db import models
@@ -84,7 +85,8 @@ class Topiquiz(models.Model):
             "invalid_choice": str(errcode.topiquizTypeInvalid),
             }
     )
-    topiquizOption = JSONCharField(
+    topiquizOption = JSONField(
+        #load_kwargs={'object_pairs_hook': collections.OrderedDict},
         max_length=1000,
         error_messages={
             "required": str(errcode.topiquizOptionEmpty),
@@ -92,7 +94,11 @@ class Topiquiz(models.Model):
             }
     )
     topiquizAnswer = models.CommaSeparatedIntegerField(
-        max_length=5,
+        max_length=10,
+        error_messages={
+            "required": str(errcode.topiquizAnswerEmpty),
+            "invalid": str(errcode.topiquizAnswerInvalid),
+            }
     )
     topiquizExplanation = models.CharField(
         max_length=1000,

@@ -14,13 +14,15 @@ class AutoCreateUpdateModelForm(forms.ModelForm) :
         """
         auto update non-None Field by pk
         """
-        nonNoneFields = self.nonNoneFields
         if self.instance.pk is None:
             fail_message = 'created'
+            #Todo: add primary key to the nonNoneFields?
+            #self.nonNoneFields.add(self.)
+            ins = self.instance.save()
         else:
             fail_message = 'changed'
-        ins = forms.save_instance(self, self.instance, self._meta.fields, fail_message, False, construct=False)
-        ins = self.instance.save(update_fields=self.nonNoneFields)
+            ins = forms.save_instance(self, self.instance, self._meta.fields, fail_message, False, construct=False)
+            ins = self.instance.save(update_fields=self.nonNoneFields)
         return ins
 
     def _clean_fields(self):

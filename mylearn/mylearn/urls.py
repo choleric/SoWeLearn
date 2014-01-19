@@ -24,6 +24,7 @@ urlpatterns += patterns(PROJECT_APP_PREFIX + '.topicourse.views',
     url(r'^topicourse/', 'topicourse', name="topicourse"),
     #todo: this is just a fake url for test
     url(r'^create_topicourse/(?P<topicourseID>[\w.@+-]+)/','create_topicourse', name='create_topicourse'),
+    url(r'^topiquiz/', 'topiquiz', name="topiquiz"),
 )
 
 urlpatterns += patterns(PROJECT_APP_PREFIX + '.tuition_map.views',
