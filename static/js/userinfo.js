@@ -40,6 +40,7 @@ define(function(require,exports,module){
 		option.data = accounts;
 		option.type = "post";
 		option.url = "/accounts/login/";
+		option.cache = false;
 		option.error = displayLoginErrorInfo;
 		option.success = loginSuccess;
 		tools.sendAjaxRequest(option,$.cookie("_t"));

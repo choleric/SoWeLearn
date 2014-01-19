@@ -991,10 +991,12 @@ textarea:focus {
   line-height: 24px;
   padding-left: 50px;
   margin-bottom: 20px;
+  color: #535a69;
 }
 .forgotPassword .forgotPasswordBox .forgotPasswordForm .info {
   font-size: 16px;
   margin-bottom: 20px;
+  color: #cebfbe;
 }
 .forgotPassword .forgotPasswordBox .forgotPasswordForm .inputEmail {
   background-color: #130c0e;
@@ -1033,7 +1035,7 @@ textarea:focus {
 .forgotPassword .forgotPasswordBox .forgotPasswordForm .forgotPasswordBtn span {
   position: absolute;
   right: 36px;
-  top: 219px;
+  top: 206px;
   display: inline-block;
   width: 15px;
   height: 15px;
@@ -1071,7 +1073,7 @@ textarea:focus {
   -webkit-opacity: 1;
   -moz-opacity: 1;
   opacity: 1;
-  width: 155px;
+  width: 250px;
   padding: 1px;
   white-space: normal;
   background-color: #f2dede;
