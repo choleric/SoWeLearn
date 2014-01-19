@@ -32,7 +32,6 @@ def get_project_app_qulified_name(app) :
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
      'django.contrib.comments',
@@ -46,7 +45,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     PROJECT_APP_PREFIX + '.general.middleware.ProcessAjaxRedirectMiddleware',
 )
