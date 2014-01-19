@@ -138,8 +138,11 @@ function initMainPage(){
      function displayLogoutErrorInfo(){
       
      }
-     function logoutSuccess(){
-        
+     function logoutSuccess(data){
+        if(data.c == "0"){
+          $.removeCookie('_l', { path: '/' });
+          window.location.href = data.d;
+        }
      }
 
      //close the login box
