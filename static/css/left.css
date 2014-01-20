@@ -75,7 +75,7 @@
 .left .conts .title textarea.info {
   border: none;
   overflow-y: visible;
-  margin-left: 20px;
+  margin-left: 0 20px 0 0;
   width: 270px;
   font-size: 16px;
   color: #3c3c3c;
@@ -85,8 +85,83 @@
 .left .conts .title .info.last {
   padding-bottom: 10px;
 }
+.left .conts .title:hover {
+  cursor: pointer;
+  color: #FF6A59;
+}
 .left .conts .gray span {
   color: #b3b3b3 !important;
+}
+.left .contsDetail .detailContApp {
+  display: none;
+  width: 360px;
+  border-top: 1px solid #efefef;
+  padding: 10px 20px 0;
+  background-color: #f5fffa;
+}
+.left .contsDetail .detailContApp input {
+  background-color: #fff;
+  width: 350px;
+  height: 30px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 0px 0px 0px 10px;
+  margin-bottom: 15px;
+  color: #000;
+  border: 0px solid #93a5ed;
+}
+.left .contsDetail .detailContApp .changePassword,
+.left .contsDetail .detailContApp .cancel {
+  display: inline-block;
+  padding: 8px 10px 9px;
+  text-decoration: none;
+  font-weight: bold;
+  line-height: 1;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 10px;
+  -webkit-opacity: 0.9;
+  -moz-opacity: 0.9;
+  opacity: 0.9;
+}
+.left .contsDetail .detailContApp .changePassword:hover,
+.left .contsDetail .detailContApp .cancel:hover {
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+}
+.left .contsDetail .detailContApp .changePassword {
+  background: #222;
+  color: #fff;
+  margin: 0 20px 0 70px;
+  -webkit-box-shadow: 0 1px 3px #999999;
+  -moz-box-shadow: 0 1px 3px #999999;
+  box-shadow: 0 1px 3px #999999;
+  border-bottom: 1px solid #222;
+  text-shadow: 0 -1px 1px #222222;
+}
+.left .contsDetail .detailContApp .cancel {
+  background: #ddd;
+  color: #222;
+  -webkit-box-shadow: 0 1px 3px #eeeeee;
+  -moz-box-shadow: 0 1px 3px #eeeeee;
+  box-shadow: 0 1px 3px #eeeeee;
+  border-bottom: 1px solid #ddd;
+  text-shadow: 0 -1px 1px #dddddd;
 }
 .left .contsDetail .title {
   position: relative;
@@ -132,6 +207,15 @@
 }
 .left .contsDetail .title .close:hover {
   color: #e43e3e;
+}
+.left .contsDetail .title:hover .edit {
+  background: url(/images/edit-icon.png) no-repeat scroll;
+  display: inline-block;
+  background-size: contain;
+  float: right;
+  margin: 15px 15px;
+  width: 20px;
+  height: 16px !important;
 }
 .left .contsDetail .title.editableBox {
   box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.5) inset;
