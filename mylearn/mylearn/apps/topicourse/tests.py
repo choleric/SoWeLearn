@@ -140,12 +140,11 @@ class TopicourseTestCase(BaseTest):
         topiquiz.delete()
 
     def test_TorF_view(self):
-        topiquiz_options = {0:"False", 1:"True"}
         topiquiz_params = {
             "topicourseID" : 1,
             "topiquizType" : QuizType.TorF,
-            "topiquizOption" : topiquiz_options,
-            "topiquizAnswer": [0],
+            "topiquizOption" : '{"0":"False", "1":"True"}',
+            "topiquizAnswer": "0",
             "topiquizExplanation" : "Explanation"}
 
 
@@ -156,13 +155,15 @@ class TopicourseTestCase(BaseTest):
         ret = json.loads(response.content)
         self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
 
+        topiquiz = Topiquiz.objects.get(topicourseID=1)
+        self.assertEqual(topiquiz.topiquizOption["0"], "False")
+
     def test_TorF_view_wrong_answer(self):
-        topiquiz_options = {0:False, 1:True}
         topiquiz_params = {
             "topicourseID" : 1,
             "topiquizType" : QuizType.TorF,
-            "topiquizOption" : topiquiz_options,
-            "topiquizAnswer": [2],                #this is wrong
+            "topiquizOption" : '{"0":"False", "1":"True"}',
+            "topiquizAnswer": "2",                #this is wrong
             "topiquizExplanation" : "Explanation"}
 
 
@@ -173,13 +174,65 @@ class TopicourseTestCase(BaseTest):
         ret = json.loads(response.content)
         self.assertEquals(errcode.topiquizAnswerInvalid, ret["c"], "post errcode %d" %(ret["c"]))
 
+    def test_SingleChoice_view(self):
+        topiquiz_params = {
+            "topicourseID" : 1,
+            "topiquizType" : QuizType.SingleChoice,
+            "topiquizOption" : '{"0":"A", "1":"B", "2":"C", "3":"D", "4":"E"}',
+            "topiquizAnswer": "4",
+            "topiquizExplanation" : "Explanation"}
+
+
+        topiquizURL = reverse('topiquiz')
+
+        response = self.client.post(topiquizURL, topiquiz_params)
+        self.assertEqual(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
+
+    def test_SingleChoice_view_wrong_answer(self):
+        topiquiz_params = {
+            "topicourseID" : 1,
+            "topiquizType" : QuizType.SingleChoice,
+            "topiquizOption" : '{"0":"A", "1":"B", "2":"C", "3":"D", "4":"E"}',
+            "topiquizAnswer": "5",                #this is wrong
+            "topiquizExplanation" : "Explanation"}
+
+
+        topiquizURL = reverse('topiquiz')
+
+        response = self.client.post(topiquizURL, topiquiz_params)
+        self.assertEqual(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.topiquizAnswerInvalid, ret["c"], "post errcode %d" %(ret["c"]))
+
+    def test_MCQ_view(self):
+        topiquiz_params = {
+            "topicourseID" : 1,
+            "topiquizType" : QuizType.MultipleChoice,
+            "topiquizOption" : '{"0":"A", "1":"B", "2":"C", "3":"D", "4":"E"}',
+            "topiquizAnswer": "0,1,2,3,4",
+            "topiquizExplanation" : "Explanation"}
+
+
+        topiquizURL = reverse('topiquiz')
+
+        response = self.client.post(topiquizURL, topiquiz_params)
+        self.assertEqual(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
+
+        topiquiz = Topiquiz.objects.get(topicourseID=1, topiquizType=QuizType.MultipleChoice)
+        self.assertEqual(topiquiz.topiquizOption["0"], "A")
+        self.assertEqual(topiquiz.topiquizAnswer, "0,1,2,3,4", topiquiz.topiquizAnswer)
+
 class TopicourseFormTest(BaseTest):
     def test_TorF_form(self):
         topiquiz_options = {0:False, 1:True}
         topiquiz_params = {
             "topicourseID" : 1,
             "topiquizOption" : topiquiz_options,
-            "topiquizAnswer": 0, #This is validated using customized method
+            "topiquizAnswer": 0,
             "topiquizExplanation" : "Explanation"}
 
         topiquiz = TopiquizTorFForm(topiquiz_params)
@@ -187,7 +240,7 @@ class TopicourseFormTest(BaseTest):
         self.assertEqual(topiquiz.cleaned_data['topiquizOption'], {0:False, 1:True})
 
     def test_TorF_form_validation_error(self):
-        topiquiz_options = {0:False, 1:True}
+        topiquiz_options = {0:"False", 1:"True"}
         topiquiz_params = {
             "topicourseID" : 1,
             "topiquizOption" : topiquiz_options,
@@ -203,7 +256,7 @@ class TopicourseFormTest(BaseTest):
         topiquiz_params = {
             "topicourseID" : 1,
             "topiquizOption" : topiquiz_options,
-            "topiquizAnswer":"2", #This is validated using customized method
+            "topiquizAnswer":"2",
             "topiquizExplanation" : "Explanation"}
 
         topiquiz = TopiquizSingleChoice(topiquiz_params)
@@ -226,7 +279,7 @@ class TopicourseFormTest(BaseTest):
         topiquiz_params = {
             "topicourseID" : 1,
             "topiquizOption" : topiquiz_options,
-            "topiquizAnswer":"2,3", #This is validated using customized method
+            "topiquizAnswer":"2,3",
             "topiquizExplanation" : "Explanation"}
 
         topiquiz = TopiquizMultipleChoice(topiquiz_params)

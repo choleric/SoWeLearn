@@ -6,7 +6,7 @@ from mylearn.apps import JsonResponse
 from mylearn.apps.baseviews import UserRelatedFormView, LoginRequriedView
 
 from .models import QuizType
-from .forms import TopicourseInfoForm, TopiquizTorFForm
+from .forms import TopicourseInfoForm, TopiquizTorFForm, TopiquizSingleChoice, TopiquizMultipleChoice
 # Create your views here.
 
 # [] is list
@@ -96,6 +96,10 @@ class TopiquizFormView(UserRelatedFormView):
             quiz_type = int(request.POST["topiquizType"])
             if quiz_type==QuizType.TorF:
                 self.form_class = TopiquizTorFForm
+            elif quiz_type==QuizType.SingleChoice:
+                self.form_class = TopiquizSingleChoice
+            elif quiz_type==QuizType.MultipleChoice:
+                self.form_class = TopiquizMultipleChoice
             else:
                 return JsonResponse(errcode.topiquizTypeInvalid)
             return self.form_class
@@ -106,8 +110,6 @@ class TopiquizFormView(UserRelatedFormView):
         self.select_form_class(request)
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-
-        print form.is_valid()
 
         if not form.is_valid():
             err = errcode.profileUnknown
