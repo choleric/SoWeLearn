@@ -55,6 +55,7 @@ function initLeft(){
           $(".main").removeClass("nonTransform");
           $(".right").removeClass("nonTransform");
           $(".left").removeClass("nonTransform");
+          require('userProfile');//加载userProfile模块
         }
         e.stopPropagation();//阻止冒泡
      });

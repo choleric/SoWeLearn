@@ -51,7 +51,7 @@
 			textarea.info{
 				border: none;
 				overflow-y: visible;
-				margin-left: 20px;
+				margin-left: 0 20px 0 0;
 				width: 270px;
 				font-size: 16px;
 				color: #3c3c3c;
@@ -62,11 +62,62 @@
 				padding-bottom: 10px;
 			}
 		}
+		.title:hover{
+			cursor: pointer;
+			color: #FF6A59;
+		}
 		.gray span{
 			color: #b3b3b3 !important;
 		}
 	}
 	.contsDetail {
+		.detailContApp{
+			display: none;
+			width: 360px;
+			border-top: 1px solid #efefef;
+			padding: 10px 20px 0;
+			background-color: #f5fffa;
+			input{
+				background-color: #fff;
+				width: 350px;
+				height: 30px;
+				.border-radius(5px);
+				padding: 0px 0px 0px 10px;
+				margin-bottom: 15px;
+				color: #000;
+				border:0px solid #93a5ed;
+			}
+			.changePassword, .cancel{
+				display: inline-block;
+				padding: 8px 10px 9px;
+				text-decoration: none;
+				font-weight: bold;
+				line-height: 1;
+				.border-radius(5px);
+				position: relative;
+				cursor: pointer;
+				margin-bottom: 10px;
+				.opacity(0.9);
+			}
+			.changePassword:hover, .cancel:hover{
+				.opacity(1);
+			}
+			.changePassword{
+				background: #222;
+				color: #fff;
+				margin: 0 20px 0 70px;
+				.box-shadow(0 1px 3px #999);
+				border-bottom: 1px solid #222;
+				text-shadow: 0 -1px 1px #222;
+			}
+			.cancel{
+				background: #ddd;
+				color: #222;
+				.box-shadow(0 1px 3px #eee);
+				border-bottom: 1px solid #ddd;
+				text-shadow: 0 -1px 1px #ddd;
+			}
+		}
 		.title{
 			position: relative;
 			width: 400px;
@@ -110,6 +161,15 @@
 			.close:hover{
 				color: rgba(228,62,62,1.0);
 			}
+		}
+		.title:hover .edit{
+			background: url(/images/edit-icon.png) no-repeat scroll;
+			display: inline-block;
+			background-size: contain;
+			float: right;
+			margin: 15px 15px;
+			width: 20px;
+			height: 16px !important;
 		}
 		.title.editableBox{
 			box-shadow: 0px 0px 13px rgba(0,0,0,0.5) inset;

@@ -70,14 +70,20 @@
                         <div id="personal" class="contsDetail HIDE">
                             <div class="title"><span>About Myself</span><span class="arrow-right"></span></div>
                             <div class="detailContApp"></div>
-                            <div class="title"><span>Shan</span></div>
-                            <div class="title"><span>Lu</span></div>
+                            <div class="title"><span>Shan</span><span class="edit"></span></div>
+                            <div class="title"><span>Lu</span><span class="edit"></span></div>
                             <div class="title"><span>Location</span><span class="arrow-right"></span></div>
                             <div class="detailContApp"></div>
                             <div class="title"><span>Password</span><span class="arrow-right"></span></div>
-                            <div class="detailContApp"></div>
-                            <div class="title"><span></span><span class="arrow-right"></span></div>
-                            <div class="detailContApp"></div>
+                            <div class="detailContApp">
+                                <form id="changePasswordForm">
+                                    <input type="password" name="oldpassword" placeholder="Current Password"/>
+                                    <input type="password" name="password1" placeholder="New Password"/>
+                                    <input type="password" name="password2" placeholder="Re-type New Password "/>
+                                    <a href="#" class="changePassword">Change Password</a>
+                                    <a href="#" class="cancel">Cancel</a>
+                                </form>
+                            </div>
                             <div class="title gray"><span>Phone Number</span><span class="arrow-down"></span></div>
                             <div class="detailContApp"></div>
                             <!-- <p>About yourself:</p>
