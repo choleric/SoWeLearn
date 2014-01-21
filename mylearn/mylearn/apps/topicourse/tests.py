@@ -226,6 +226,21 @@ class TopicourseTestCase(BaseTest):
         self.assertEqual(topiquiz.topiquizOption["0"], "A")
         self.assertEqual(topiquiz.topiquizAnswer, "0,1,2,3,4", topiquiz.topiquizAnswer)
 
+        get_params = {"topicourseID" : 1}
+        resp = self.client.get(topiquizURL, get_params)
+        self.assertEqual(200, resp.status_code, "get status errcode %d" %(response.status_code))
+        ret = json.loads(resp.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "get errcode %d" %(ret["c"]))
+
+    def test_no_topiquiz(self):
+        topiquizURL = reverse('topiquiz')
+        get_params = {"topicourseID" : 1}
+        response = self.client.get(topiquizURL, get_params)
+
+        self.assertEqual(200, response.status_code, "get status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.topiquizNotExist, ret["c"], "get errcode %d" %(ret["c"]))
+
 class TopicourseFormTest(BaseTest):
     def test_TorF_form(self):
         topiquiz_options = {0:False, 1:True}

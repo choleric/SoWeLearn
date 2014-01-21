@@ -98,6 +98,7 @@ topiquizOptionEmpty = 603
 topiquizOptionInvalid = 604
 topiquizAnswerEmpty = 605
 topiquizAnswerInvalid = 606
+topiquizNotExist = 607
 
 #TopicourseDiscussion error 900-920
 topicourseDiscussionQueryInvalid = 900

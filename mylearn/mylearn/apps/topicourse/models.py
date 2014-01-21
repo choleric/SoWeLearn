@@ -64,7 +64,7 @@ class QuizType:
     TorF, SingleChoice, MultipleChoice = range(3)
 
 class Topiquiz(models.Model):
-    topiquizId = models.AutoField(primary_key=True)
+    topiquizID = models.AutoField(primary_key=True)
     topicourseID = models.BigIntegerField()
     topiquizCreatorID = models.BigIntegerField()
     topiquizCreatedTimeStamp = models.DateTimeField(auto_now_add=True)

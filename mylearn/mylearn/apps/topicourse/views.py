@@ -5,7 +5,7 @@ from mylearn.apps import errcode
 from mylearn.apps import JsonResponse
 from mylearn.apps.baseviews import UserRelatedFormView, LoginRequriedView
 
-from .models import QuizType
+from .models import QuizType, Topiquiz, Topicourse
 from .forms import TopicourseInfoForm, TopiquizTorFForm, TopiquizSingleChoice, TopiquizMultipleChoice
 # Create your views here.
 
@@ -90,6 +90,25 @@ def create_topicourse(request, topicourseID):
                  "topicourse id: %s" %topicourseID)
 
 class TopiquizFormView(UserRelatedFormView):
+
+    def get(self, request, *args, **kwargs):
+        topiquiz = Topiquiz.objects.filter(topicourseID = request.GET['topicourseID'])
+        if not topiquiz.exists():
+            return JsonResponse(errcode.topiquizNotExist)
+        else:
+            topiquiz = topiquiz.values(
+                'topiquizID',
+                'topiquizType',
+                'topiquizOption',
+                'topiquizAnswer',
+                'topiquizExplanation')
+            ret = []
+            for topiquiz in topiquiz:
+                formatedData = {}
+                for field, value in topiquiz.iteritems():
+                    formatedData[field] = value
+                ret.append(formatedData)
+            return JsonResponse(code = errcode.SUCCESS, data = ret, isHTMLEncode = False)
 
     def select_form_class(self, request):
         if "topiquizType" in request.POST:
