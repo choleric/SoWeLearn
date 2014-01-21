@@ -84,7 +84,16 @@ function initLeft(){
           else if($(this).hasClass("teaching")){$(".basicInfo #teaching").show(); $(".teachingBox").show();}
           else if($(this).hasClass("personal")){$(".basicInfo #personal").show(); $(".personalInfoBox").show();}
      });
-
+     //verified  and  unverified 
+    $(".switch").bind("click",function(){
+      if($(this).hasClass("switch-on")){
+        $(this).removeClass("switch-on").addClass("switch-off");
+        $(this).children("span").first().html("unverified");
+      }else if($(this).hasClass("switch-off")){
+        $(this).removeClass("switch-off").addClass("switch-on");
+        $(this).children("span").first().html("verified");
+      }
+    });
 }
 
 //bind rightnBottom button event

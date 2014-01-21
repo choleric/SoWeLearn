@@ -77,14 +77,35 @@
                             <div class="title"><span>Password</span><span class="arrow-right"></span></div>
                             <div class="detailContApp">
                                 <form id="changePasswordForm">
-                                    <input type="password" name="oldpassword" placeholder="Current Password"/>
-                                    <input type="password" name="password1" placeholder="New Password"/>
-                                    <input type="password" name="password2" placeholder="Re-type New Password "/>
+                                    <div class="err fade J_changePwdOldErr">
+                                        <div class="err-info">Your password must be at least 6 characters long.</div>
+                                    </div>
+                                    <input type="password" name="oldpassword" class="oldpassword J_changePwdOld" placeholder="Current Password"/>
+                                    <!-- <div class="info-error toRight fade J_changePwdOldErr" style="left:371px;top:214px;">
+                                        <div class="arrow"></div>
+                                        <div class="content">Your password must be at least 6 characters long.</div>
+                                    </div> -->
+                                    <div class="err fade J_changePwdNew1Err">
+                                        <div class="err-info">Your password must be at least 6 characters long.</div>
+                                    </div>
+                                    <input type="password" name="password1" class="password1 J_changePwdNew1" id="changePwd1" placeholder="New Password"/>
+                                    <!-- <div class="info-error toRight fade J_changePwdNew1Err" style="left:371px;top:214px;">
+                                        <div class="arrow"></div>
+                                        <div class="content">Your password must be at least 6 characters long.</div>
+                                    </div> -->
+                                    <div class="err fade J_changePwdNew2Err">
+                                        <div class="err-info">Your password must be at least 6 characters long.</div>
+                                    </div>
+                                    <input type="password" name="password2" class="password2 J_changePwdNew2" id="changePwd2" placeholder="Re-type New Password "/>
+                                    <!-- <div class="info-error toRight fade J_changePwdNew2Err" style="left:371px;top:214px;">
+                                        <div class="arrow"></div>
+                                        <div class="content">Your password must be at least 6 characters long.</div>
+                                    </div> -->
                                     <a href="#" class="changePassword">Change Password</a>
                                     <a href="#" class="cancel">Cancel</a>
                                 </form>
                             </div>
-                            <div class="title gray"><span>Phone Number</span><span class="arrow-down"></span></div>
+                            <div class="title gray"><span>Phone Number</span><span class="arrow-right"></span></div>
                             <div class="detailContApp"></div>
                             <!-- <p>About yourself:</p>
                             <input type="text" id="aboutUserQuote" value=""/>
@@ -271,12 +292,12 @@
                 <div class="loginForm">
                     <form class="" id="loginForm" action="post" >
                         <input type="text" id="loginEmail" class="inputEmail" name="login" placeholder="Email  Address" value="">
-                        <div class="loginfo-error toRight fade J_emailError" style="left:382px;top:87px;">
+                        <div class="info-error toRight fade J_emailError" style="left:382px;top:87px;">
                             <div class="arrow"></div>
                             <div class="content">Your Email Address is incorrectly formatted.</div>
                         </div>
                         <input type="password" id="loginPassword" class="inputPassword" name="password" placeholder="Password" value="">
-                        <div class="loginfo-error toRight fade J_passwordError" style="left:382px;top:139px;">
+                        <div class="info-error toRight fade J_passwordError" style="left:382px;top:139px;">
                             <div class="arrow"></div>
                             <div class="content">Sorry,wrong password.</div>
                         </div>
@@ -297,27 +318,27 @@
                 <div class="signupForm">
                     <form class="" id="signupForm" action="post" >
                         <input type="text" class="inputEmail" id="signUpEmail" name="email" placeholder="Email  Address" value="">
-                        <div class="signinfo-error toRight fade J_emailSignError" style="left:371px;top:66px;">
+                        <div class="info-error toRight fade J_emailSignError" style="left:371px;top:66px;">
                             <div class="arrow"></div>
                             <div class="content">Your Email Address is incorrectly formatted.</div>
                         </div>
                         <input type="password" class="inputPassword" id="signUpPassword1" name="password1" placeholder="Password" value="">
-                        <div class="signinfo-error toRight fade J_passwordSignError1" style="left:371px;top:107px;">
+                        <div class="info-error toRight fade J_passwordSignError1" style="left:371px;top:107px;">
                             <div class="arrow"></div>
                             <div class="content">Your password must be at least 6 characters long.</div>
                         </div>
                         <input type="password" class="inputPassword" id="signUpPassword2" name="password2" placeholder="Password" value="">
-                        <div class="signinfo-error toRight fade J_passwordSignError2" style="left:371px;top:157px;">
+                        <div class="info-error toRight fade J_passwordSignError2" style="left:371px;top:157px;">
                             <div class="arrow"></div>
                             <div class="content">Your password must be at least 6 characters long.</div>
                         </div>
                         <input type="text" class="firstName" id="signFirstName" name="userFirstName" placeholder="First Name" value="">
-                        <div class="signinfo-error toRight fade J_firstNameError" style="left:189px;top:214px;">
+                        <div class="info-error toRight fade J_firstNameError" style="left:189px;top:214px;">
                             <div class="arrow"></div>
                             <div class="content">First name is required.</div>
                         </div>
                         <input type="text" class="lastName" id="signLastName" name="userLastName" placeholder="Last Name" value="">
-                        <div class="signinfo-error toRight fade J_lastNameError" style="left:371px;top:214px;">
+                        <div class="info-error toRight fade J_lastNameError" style="left:371px;top:214px;">
                             <div class="arrow"></div>
                             <div class="content">Last name is required.</div>
                         </div>
@@ -335,7 +356,7 @@
                         <h3>Reset Your Password</h3>
                         <p class="info">If you have forgotten your password, you may use the form blow to retrieve your password.</p>
                         <input type="text" class="inputEmail" id="forgotPasswordEmail" name="email" placeholder="Email Address" value="">
-                        <div class="forgotPasswordinfo-error toRight fade J_emailForgotPasswordError" style="left:382px;top:208px;">
+                        <div class="info-error toRight fade J_emailForgotPasswordError" style="left:382px;top:208px;">
                             <div class="arrow"></div>
                             <div class="content">Email does not exist.</div>
                         </div>

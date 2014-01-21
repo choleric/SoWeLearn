@@ -59,6 +59,18 @@ define(function(require,exports,module){
         sendAjaxRequest(option);
     }
 
+
+    tools.showErrorInfo = function(errinfoObj, inputObj, errorInfo){//显示错误信息的通用方法
+        $(errinfoObj).children(".content").html(errorInfo);
+        errinfoObj.show();
+        inputObj.addClass('error');
+    }
+
+    tools.showUpErrorInfo = function(errinfoObj, inputObj, errorInfo){//显示错误信息的通用方法
+        $(errinfoObj).children(".err-info").html(errorInfo);
+        errinfoObj.show();
+        inputObj.addClass('error');
+    }
     module.exports = tools;
 });
 

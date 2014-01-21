@@ -87,6 +87,21 @@
 				color: #000;
 				border:0px solid #93a5ed;
 			}
+			input:focus{
+				border-color:#00bfff !important;
+				.box-shadow(0 0 10px #00bfff) !important;
+			}
+			input.error{
+				 border-color:#ebccd1;
+				 .box-shadow(0 0 10px red);
+			}
+			.err{
+				display: none;
+				.err-info{
+					color: red;
+					padding: 0 0 2px 10px;
+				}
+			}
 			.changePassword, .cancel{
 				display: inline-block;
 				padding: 8px 10px 9px;
@@ -97,7 +112,7 @@
 				position: relative;
 				cursor: pointer;
 				margin-bottom: 10px;
-				.opacity(0.9);
+				.opacity(0.7);
 			}
 			.changePassword:hover, .cancel:hover{
 				.opacity(1);

@@ -58,13 +58,13 @@ define(function(require,exports,module){
 			var d = data.d;
 			for(var i = 0, l = d.length; i < l; i++){
 				if(d[i]=="0"){
-					showErrorInfo($(".J_emailError"),$("#loginEmail"),"Your Email Address is incorrectly formatted.");
+					tools.showErrorInfo($(".J_emailError"),$("#loginEmail"),"Your Email Address is incorrectly formatted.");
 				}else if(d[i]=="1"){
-					showErrorInfo($(".J_passwordError"),$("#loginPassword"),"Sorry,wrong password.");
+					tools.showErrorInfo($(".J_passwordError"),$("#loginPassword"),"Sorry,wrong password.");
 				}
 			}
 		}else if(errorCode == "211"){
-			showErrorInfo($(".J_passwordError"),$("#loginPassword"),"Sorry,wrong password.");
+			tools.showErrorInfo($(".J_passwordError"),$("#loginPassword"),"Sorry,wrong password.");
 		}
 	}
 	function removeErrorHint(){
@@ -84,12 +84,12 @@ define(function(require,exports,module){
 	(function validateLoginInput(){
 		$("#loginEmail").bind('blur', function(event) {
 			if(!validate.isEmail(this.value)){
-				showErrorInfo($(".J_emailError"),$("#loginEmail"),"Your Email Address is incorrectly formatted.");
+				tools.showErrorInfo($(".J_emailError"),$("#loginEmail"),"Your Email Address is incorrectly formatted.");
 			}
 		});
 		$("#loginPassword").bind('blur', function(event) {
 			if($.trim(this.value) == "" || $.trim(this.value).length <6 ){
-				showErrorInfo($(".J_passwordError"),$("#loginPassword"),"Your password must be at least 6 characters long.");
+				tools.showErrorInfo($(".J_passwordError"),$("#loginPassword"),"Your password must be at least 6 characters long.");
 			}
 		});	
 	})();
@@ -116,12 +116,12 @@ define(function(require,exports,module){
 	(function validateSigupInput(){
 		$("#signUpEmail").bind('blur', function(event) {
 			if(!validate.isEmail(this.value)){
-				showErrorInfo($(".J_emailSignError"),$("#signUpEmail"),"Your Email Address is incorrectly formatted.");
+				tools.showErrorInfo($(".J_emailSignError"),$("#signUpEmail"),"Your Email Address is incorrectly formatted.");
 			}
 		});
 		$("#signUpPassword1").bind('blur', function(event) {
 			if($.trim(this.value) == "" || $.trim(this.value).length <6 ){
-				showErrorInfo($(".J_passwordSignError1"),$("#signUpPassword1"),"Your password must be at least 6 characters long.");
+				tools.showErrorInfo($(".J_passwordSignError1"),$("#signUpPassword1"),"Your password must be at least 6 characters long.");
 			}
 		});	
 		$("#signUpPassword2").bind('blur', function(event) {
@@ -129,24 +129,24 @@ define(function(require,exports,module){
 			var pwd2 = $("#signUpPassword2").val();
 			if(pwd2 != ""){
 				if(pwd1 != pwd2){
-					showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"The passwords for the two fields are different.");
+					tools.showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"The passwords for the two fields are different.");
 				}else{
 					$(".J_passwordSignError2").hide();
 					$("#signUpPassword2").removeClass('error');
 				}
 			}else{
-				showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"Your password must be at least 6 characters long.");
+				tools.showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"Your password must be at least 6 characters long.");
 
 			}
 		});	
 		$("#signFirstName").bind('blur', function(event) {
 			if($.trim(this.value) == ""){
-				showErrorInfo($(".J_firstNameError"),$("#signFirstName"),"Please enter first name.");
+				tools.showErrorInfo($(".J_firstNameError"),$("#signFirstName"),"Please enter first name.");
 			}
 		});	
 		$("#signLastName").bind('blur', function(event) {
 			if($.trim(this.value) == ""){
-				showErrorInfo($(".J_lastNameError"),$("#signLastName"),"Please enter last name.");
+				tools.showErrorInfo($(".J_lastNameError"),$("#signLastName"),"Please enter last name.");
 			}
 		});	
 	})();
@@ -163,26 +163,26 @@ define(function(require,exports,module){
 			for(var i = 0, l = d.length; i < l; i++){
 				switch(d[i]){
 					case 0:
-						showErrorInfo($(".J_emailSignError"),$("#signUpEmail"),"Your Email Address is incorrectly formatted.");
+						tools.showErrorInfo($(".J_emailSignError"),$("#signUpEmail"),"Your Email Address is incorrectly formatted.");
 						break;
 					case 1:
-						showErrorInfo($(".J_passwordSignError1"),$("#signUpPassword1"),"Your password must be at least 6 characters long.");
+						tools.showErrorInfo($(".J_passwordSignError1"),$("#signUpPassword1"),"Your password must be at least 6 characters long.");
 						break;
 					case 2:
-						showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"Your password must be at least 6 characters long.");
+						tools.showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"Your password must be at least 6 characters long.");
 						break;
 					case 3:
-						showErrorInfo($(".J_firstNameError"),$("#signFirstName"),"Please enter first name.");
+						tools.showErrorInfo($(".J_firstNameError"),$("#signFirstName"),"Please enter first name.");
 						break;
 					case 4:
-						showErrorInfo($(".J_lastNameError"),$("#signLastName"),"Please enter last name.");
+						tools.showErrorInfo($(".J_lastNameError"),$("#signLastName"),"Please enter last name.");
 						break;
 				}
 			}
 		}else if(errorInfo == "202"){
-			showErrorInfo($(".J_emailSignError"),$("#signUpEmail"),"User Exist.");
+			tools.showErrorInfo($(".J_emailSignError"),$("#signUpEmail"),"User Exist.");
 		}else if(errorInfo == "203"){
-			showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"The passwords for the two fields are different.");
+			tools.showErrorInfo($(".J_passwordSignError2"),$("#signUpPassword2"),"The passwords for the two fields are different.");
 		}
 	}
 
@@ -211,9 +211,9 @@ define(function(require,exports,module){
 			window.location.href = data.d;
 		}
 		if(code == "206"){
-			showErrorInfo($(".J_emailForgotPasswordError"),$("#forgotPasswordEmail"),"Email does not exist.");
+			tools.showErrorInfo($(".J_emailForgotPasswordError"),$("#forgotPasswordEmail"),"Email does not exist.");
 		}else if(code == "207"){
-			showErrorInfo($(".J_emailForgotPasswordError"),$("#forgotPasswordEmail"),"Reset Password Failure.");
+			tools.showErrorInfo($(".J_emailForgotPasswordError"),$("#forgotPasswordEmail"),"Reset Password Failure.");
 		}
 	}
 
@@ -269,12 +269,6 @@ define(function(require,exports,module){
 		}else if(code == "203"){
 			console.log("Different password");
 		}
-	}
-
-	function showErrorInfo(errinfoObj, inputObj, errorInfo){//显示错误信息的通用方法
-		$(errinfoObj).children(".content").html(errorInfo);
-		errinfoObj.show();
-		inputObj.addClass('error');
 	}
 
 });
