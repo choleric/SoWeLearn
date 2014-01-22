@@ -110,7 +110,8 @@ class TopiquizFormView(UserRelatedFormView):
                 ret.append(formatedData)
             return JsonResponse(code = errcode.SUCCESS, data = ret, isHTMLEncode = False)
 
-    def select_form_class(self, request):
+    def post(self, request, *args, **kwargs):
+        # Select appropriate form to use
         if "topiquizType" in request.POST:
             quiz_type = int(request.POST["topiquizType"])
             if quiz_type==QuizType.TorF:
@@ -121,14 +122,14 @@ class TopiquizFormView(UserRelatedFormView):
                 self.form_class = TopiquizMultipleChoice
             else:
                 return JsonResponse(errcode.topiquizTypeInvalid)
-            return self.form_class
         else:
             return JsonResponse(errcode.topiquizTypeEmpty)
 
-    def post(self, request, *args, **kwargs):
-        self.select_form_class(request)
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
+        if "topiquizID" in request.POST:
+            form.instance.pk = request.POST['topiquizID']
 
         if not form.is_valid():
             err = errcode.profileUnknown

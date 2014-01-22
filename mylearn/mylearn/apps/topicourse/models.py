@@ -65,7 +65,7 @@ class QuizType:
 
 class Topiquiz(models.Model):
     topiquizID = models.AutoField(primary_key=True)
-    topicourseID = models.BigIntegerField()
+    topicourseID = models.BigIntegerField(blank=True)
     topiquizCreatorID = models.BigIntegerField()
     topiquizCreatedTimeStamp = models.DateTimeField(auto_now_add=True)
 
@@ -78,7 +78,6 @@ class Topiquiz(models.Model):
         max_length=1,
         choices=QuizTypes,
         null=True,
-        blank=True,
         error_messages={
             "required": str(errcode.topiquizTypeEmpty),
             "invalid": str(errcode.topiquizTypeInvalid),
@@ -88,6 +87,7 @@ class Topiquiz(models.Model):
     topiquizOption = JSONField(
         #load_kwargs={'object_pairs_hook': collections.OrderedDict},
         max_length=1000,
+        blank=True,
         error_messages={
             "required": str(errcode.topiquizOptionEmpty),
             "invalid": str(errcode.topiquizOptionInvalid),
@@ -95,6 +95,7 @@ class Topiquiz(models.Model):
     )
     topiquizAnswer = models.CommaSeparatedIntegerField(
         max_length=10,
+        blank=True,
         error_messages={
             "required": str(errcode.topiquizAnswerEmpty),
             "invalid": str(errcode.topiquizAnswerInvalid),

@@ -223,6 +223,7 @@ class TopicourseTestCase(BaseTest):
         self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
 
         topiquiz = Topiquiz.objects.get(topicourseID=1, topiquizType=QuizType.MultipleChoice)
+        topiquizID = topiquiz.pk
         self.assertEqual(topiquiz.topiquizOption["0"], "A")
         self.assertEqual(topiquiz.topiquizAnswer, "0,1,2,3,4", topiquiz.topiquizAnswer)
 
@@ -231,6 +232,23 @@ class TopicourseTestCase(BaseTest):
         self.assertEqual(200, resp.status_code, "get status errcode %d" %(response.status_code))
         ret = json.loads(resp.content)
         self.assertEquals(errcode.SUCCESS, ret["c"], "get errcode %d" %(ret["c"]))
+
+        topiquiz_params_update = {
+            "topiquizID" : topiquizID,
+            "topiquizType" : QuizType.MultipleChoice,
+            "topiquizAnswer": "0",
+        }
+
+        response = self.client.post(topiquizURL, topiquiz_params_update)
+        self.assertEqual(200, response.status_code, "post status errcode %d" %(response.status_code))
+        ret = json.loads(response.content)
+        self.assertEquals(errcode.SUCCESS, ret["c"], "post errcode %d" %(ret["c"]))
+
+        topiquiz = Topiquiz.objects.get(pk = topiquizID)
+        self.assertEqual(topiquiz.topicourseID, 1)
+        self.assertEqual(topiquiz.topiquizOption["0"], "A")
+        self.assertEqual(topiquiz.topiquizAnswer, "0", topiquiz.topiquizAnswer)
+
 
     def test_no_topiquiz(self):
         topiquizURL = reverse('topiquiz')
