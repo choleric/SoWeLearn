@@ -39,3 +39,5 @@ SITE_ID = 1
 
 #EMAIL BACKEND FOR DJANGO-ALLAUTH
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+MIDDLEWARE_CLASSES += ( "django.contrib.messages.middleware.MessageMiddleware", )
