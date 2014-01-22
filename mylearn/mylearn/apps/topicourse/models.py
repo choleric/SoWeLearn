@@ -105,20 +105,18 @@ class Topiquiz(models.Model):
         max_length=1000,
         blank=True,
     )
-    """
+
     #Todo: This flagging system needs to be refined!
-    topiquizState = models.BooleanField(
-        blank=True
+    topiquizIsDeleted = models.BooleanField(
+        blank=True,
+        #null = True,
     )
     topiquizErrorFlag = models.PositiveSmallIntegerField(
         blank=True
     )
-    topiquizErrorFlagUserID = models.BigIntegerField(
+    topiquizErrorFlagUser = JSONField(
         blank=True,
     )
-    topiquizErrorFlagTimeStamp = models.DateTimeField(
-        blank=True
-    )"""
 
 # put all vote into this table
 class UserReview(Document):

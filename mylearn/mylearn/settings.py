@@ -156,6 +156,9 @@ AKISMET_API_KEY = None  # Add your Akismet key here to enable Akismet support
 AKISMET_IS_TEST = True  # for development/example apps.
 FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION = False
 
+# Topiquiz flag setting:
+TOPIQUIZ_MAX_FLAG_NUMBER = 3
+
 # Load settings.py(development or production) file based on os environment variable "MYLEARN_MODE", default production mode
 __MODE_DEV= "dev"
 __MODE_PRODUCTION = "production"
