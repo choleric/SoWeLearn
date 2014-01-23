@@ -8,9 +8,10 @@ from django.contrib.auth import logout as auth_logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 from allauth.account.adapter import get_adapter
-from allauth.account.views import SignupView, AjaxCapableProcessFormViewMixin, LoginView, PasswordChangeView, \
+from allauth.account.views import SignupView, LoginView, PasswordChangeView, \
     PasswordResetView, PasswordResetFromKeyView, \
     LogoutView, ConfirmEmailView
+from ..user_profile.models import UserPersonalProfile
 
 from ... import settings
 from ..response import JsonResponse
@@ -18,7 +19,7 @@ from mylearn.apps import errcode
 # Create your views here.
 
 
-class SignupViewLearn(SignupView,AjaxCapableProcessFormViewMixin):
+class SignupViewLearn(SignupView):
 
     def form_invalid(self, form):
         #return HttpResponse(dict(form.errors.items()))
@@ -56,6 +57,12 @@ class ConfirmEmailViewLearn(ConfirmEmailView):
     def post(self, *args, **kwargs):
         self.object = confirmation = self.get_object()
         confirmation.confirm(self.request)
+        user = confirmation.email_address.user
+        # Create profile object for the user
+        profile = UserPersonalProfile()
+        profile.pk = user.pk
+        profile.save()
+
         get_adapter().add_message(self.request,
                                   messages.SUCCESS,
                                   'account/messages/email_confirmed.txt',

@@ -14,6 +14,7 @@ from allauth.account.models import EmailConfirmation
 
 
 from .forms import SignupFormAdd
+from ..user_profile.models import UserPersonalProfile
 from ..projtest import BaseTest
 from ..projtest import BaseTestUtil
 from mylearn.apps import errcode
@@ -134,6 +135,10 @@ class UserAllAuthTestCase(BaseTest):
                                     args=[confirmation.key]))
         self.assertEqual(respConfirm.status_code, 302)
         self.assertTrue(0<respConfirm['location'].find(reverse('account_signin_learn')), respConfirm['location'])
+        # See if profile exists
+        userID = User.objects.get(email = 'john@doe.com').pk
+        profile = UserPersonalProfile.objects.filter(pk = userID)
+
         # Re-attempt to login.
         resp = c.post(reverse('account_login'),
                       {'login': 'john@doe.com',
