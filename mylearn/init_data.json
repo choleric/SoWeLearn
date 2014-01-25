@@ -1,0 +1,95 @@
+[
+    {
+        "pk": 1,
+        "model": "sites.site",
+        "fields":
+        {
+            "domain": "localhost:7000",
+            "name": "Dev Domain"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "socialaccount.socialapp",
+        "fields":
+            {
+                "name": "Twitter login",
+                "sites": [1],
+                "secret": "FuRAGOhUAjaNBioOmkXEg3vEygpSAUzxcXyNsU8d4Y",
+                "client_id": "a4PAin0cDtFQ2ig1egl0A",
+                "key": "", "provider": "twitter"
+            }
+    },
+    {
+        "pk": 4,
+        "model": "socialaccount.socialapp",
+        "fields":
+        {
+            "name": "LinkedIn login",
+            "sites": [1],
+            "secret": "rz0NtfmFizNOqpMM",
+            "client_id": "77dmfxvujdlsh0",
+            "key": "",
+            "provider": "linkedin"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "socialaccount.socialapp",
+        "fields":
+        {
+            "name": "Google+ login",
+            "sites": [1],
+            "secret": "rzdIFZSWZXslUuUOvU15Ai4x",
+            "client_id": "428825681483.apps.googleusercontent.com",
+            "key": "",
+            "provider": "google"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "socialaccount.socialapp",
+        "fields":
+        {
+            "name": "FB login",
+            "sites": [1],
+            "secret": "c1e40064e4db7c6817b221b04405e1c6",
+            "client_id": "179432562251645",
+            "key": "",
+            "provider": "facebook"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "auth.user",
+        "fields":
+        {
+            "username": "1",
+            "first_name": "Yoyo",
+            "last_name": "Yo",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": false,
+            "last_login": "2014-01-25T09:40:59.525Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$12000$ZeHK8UK6mOzn$X5P9VBJYsNh9TvfjFSl9xEE/SeN0eaMJEDt4wx+1bAg=",
+            "email": "1@gmail.com",
+            "date_joined": "2014-01-25T09:40:59.525Z"}
+    },
+
+    {
+        "pk": 1,
+        "model": "account.emailaddress",
+        "fields":
+        {
+            "verified": false,
+            "user": 1,
+            "primary": true,
+            "email": "1@gmail.com"
+        }
+    }
+
+
+]
+
