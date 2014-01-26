@@ -124,7 +124,7 @@ SOCIALACCOUNT_PROVIDERS = \
         'VERIFIED_EMAIL': True},
     #Settings for Google
     'google':
-        { 'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile'],
+        { 'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'],
           'AUTH_PARAMS': { 'access_type': 'online' } },
     #Settings for Linkedin
     'linkedin':

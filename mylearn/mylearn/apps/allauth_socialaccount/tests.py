@@ -216,10 +216,9 @@ class FacebookTests(OAuth2GenericTestCase):
         self.assertTrue(User.objects.get(email=acc),"the user does not exist or is not unique")
         #Check the response from social signup page
         signup_response = self.client.get(response['location'])
-        self.assertEqual(signup_response.status_code, 200)
-        content = json.loads(signup_response.content)
-        self.assertEqual(content['c'], code.DuplicateEmailSocialAccount)
-        self.assertEqual(content['d'], reverse('account_signin_learn'))
+        self.assertEqual(signup_response.status_code, 302, "status errcode %d" %(response.status_code))
+        self.assertTrue(signup_response['location'].find(str(code.DuplicateEmailSocialAccount))>1,
+                        signup_response)
 
     def test_account_connect(self):
         return super(FacebookTests,self)._test_account_connect()
@@ -250,7 +249,6 @@ class GoogleTests(OAuth2GenericTestCase):
 
     def test_username_based_on_provider(self):
         self.login(self.get_mocked_response())
-        print 'accout', SocialAccount.objects.all()[0].user.username
 
     def test_email_unverified(self):
         test_email = 'raymond.penners@gmail.com'

@@ -3,7 +3,7 @@ from allauth.account.utils import user_email
 from allauth.socialaccount.models import SocialLogin
 from allauth.utils import email_address_exists
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, QueryDict
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 from allauth.socialaccount.views import LoginErrorView, LoginCancelledView, SignupView, ConnectionsView
@@ -29,9 +29,12 @@ class SignupViewLearn(SignupView):
         email = user_email(self.sociallogin.account.user)
         if email:
             if email_address_exists(email):
-                status = email_address_exists(email)
-                return JsonResponse(code.DuplicateEmailSocialAccount, reverse('account_signin_learn'))
-        return super(SignupView, self).dispatch(request, *args, **kwargs)
+                #return JsonResponse(code.DuplicateEmailSocialAccount, reverse('account_signin_learn'))
+                qdict = QueryDict('code='+ str(code.DuplicateEmailSocialAccount))
+                full_url = '/social_signup.html?'+qdict.urlencode()
+                return HttpResponseRedirect(full_url)
+
+        super(SignupView, self).dispatch(request, *args, **kwargs)
 
     def form_invalid(self, form):
         data = dict(form.errors.items())

@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from django.views.generic.base import View
@@ -99,7 +100,15 @@ class SigninViewLearn(LoginView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
-            return self.form_valid(form)
+            response = self.form_valid(form)
+            if "location" in response:
+                if response["location"]== reverse('account_email_verification_sent'):
+                    self.request.session.set_expiry(-1)
+                elif response["location"] == reverse('account_inactive'):
+                    self.request.session.set_expiry(-1)
+                return response
+            else:
+                return response
         else:
             return self.form_invalid(form)
 
